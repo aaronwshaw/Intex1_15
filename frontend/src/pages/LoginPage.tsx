@@ -1,19 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/IntexAPI';
 import './Identity.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 function LoginPage() {
-  // state variables for email and passwords
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [rememberme, setRememberme] = useState<boolean>(false);
-
-  // state variable for error messages
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
-  // handle change events for input fields
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked, value } = e.target;
     if (type === 'checkbox') {
@@ -29,43 +26,21 @@ function LoginPage() {
     navigate('/register');
   };
 
-  // handle submit event for the form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(''); // Clear any previous errors
+    setError(''); // Clear previous errors
 
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
 
-    const loginUrl = rememberme
-      ? 'https://intex-1-15-backend-cqgrhvbugjc3avhe.eastus-01.azurewebsites.net/login?useCookies=true'
-      : 'https://intex-1-15-backend-cqgrhvbugjc3avhe.eastus-01.azurewebsites.net/login?useSessionCookies=true';
+    const result = await loginUser(email, password, rememberme);
 
-    try {
-      const response = await fetch(loginUrl, {
-        method: 'POST',
-        credentials: 'include', // ✅ Ensures cookies are sent & received
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      // Ensure we only parse JSON if there is content
-      let data = null;
-      const contentLength = response.headers.get('content-length');
-      if (contentLength && parseInt(contentLength, 10) > 0) {
-        data = await response.json();
-      }
-
-      if (!response.ok) {
-        throw new Error(data?.message || 'Invalid email or password.');
-      }
-
+    if (result.ok) {
       navigate('/');
-    } catch (error: any) {
-      setError(error.message || 'Error logging in.');
-      console.error('Fetch attempt failed:', error);
+    } else {
+      setError(result.error);
     }
   };
 
@@ -105,7 +80,6 @@ function LoginPage() {
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  value=""
                   id="rememberme"
                   name="rememberme"
                   checked={rememberme}
@@ -151,7 +125,7 @@ function LoginPage() {
                 </button>
               </div>
             </form>
-            {error && <p className="error">{error}</p>}
+            {error && <p className="text-danger">{error}</p>}
           </div>
         </div>
       </div>

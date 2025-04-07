@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../api/IntexAPI';
 
 function Register() {
-  // state variables for email and passwords
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate();
-
-  // state variable for error messages
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLoginClick = () => {
     navigate('/login');
   };
 
-  // handle change events for input fields
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'email') setEmail(value);
@@ -23,56 +20,41 @@ function Register() {
     if (name === 'confirmPassword') setConfirmPassword(value);
   };
 
-  // handle submit event for the form
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // validate email and passwords
+
     if (!email || !password || !confirmPassword) {
       setError('Please fill in all fields.');
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Please enter a valid email address.');
-    } else if (password !== confirmPassword) {
+      return;
+    }
+
+    if (password !== confirmPassword) {
       setError('Passwords do not match.');
+      return;
+    }
+
+    setError('');
+
+    const result = await registerUser(email, password);
+
+    if (result.ok) {
+      setError('Successful registration. Please log in.');
     } else {
-      // clear error message
-      setError('');
-      // post data to the /register api
-      fetch(
-        'https://intex-1-15-backend-cqgrhvbugjc3avhe.eastus-01.azurewebsites.net/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-          }),
-        }
-      )
-        //.then((response) => response.json())
-        .then((data) => {
-          // handle success or error from the server
-          console.log(data);
-          if (data.ok) setError('Successful registration. Please log in.');
-          else setError('Error registering.');
-        })
-        .catch((error) => {
-          // handle network error
-          console.error(error);
-          setError('Error registering.');
-        });
+      setError(result.error || 'Error registering.');
     }
   };
 
   return (
     <div className="container">
       <div className="row">
-        <div className="card border-0 shadow rounded-3 ">
+        <div className="card border-0 shadow rounded-3">
           <div className="card-body p-4 p-sm-5">
-            <h5 className="card-title text-center mb-5 fw-light fs-5">
-              Register
-            </h5>
+            <h5 className="card-title text-center mb-5 fw-light fs-5">Register</h5>
             <form onSubmit={handleSubmit}>
               <div className="form-floating mb-3">
                 <input
@@ -125,7 +107,7 @@ function Register() {
                 </button>
               </div>
             </form>
-            <strong>{error && <p className="error">{error}</p>}</strong>
+            {error && <p className="text-danger">{error}</p>}
           </div>
         </div>
       </div>

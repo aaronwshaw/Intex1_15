@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../api/IntexAPI';
 
 function Logout(props: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -6,22 +7,12 @@ function Logout(props: { children: React.ReactNode }) {
   const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('https://intex-1-15-backend-cqgrhvbugjc3avhe.eastus-01.azurewebsites.net/logout', {
-        method: 'POST',
-        credentials: 'include', // Ensure cookies are sent
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    const result = await logoutUser();
 
-      if (response.ok) {
-        navigate('/login');
-      } else {
-        console.error('Logout failed:', response.status);
-      }
-    } catch (error) {
-      console.error('Logout error:', error);
+    if (result.ok) {
+      navigate('/login');
+    } else {
+      console.error('Logout failed:', result.error);
     }
   };
 
