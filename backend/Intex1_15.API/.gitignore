@@ -1,0 +1,47 @@
+# Visual Studio-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# Build outputs
+bin/
+obj/
+out/
+TestResults/
+# Dependencies
+*.log
+node_modules/
+packages/
+*.nupkg
+project.lock.json
+project.assets.json
+# Publish/Deployment
+*.publishsettings
+publish/
+# ASP.NET runtime artifacts
+
+appsettings.Local.json
+appsettings.Development.json
+# Secrets & Configuration
+secrets.json
+.env
+# Resharper & Rider files
+*.DotSettings.user
+.idea/
+# JetBrains Rider
+.idea/
+*.sln.iml
+# Mac-specific files
+.DS_Store
+# Windows-specific files
+Thumbs.db
+Desktop.ini
+
+# Debug-related files
+debug/
+*.pdb
+*.ilk
+*.exp
+*.tlog
+*.lastbuildstate
