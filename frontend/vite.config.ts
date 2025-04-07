@@ -14,15 +14,15 @@ export default defineConfig({
         "img-src 'self' data:; " +
         "frame-ancestors 'none'; " +
         "font-src 'self' fonts.gstatic.com data:; " +
-        "connect-src 'self' https://localhost:5000 https://accounts.google.com https://oauth2.googleapis.com; " + // ✅ Allow OAuth token exchange
+        "connect-src 'self' https://localhost:5000 https://intex-1-15-backend-cqgrhvbugjc3avhe.eastus-01.azurewebsites.net https://accounts.google.com https://oauth2.googleapis.com; " + // ✅ Allow OAuth token exchange
         "object-src 'none'; " +
         "base-uri 'self'; " +
         "form-action 'self'; " +
         "frame-src 'self' https://accounts.google.com https://oauth2.googleapis.com;", // ✅ Allow OAuth login popups
     },
-    cors: {
-      origin: 'http://localhost:3000',
-      credentials: true, // ✅ Allow cookies for authentication
-    },
+    // cors: {
+    //   origin: 'http://localhost:3000',
+    //   credentials: true, // ✅ Allow cookies for authentication
+    // },
   },
 });
