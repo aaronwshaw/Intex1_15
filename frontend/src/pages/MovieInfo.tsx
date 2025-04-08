@@ -1,37 +1,51 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AuthorizeView from '../components/AuthorizeView';
 import { getMovieById } from '../api/MoviesApi';
-import { useNavigate } from 'react-router-dom';
+import { getContentRecs } from '../api/RecomendationsApi';
+
 
 type Movie = {
-  id: string;
+  show_id: string;
   title: string;
   description?: string;
   release_year?: string;
   primaryGenre?: string;
   director?: string;
-  cast?:string
-  duration?: string
-  // Add other fields as needed
+  cast?: string;
+  duration?: string;
+};
+
+type ContentItem = {
+  id: string;
+  title: string;
+  rank: number;
+  // Add other fields if needed
 };
 
 function MovieInfo() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { show_id } = useParams<{ show_id: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
+  const [recommended, setRecommended] = useState<ContentItem[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      if (!id) return;
-      const fetched = await getMovieById(id);
-      setMovie(fetched);
+    const fetchMovieAndRecs = async () => {
+      if (!show_id) return;
+
+      const [fetchedMovie, recs] = await Promise.all([
+        getMovieById(show_id),
+        getContentRecs(show_id),
+      ]);
+
+      setMovie(fetchedMovie);
+      setRecommended(recs);
       setLoading(false);
     };
 
-    fetchMovie();
-  }, [id]);
+    fetchMovieAndRecs();
+  }, [show_id]);
 
   return (
     <AuthorizeView>
@@ -57,12 +71,39 @@ function MovieInfo() {
               <p className="streamlite-text-left">
                 <strong>Duration:</strong> {movie.duration || 'Unknown'}
               </p>
+
+              {/* Recommended Movies Section */}
+              {recommended && recommended.length > 0 && (
+                <>
+                  <h2 className="streamlite-title streamlite-mt-4">You Might Also Like</h2>
+                  <ul className="streamlite-sections streamlite-text-left">
+                    {recommended.map((rec) => (
+                      <li
+                        key={rec.id}
+                        className="streamlite-section"
+                        onClick={() => navigate(`/movieinfo/${rec.id}`)}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <div className="streamlite-section-content">
+                          {rec.title} (Rank: {rec.rank})
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </>
           ) : (
             <p className="streamlite-text-left">Movie not found.</p>
           )}
 
-          <p onClick={()=> navigate('/home')} className="streamlite-footer">Return</p>
+          <p
+            onClick={() => navigate('/home')}
+            style={{ cursor: 'pointer' }}
+            className="streamlite-footer streamlite-hover"
+          >
+            Return
+          </p>
         </div>
       </div>
     </AuthorizeView>

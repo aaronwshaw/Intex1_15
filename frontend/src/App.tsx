@@ -24,7 +24,7 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/movieinfo/:id" element={<MovieInfo />} />
+          <Route path="/movieinfo/:show_id" element={<MovieInfo />} />
           <Route path="/search" element={<SearchPage />} />
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
