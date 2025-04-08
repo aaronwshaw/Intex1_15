@@ -1,12 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Boldonse&display=swap');
 
-#root {
+/* Remove the root styling that's interfering with your layout */
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
+/* Keep only the specific styles you need */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -35,6 +37,7 @@
   }
 }
 
+/* These utility classes can stay, but make sure they don't conflict with Tailwind */
 .card {
   padding: 1em;
   margin-top: 0.5em;
@@ -45,21 +48,22 @@
   color: #888;
 }
 
-.row {
+/* Use more specific selectors for these to prevent unwanted styling */
+.custom-row {
   background-color: white;
 }
 
-.logout {
+.logout-button {
   color: #fff;
   font-size: large;
   font-weight: bold;
 }
 
-.resultsCount {
+.results-count {
   margin: 1em;
 }
 
-.RKHeader {
+.rk-header {
   font-family: 'Boldonse', system-ui;
   font-weight: 200;
   font-style: normal;
