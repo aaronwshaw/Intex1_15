@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthorizeView from '../components/AuthorizeView';
 import { searchMovies } from '../api/MoviesApi';
 
 type Movie = {
-  id: string;
+  show_id: string;
   title: string;
   // Add other fields if needed
 };
@@ -12,6 +13,7 @@ function SearchPage() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Movie[] | null>(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -72,7 +74,14 @@ function SearchPage() {
           {results && results.length > 0 ? (
             <ul className="streamlite-sections streamlite-text-left">
               {results.map((movie) => (
-                <li key={movie.id} className="streamlite-section">
+                <li
+                  key={movie.show_id}
+                  className="streamlite-section"
+                  onClick={() => navigate(`/movieinfo/${movie.show_id}`)}
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                >
                   <div className="streamlite-section-content">{movie.title}</div>
                 </li>
               ))}

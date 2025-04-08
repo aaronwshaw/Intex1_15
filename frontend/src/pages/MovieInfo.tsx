@@ -5,7 +5,7 @@ import { getMovieById } from '../api/MoviesApi';
 import { useNavigate } from 'react-router-dom';
 
 type Movie = {
-  id: string;
+  show_id: string;
   title: string;
   description?: string;
   release_year?: string;
@@ -18,20 +18,20 @@ type Movie = {
 
 function MovieInfo() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { show_id } = useParams<{ show_id: string }>();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovie = async () => {
-      if (!id) return;
-      const fetched = await getMovieById(id);
+      if (!show_id) return;
+      const fetched = await getMovieById(show_id);
       setMovie(fetched);
       setLoading(false);
     };
 
     fetchMovie();
-  }, [id]);
+  }, [show_id]);
 
   return (
     <AuthorizeView>
