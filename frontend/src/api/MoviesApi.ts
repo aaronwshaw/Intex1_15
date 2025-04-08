@@ -41,23 +41,23 @@ export const fetchMovies = async (): Promise<FetchMoviesResponse> => {
 
 
 // Search for a movie by title
-export async function searchMovies(query: string): Promise<Movie[] | null> {
-  try {
-    const res = await fetch(
-      `${API_url}/api/Movies/Search?query=${encodeURIComponent(query)}`,
-      {
-        credentials: 'include',
-      }
-    );
+  export async function searchMovies(query: string): Promise<Movie[] | null> {
+    try {
+      const res = await fetch(
+        `${API_url}/api/Movies/Search?query=${encodeURIComponent(query)}`,
+        {
+          credentials: 'include',
+        }
+      );
 
-    if (!res.ok) throw new Error('Failed to search movies');
-    return await res.json();
-  } catch (error) {
-    console.error('Error searching movies:', error);
-    toast.error('Error searching movies');
-    return null;
+      if (!res.ok) throw new Error('Failed to search movies');
+      return await res.json();
+    } catch (error) {
+      console.error('Error searching movies:', error);
+      toast.error('Error searching movies');
+      return null;
+    }
   }
-}
 
 // Get info about a specific movie by ID
 export async function getMovieById(id: string): Promise<Movie | null> {
