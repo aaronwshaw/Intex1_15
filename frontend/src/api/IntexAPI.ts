@@ -1,6 +1,18 @@
-import { Movie } from "../types/Movie";
+import { toast } from 'react-toastify';
+import { API_url } from './config'; // adjust path if needed
 
-const API_url = 'https://localhost:5000';
+/**
+ * Auth & Utility API Calls
+ *
+ * Included in this file:
+ * - registerUser(email, password): Register a new user
+ * - loginUser(email, password, rememberme): Log in a user with session or cookie-based auth
+ * - pingAuth(): Check if a user is currently authenticated
+ * - logoutUser(): Log out the current user
+ *
+ * Movie Utilities:
+ * - fetchPaginatedMovies(pageNumber, pageSize): Fetch a paginated list of movies
+ */
 
 export async function registerUser(email: string, password: string) {
   try {
@@ -22,7 +34,10 @@ export async function registerUser(email: string, password: string) {
     return { ok: true, data };
   } catch (error) {
     console.error('Registration error:', error);
-    return { ok: false, error: error.message };
+    if (error instanceof Error) {
+      return { ok: false, error: error.message };
+    }
+    return { ok: false, error: 'Unknown error occurred' };
   }
 }
 
@@ -109,21 +124,24 @@ export async function logoutUser() {
   }
 }
 
-export const fetchMovies = async (): Promise<Movie[]> => {
+// Fetch a paginated list of movies
+export async function fetchPaginatedMovies(
+  pageNumber: number,
+  pageSize: number
+) {
   try {
-    const response = await fetch(`${API_url}/api/Movies/AllMovies`, {
-      credentials: 'include',
-    });
+    const res = await fetch(
+      `${API_url}/api/Movies/Paginated?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      {
+        credentials: 'include',
+      }
+    );
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch movies');
-    }
-
-    // Cast the response to the Movie type
-    const data: Movie[] = await response.json();
-    return data;
+    if (!res.ok) throw new Error('Failed to fetch paginated movies');
+    return await res.json();
   } catch (error) {
-    console.error('Error fetching movies:', error);
-    throw error;
+    console.error('Error fetching paginated movies:', error);
+    toast.error('Error loading movies');
+    return null;
   }
-};
+}

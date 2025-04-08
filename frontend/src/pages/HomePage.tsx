@@ -6,9 +6,10 @@ import Logout from '../components/Logout';
 import MovieList from '../components/MovieList';
 import { useState } from 'react';
 import GenreFilter from '../components/GenreFilter';
+import WelcomeBand from '../components/WelcomeBand';
 
 function HomePage() {
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
   return (
     <AuthorizeView>
@@ -18,11 +19,13 @@ function HomePage() {
         </Logout>
       </span>
       <WelcomeBand />
-      <GenreFilter 
-      selectedGenres={selectedGenres}
-      setSelectedGenres={setSelectedGenres}/>
-      <MovieList 
-      selectedGenres={selectedGenres}/>
+      <GenreFilter
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+      />
+      <MovieList selectedGenres={selectedGenres} />
     </AuthorizeView>
   );
 }
+
+export default HomePage;
