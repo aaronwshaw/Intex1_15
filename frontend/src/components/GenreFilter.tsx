@@ -9,20 +9,16 @@ function GenreFilter({
   setSelectedGenres: (genres: string[]) => void;
 }) {
   const [genres, setGenres] = useState<string[]>([]);
+
   useEffect(() => {
-    const fetchGenres = async () => {
-      try {
-        const response = await fetch(
-          'https://localhost:5000/api/Movies/GetGenres'
-        );
-        const data = await response.json();
-        console.log('Fetched genres: ', data);
+    const getGenres = async () => {
+      const data = await fetchGenres();
+      if (data) {
+        console.log('Fetched genres:', data);
         setGenres(data);
-      } catch (error) {
-        console.error('Error fetching genres', error);
       }
     };
-    fetchGenres();
+    getGenres();
   }, []);
 
   function handleCheckboxChange({ target }: { target: HTMLInputElement }) {
@@ -33,28 +29,26 @@ function GenreFilter({
     setSelectedGenres(updatedGenres);
   }
 
-  return(
-    <>
+  return (
     <div className="genre-filter">
       <h5>Genres</h5>
       <div className="genre-list">
         {genres.map((c) => (
           <div key={c} className="genre-item">
             <input
-            type="checkbox"
-            id={c}
-            value={c}
-            className="genre-checkbox"
-            onChange={handleCheckboxChange}
-            checked={selectedGenres.includes(c)}
+              type="checkbox"
+              id={c}
+              value={c}
+              className="genre-checkbox"
+              onChange={handleCheckboxChange}
+              checked={selectedGenres.includes(c)}
             />
             <label htmlFor={c}>{c}</label>
           </div>
         ))}
       </div>
     </div>
-  </>
-  )
+  );
 }
 
 export default GenreFilter;
