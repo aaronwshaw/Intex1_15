@@ -1,6 +1,6 @@
 // import { useNavigate, useParams } from 'react-router-dom';
 // import { useState } from 'react';
-import WelcomeBand from '../components/WelcomeBand';
+//import WelcomeBand from '../components/WelcomeBand';
 import AuthorizeView, { AuthorizedUser } from '../components/AuthorizeView';
 import Logout from '../components/Logout';
 import MovieList from '../components/MovieList';
@@ -23,9 +23,6 @@ function HomePage() {
       setSelectedGenres={setSelectedGenres}/>
       <MovieList 
       selectedGenres={selectedGenres}/>
-
     </AuthorizeView>
   );
 }
-
-export default HomePage;
