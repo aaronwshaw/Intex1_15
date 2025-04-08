@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './pages/LandingPage';
 import AdminPage from './pages/AdminPage';
 import MovieInfo from './pages/MovieInfo';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/movieinfo" element={<MovieInfo />} />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
       </Router>
