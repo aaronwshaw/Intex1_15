@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './streamlite-styles.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
 
 export default function PrivacyPolicy() {
   const [openSection, setOpenSection] = useState(null);
@@ -7,29 +8,56 @@ export default function PrivacyPolicy() {
   const toggleSection = (index) => {
     setOpenSection(openSection === index ? null : index);
   };
+  const navigate = useNavigate();
   
   const sections = [
     {
       title: "Information We Collect",
-      content: "We collect personal information such as your name, email address, and viewing preferences to provide and improve our services. We may also collect device information and usage statistics."
+      content:
+        "We collect only the personal data necessary to provide our services, including your name, email address, and viewing preferences. We also collect device information and usage data to improve service performance and user experience.",
+    },
+    {
+      title: "Legal Basis for Processing",
+      content:
+        "We process your personal data based on your consent, the necessity of fulfilling a contract (e.g., providing streaming access), or our legitimate interest in improving and securing our service.",
     },
     {
       title: "How We Use Your Information",
-      content: "Your information helps us personalize your experience, process payments, communicate with you about your account, and recommend content you might enjoy."
+      content:
+        "Your data helps us personalize your experience, provide customer support, process transactions, and deliver content recommendations. We may also use aggregated data for analytics and performance improvements.",
     },
     {
-      title: "Information Sharing",
-      content: "We do not sell your personal information. We may share information with service providers who help us operate our platform, or when required by law."
+      title: "Data Sharing and Third Parties",
+      content:
+        "We do not sell your personal data. We may share it with trusted service providers (e.g., payment processors, analytics platforms) who are contractually bound to protect your data. We may also disclose data when required by law.",
     },
     {
-      title: "Your Choices",
-      content: "You can update your account information, communication preferences, and privacy settings at any time through your account dashboard."
+      title: "Your Rights Under GDPR",
+      content:
+        "You have the right to access, correct, delete, or restrict the use of your personal data. You may also object to processing and request data portability. Contact us at privacy@streamlite.com to exercise these rights.",
+    },
+    {
+      title: "Data Retention",
+      content:
+        "We retain your personal data only as long as necessary to fulfill the purposes for which it was collected, or as required by applicable laws.",
     },
     {
       title: "Security Measures",
-      content: "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access or disclosure."
-    }
+      content:
+        "We implement technical and organizational measures such as encryption, access controls, and secure hosting environments to protect your data from unauthorized access or disclosure.",
+    },
+    {
+      title: "International Data Transfers",
+      content:
+        "If your data is transferred outside the European Economic Area (EEA), we ensure it is protected through standard contractual clauses or other approved mechanisms.",
+    },
+    {
+      title: "Updates to This Policy",
+      content:
+        "We may occasionally update this Privacy Policy to reflect changes in our practices or legal requirements. We will notify you of significant changes via email or in-app notifications.",
+    },
   ];
+  
 
   return (
     <div className="streamlite-page">
@@ -62,6 +90,7 @@ export default function PrivacyPolicy() {
         </div>
 
         <p className="streamlite-footer">Last updated: April 7, 2025</p>
+        <p onClick={()=> navigate('/home')} className="streamlite-footer">Return</p>
       </div>
     </div>
   );

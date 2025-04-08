@@ -6,9 +6,11 @@ import Logout from '../components/Logout';
 import MovieList from '../components/MovieList';
 import { useState } from 'react';
 import GenreFilter from '../components/GenreFilter';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+  const navigate = useNavigate();
 
   return (
     <AuthorizeView>
@@ -16,6 +18,7 @@ function HomePage() {
         <Logout>
           Logout <AuthorizedUser value="email" />
         </Logout>
+        <p onClick={()=> navigate('/privacy')}>Privacy Policy</p>
       </span>
       <WelcomeBand />
       <GenreFilter 
