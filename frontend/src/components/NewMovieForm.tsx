@@ -62,15 +62,32 @@ const NewMovieForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
     tv_comedies: 0,
     tv_dramas: 0,
     talk_shows: 0,
-    thrillers: 0,
-    primaryGenre: '',
+    thrillers: 0
+    // primaryGenre is still computed by the backend
   });
+
+  // Track the currently selected genre for the dropdown
+  const [selectedGenre, setSelectedGenre] = useState<string>('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === 'genreSelector') {
+      setSelectedGenre(value); // track selection for dropdown
+
+      // Update genre flags: 1 for selected, 0 for all others
+      setFormData((prev) => ({
+        ...prev,
+        ...genreOptions.reduce((acc, genre) => {
+          acc[genre as keyof Movie] = genre === value ? 1 : 0;
+          return acc;
+        }, {} as Partial<Movie>)
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,6 +96,8 @@ const NewMovieForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
     const result = await addMovie(formData);
     if (result) {
       onSuccess();
+    } else {
+      toast.error('Failed to add movie');
     }
   };
 
@@ -166,8 +185,8 @@ const NewMovieForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
       <label>
         Primary Genre:
         <select
-          name="primaryGenre"
-          value={formData.primaryGenre}
+          name="genreSelector"
+          value={selectedGenre}
           onChange={handleChange}
           className="form-control mb-3"
         >

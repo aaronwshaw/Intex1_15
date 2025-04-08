@@ -5,6 +5,7 @@ import { deleteMovie, updateMovie } from '../api/AdminApi';
 import { fetchMovies } from '../api/MoviesApi';
 import { toast } from 'react-toastify';
 import NewMovieForm from '../components/NewMovieForm';
+import { fetchPaginatedMovies } from '../api/IntexAPI';
 
 function AdminPage() {
   const [error, setError] = useState<string | null>(null);
@@ -13,13 +14,20 @@ function AdminPage() {
   const [editingMovie, setEditingMovie] = useState<Movie | null>(null);
   const [editedMovie, setEditedMovie] = useState<Partial<Movie>>({});
   const [showForm, setShowForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10); // or any number you want per page
+  const [totalPages, setTotalPages] = useState(1);
+
 
   useEffect(() => {
     const loadMovies = async () => {
       try {
         setLoading(true);
-        const data = await fetchMovies();
-        setMovies(data.movies);
+        const data = await fetchPaginatedMovies(currentPage, pageSize);
+        if (data) {
+          setMovies(data.movies); // Adjust based on your API's actual structure
+          setTotalPages(data.totalPages); // Make sure your API returns this
+        }
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -27,8 +35,8 @@ function AdminPage() {
       }
     };
     loadMovies();
-  }, []);
-
+  }, [currentPage, pageSize]); // <-- refetch when page or size changes
+  
   const handleEditClick = (movie: Movie) => {
     setEditingMovie(movie);
     setEditedMovie({ ...movie });
@@ -69,7 +77,6 @@ function AdminPage() {
     try {
       await deleteMovie(show_id);
       setMovies(movies.filter((m) => m.show_id !== show_id));
-      toast.success('Movie deleted successfully!');
     } catch (error) {
       toast.error('Failed to delete movie. Please try again.');
     }
@@ -174,6 +181,30 @@ function AdminPage() {
           </tbody>
         </table>
       )}
+      <div className="d-flex justify-content-center mt-4">
+  <nav>
+    <ul className="pagination">
+      <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+        <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>
+          Previous
+        </button>
+      </li>
+      {[...Array(totalPages)].map((_, idx) => (
+        <li key={idx} className={`page-item ${currentPage === idx + 1 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => setCurrentPage(idx + 1)}>
+            {idx + 1}
+          </button>
+        </li>
+      ))}
+      <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+        <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>
+          Next
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+
     </AuthorizeView>
   );
 }
