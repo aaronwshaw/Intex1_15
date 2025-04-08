@@ -23,6 +23,9 @@ function AdminPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
+  // Track which posters failed to load
+  const [failedPosters, setFailedPosters] = useState<Record<string, boolean>>({});
+
   useEffect(() => {
     if (isSearching) return;
 
@@ -43,6 +46,11 @@ function AdminPage() {
 
     loadMovies();
   }, [currentPage, pageSize, isSearching]);
+
+  const getPosterUrl = (title: string) => {
+    const encoded = encodeURIComponent(`${title}.jpg`);
+    return `https://posterstorage115.blob.core.windows.net/posters/Movie%20Posters/${encoded}`;
+  };
 
   const handleEditClick = (movie: Movie) => {
     setEditingMovie(movie);
@@ -214,6 +222,7 @@ function AdminPage() {
           <table className="table table-bordered table-striped">
             <thead className="table-dark">
               <tr>
+                <th>Poster</th>
                 <th>Title</th>
                 <th>Type</th>
                 <th>Director</th>
@@ -228,6 +237,33 @@ function AdminPage() {
             <tbody>
               {movies.map((m) => (
                 <tr key={m.show_id}>
+                  <td style={{ width: '100px' }}>
+                    {!failedPosters[m.title] ? (
+                      <img
+                        src={getPosterUrl(m.title)}
+                        alt={`${m.title} poster`}
+                        style={{ width: '80px', height: '120px', objectFit: 'cover' }}
+                        onError={() =>
+                          setFailedPosters((prev) => ({ ...prev, [m.title]: true }))
+                        }
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: '80px',
+                          height: '120px',
+                          backgroundColor: '#ccc',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.75rem',
+                          color: '#666',
+                        }}
+                      >
+                        No Image
+                      </div>
+                    )}
+                  </td>
                   <td>{m.title}</td>
                   <td>{m.type}</td>
                   <td>{m.director}</td>
@@ -249,7 +285,6 @@ function AdminPage() {
             </tbody>
           </table>
 
-          {/* ⏩ Condensed Pagination */}
           {!isSearching && (
             <div className="d-flex justify-content-center mt-4">
               <nav>

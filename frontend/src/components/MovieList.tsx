@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchMovies } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
+import MoviePoster from '../components/MoviePoster';
 
 function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -22,7 +23,6 @@ function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
     loadMovies();
   }, []);
 
-  // Filter the movies based on selected genres
   const filteredMovies = movies.filter((movie) =>
     selectedGenres.length === 0 || selectedGenres.includes(movie.primaryGenre)
   );
@@ -34,6 +34,7 @@ function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
     <>
       {filteredMovies.map((m) => (
         <div id='movieCard' className='card' key={m.show_id}>
+          <MoviePoster title={m.title} />
           <h3 className='card-title'>{m.title}</h3>
           <h2>{m.primaryGenre}</h2>
         </div>
