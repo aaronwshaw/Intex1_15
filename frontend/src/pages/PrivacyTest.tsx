@@ -57,7 +57,6 @@ export default function PrivacyPolicy() {
         "We may occasionally update this Privacy Policy to reflect changes in our practices or legal requirements. We will notify you of significant changes via email or in-app notifications.",
     },
   ];
-  
 
   return (
     <div className="streamlite-page">
@@ -65,7 +64,9 @@ export default function PrivacyPolicy() {
         <h1 className="streamlite-title">Privacy Policy</h1>
 
         <p className="streamlite-intro">
-          At StreamLite (our on-demand streaming service), we value your privacy. This Privacy Policy outlines how we collect, use, and protect your information.
+          At StreamLite (our on-demand streaming service), we value your
+          privacy. This Privacy Policy outlines how we collect, use, and protect
+          your information.
         </p>
 
         <div className="streamlite-sections">
@@ -95,3 +96,4 @@ export default function PrivacyPolicy() {
     </div>
   );
 }
+
