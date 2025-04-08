@@ -12,7 +12,7 @@ function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
       try {
         setLoading(true);
         const data = await fetchMovies();
-        setMovies(data);
+        setMovies(data.movies);
       } catch (error) {
         setError((error as Error).message);
       } finally {

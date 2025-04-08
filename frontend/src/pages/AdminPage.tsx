@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AuthorizeView from '../components/AuthorizeView';
 import { Movie } from '../types/Movie';
 import { deleteMovie } from '../api/AdminApi';
+import { fetchMovies } from '../api/MoviesApi';
 
 function AdminPage() {
   const [error, setError] = useState<string | null>(null);
@@ -26,10 +27,48 @@ function AdminPage() {
       alert("Failed to delete project. Please try again.")
     }
   }
+  useEffect(() => {
+    const loadMovies = async () => {
+      try{
+        setLoading(true)
+        const data = await fetchMovies();
+        setMovies(data.movies)
+      }
+      catch(error) {
+        setError((error as Error).message)
+      }
+      finally {
+        setLoading(false)
+      }
+    };
+    loadMovies();
+  },[])
+
+  if (loading) return <p>Loading movies...</p>
+  if (error) return <p>Error: {error}</p>
 
   return (
     <AuthorizeView>
       <h1>Welcome, Admin!</h1>
+      <table className='table table-bordered table-striped'>
+        <thead className='table-dark'>
+          <tr>
+            <th>Title</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {movies.map((m) => (
+            <tr key={m.show_id}>
+              <td>{m.title}</td>
+              <td>
+                <button className='btn btn-primary btn-sm w-100 mb-1'>Edit</button>
+                <button className='btn btn-danger btn-sm w-100 mb-1'>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </AuthorizeView>
   );
 }
