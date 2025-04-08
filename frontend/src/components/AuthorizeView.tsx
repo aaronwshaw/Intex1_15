@@ -2,17 +2,17 @@ import React, { useState, useEffect, createContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { pingAuth } from '../api/IntexAPI';
 
-const UserContext = createContext<User | null>(null);
-
 interface User {
   email: string;
 }
 
+// ✅ Export the context so other files can import it
+export const UserContext = createContext<User | null>(null);
+
 function AuthorizeView(props: { children: React.ReactNode }) {
   const [authorized, setAuthorized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  let emptyuser: User = { email: '' };
-  const [user, setUser] = useState(emptyuser);
+  const [user, setUser] = useState<User>({ email: '' });
 
   useEffect(() => {
     async function authorizeUser() {
@@ -42,9 +42,9 @@ function AuthorizeView(props: { children: React.ReactNode }) {
   return <Navigate to="/login" />;
 }
 
+// Still works for any use of <AuthorizedUser value="email" />
 export function AuthorizedUser(props: { value: string }) {
   const user = React.useContext(UserContext);
-
   if (!user) return null;
 
   return props.value === 'email' ? <>{user.email}</> : null;

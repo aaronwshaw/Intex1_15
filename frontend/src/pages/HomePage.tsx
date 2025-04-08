@@ -1,34 +1,24 @@
-// import { useNavigate, useParams } from 'react-router-dom';
-// import { useState } from 'react';
-//import WelcomeBand from '../components/WelcomeBand';
-import AuthorizeView, { AuthorizedUser } from '../components/AuthorizeView';
-import Logout from '../components/Logout';
-import MovieList from '../components/MovieList';
 import { useState } from 'react';
-import GenreFilter from '../components/GenreFilter';
-import { useNavigate } from 'react-router-dom';
-import WelcomeBand from '../components/WelcomeBand';
-import CategorySlider from '../components/CategorySlider/CategorySlider';
+import AuthorizeView from '../components/AuthorizeView';
+import SidebarNav from '../components/SidebarNav';
+import MovieList from '../components/MovieList';
 
 function HomePage() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const navigate = useNavigate();
 
   return (
     <AuthorizeView>
-      <span>
-        <Logout>
-          Logout <AuthorizedUser value="email" />
-        </Logout>
-        <p onClick={() => navigate('/privacy')}>Privacy Policy</p>
-      </span>
-      <WelcomeBand />
-      <GenreFilter
-        selectedGenres={selectedGenres}
-        setSelectedGenres={setSelectedGenres}
-      />
-      <MovieList selectedGenres={selectedGenres} />
+      <div className="flex min-h-screen w-full">
+        {/* Sidebar */}
+        <SidebarNav />
+
+        {/* Main content — shifted to the right of the fixed sidebar on desktop */}
+        <main className="flex-1 p-6 md:ml-64 bg-gradient-to-r from-blue-600 to-blue-300 text-black">
+          <MovieList selectedGenres={selectedGenres} />
+        </main>
+      </div>
     </AuthorizeView>
   );
 }
+
 export default HomePage;
