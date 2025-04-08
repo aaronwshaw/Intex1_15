@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchMovies } from '../api/IntexAPI';
+import { fetchMovies } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
 
 function MovieList({ selectedGenres }: { selectedGenres: string[] }) {

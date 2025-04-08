@@ -3,40 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\controllers\\intexcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\controllers\\intexcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\movies.db||{25834150-CD7E-11D0-92DF-00A0C9138C45}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\movies.db||{25834150-CD7E-11D0-92DF-00A0C9138C45}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\data\\noopemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\data\\noopemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\services\\customuserclaimsprinciplefactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\services\\customuserclaimsprinciplefactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\data\\example.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\data\\example.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\data\\movierating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|solutionrelative:intex1_15.api\\data\\movierating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{13F60DD6-480F-4475-89E0-A83327657BE6}|Intex1_15.API\\Intex1_15.API.csproj|c:\\users\\awsha\\onedrive - brigham young university\\desktop\\intex1_15\\backend\\intex1_15.api\\data\\intexdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -78,124 +50,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Movies.db",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Movies.db",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Movies.db",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Movies.db",
-              "RelativeToolTip": "Intex1_15.API\\Movies.db",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAARhSURBVFhH7ZhdbJNVGIAfoOvadVO2Zd0PZZbIzxA1mABxQ5kQw68mGBONXpgZvTWawLKAEhSNy4DFEOMFJGo04cIYRCT\u002BQXSIZDIFh24rZjD2A1nWrmMFOujs957Pi24NO7jRry2DC56kafOe87558p6e90s\u002BuJMxTXOKHhtlU011J5hePZ4cU7oMxTM7duw4pa/cjAkEN5rvvPu\u002BHk6KrVs243Q6Q1eGIsutSk7VA7eKqpdfmZ7jcjRUV1cv1NcmYtIEi4pLkpKcNEGSlJxUQZKQnHRBLEreFkEsSN42QRKUTGkOdl3oo\u002B1MN6ZSFBbksvjhMn0LAB/UbycUCulhnVBt3c5cPZiS4PFmH8GLl1BKME2TtSvKybDZ9G0JsXXLZmrrdt7gY\u002BmIr0WGaWo\u002BzV\u002BnO7jQGyAwMIiIgSiFUgpfeye\u002B9k4OH22iq6dXT08KS4JtZ7rpHwzR0\u002BvnZFs7SgSlFEoEUUL7uR5a/jnLwOAlTrT4iEYNvYRlEha8FhmmLxBEKYWIYI50Lf6R2LdpKpQShof/5Xxvn17GMgkLOh2ZzPF64nKiBKfDzprl5axdUUFxYT4igoyIFuTn4ikp1MtYJmFBgHn3l1JUkIeIoERRWlJEltOBK8uJ11MS755t2jRWVpZjz8jQS1jGkmDocpjB0OX4sfYFB\u002BJr4aGrcfFIJEJzy\u002BkxucmSsGA0anD4aBNXwkMoJYgIff4gX3/fwKEjjfze3BL7f46snfzbR/f51G9ywoIZGTYcDvt1F0NQSrgcDtPr74/fZqUEZcZ\u002B5\u002BXeq5exTMKCAAsXzEUpYdrUqXiK3DGh0UsjQmFBPi6nEyWKBWVzsNlsDAyGuBqJ6KUSxtLYn1lcyPrVT\u002BDKygLgwI8NBAcuYpompjJZVr6InGwXV8JD5GS72LvvAMdP/IkSYdumjeTnTtdL3hRLHQTicgC59\u002BTE5p8oXFlOcrJdXAxd4qdfGzlzrpv2s\u002BcQw0AMg8amPzjccIRjvzWNqXczLAtezyMPzeeplZVUVizm2adXAfDDz7/QcKyRXXs\u002BJhDsHxGMsv/gt\u002Bz9Yh97Pv2M7p7zeqlxSUkwJ9tFcaGbebNnkWmPzbz2js5412Z77\u002BOtja9T9eLzsWe2GBjRKF09PXqpcUlJ8P947dWXsGfYECNK1QvPMXNGCUsfXULFkkWIYbD6yRVUPrZUTxuXtAueamklHA4jhkH/QDAe9/sDiBGlpbWNQKB/TM5EpF3wm\u002B8OxY5YDPZ88jn7DhxkW\u002B12Wtt8iGHQ0dFBq8\u002Bnp41L2gWXP16BGAaZdjt\u002Bv58vv9pPa2sbjkw7Yhjk5eXx4APz9bRxSbvg\u002BnVr2PZmDbt31eMpKY53s2bDG\u002Bz\u002B6EN21W/H7XbraeOSdkGA0pkeAJYtraDUM4P5ZXPxer243QW4XC59\u002B4TcEsFR1q1ZRX1dLe\u002B9vXXMgLfCLRVMB3cFU\u002BWuYKrc8YI3vGoYZVPNhk6YkqaX6IlgdtXW1c/So3c8/wG9NDOM\u002BmSt1QAAAABJRU5ErkJggg==",
-              "WhenOpened": "2025-04-08T01:16:26.109Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "NoOpEmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\NoOpEmailSender.cs",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Data\\NoOpEmailSender.cs",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\NoOpEmailSender.cs",
-              "RelativeToolTip": "Intex1_15.API\\Data\\NoOpEmailSender.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T06:09:47.425Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RoleController.cs",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Controllers\\RoleController.cs",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Controllers\\RoleController.cs",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Controllers\\RoleController.cs",
-              "RelativeToolTip": "Intex1_15.API\\Controllers\\RoleController.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAA1wBIAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T06:05:05.354Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CustomUserClaimsPrincipleFactory.cs",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Services\\CustomUserClaimsPrincipleFactory.cs",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Services\\CustomUserClaimsPrincipleFactory.cs",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Services\\CustomUserClaimsPrincipleFactory.cs",
-              "RelativeToolTip": "Intex1_15.API\\Services\\CustomUserClaimsPrincipleFactory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T04:50:28.314Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "IntexController.cs",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Controllers\\IntexController.cs",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Controllers\\IntexController.cs",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Controllers\\IntexController.cs",
-              "RelativeToolTip": "Intex1_15.API\\Controllers\\IntexController.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAAAA8AAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T21:34:02.512Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Program.cs",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Program.cs",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Program.cs",
-              "RelativeToolTip": "Intex1_15.API\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T21:15:14.081Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Intex1_15.API\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T23:21:55.306Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Example.cs",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\Example.cs",
-              "RelativeDocumentMoniker": "Intex1_15.API\\Data\\Example.cs",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\Example.cs",
-              "RelativeToolTip": "Intex1_15.API\\Data\\Example.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T21:32:03.491Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
               "Title": "IntexDbContext.cs",
               "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\IntexDbContext.cs",
               "RelativeDocumentMoniker": "Intex1_15.API\\Data\\IntexDbContext.cs",
               "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\IntexDbContext.cs",
               "RelativeToolTip": "Intex1_15.API\\Data\\IntexDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T21:14:19.149Z"
+              "WhenOpened": "2025-04-08T05:48:29.65Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\appsettings.json",
-              "RelativeDocumentMoniker": "Intex1_15.API\\appsettings.json",
-              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\appsettings.json",
-              "RelativeToolTip": "Intex1_15.API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-06T20:46:36.925Z"
+              "DocumentIndex": 1,
+              "Title": "MovieRating.cs",
+              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\MovieRating.cs",
+              "RelativeDocumentMoniker": "Intex1_15.API\\Data\\MovieRating.cs",
+              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Data\\MovieRating.cs",
+              "RelativeToolTip": "Intex1_15.API\\Data\\MovieRating.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T05:47:52.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MoviesController.cs",
+              "DocumentMoniker": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Controllers\\MoviesController.cs",
+              "RelativeDocumentMoniker": "Intex1_15.API\\Controllers\\MoviesController.cs",
+              "ToolTip": "C:\\Users\\awsha\\OneDrive - Brigham Young University\\Desktop\\Intex1_15\\backend\\Intex1_15.API\\Controllers\\MoviesController.cs",
+              "RelativeToolTip": "Intex1_15.API\\Controllers\\MoviesController.cs",
+              "ViewState": "AgIAAOMAAAAAAAAAAAAswP4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T03:33:33.955Z",
+              "EditorCaption": ""
             }
           ]
         }
