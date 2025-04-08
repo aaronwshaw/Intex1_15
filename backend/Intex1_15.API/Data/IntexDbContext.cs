@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Intex1_15.API.Models;
+using Intex1_15.API.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Intex1_15.API.Data
@@ -14,7 +14,7 @@ namespace Intex1_15.API.Data
         {
             
         }
-        public DbSet<Example> Examples { get; set; } = null!;
+        public DbSet<Movie> Movies { get; set; }
     }
 }
 
