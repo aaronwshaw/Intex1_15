@@ -3,9 +3,9 @@ import AuthorizeView from '../components/AuthorizeView';
 import { searchMovies } from '../api/MoviesApi';
 
 type Movie = {
-  id: number;
+  id: string;
   title: string;
-  // Add other properties as needed
+  // Add other fields if needed
 };
 
 function SearchPage() {
@@ -22,40 +22,65 @@ function SearchPage() {
     setLoading(false);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSearch();
+  };
+
   return (
     <AuthorizeView>
-      <div className="max-w-3xl mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">Search Movies</h1>
+      <div className="streamlite-page">
+        <div className="streamlite-container">
+          <h1 className="streamlite-title">Search Movies</h1>
 
-        <div className="flex gap-2 mb-6">
-          <input
-            type="text"
-            placeholder="Enter movie title..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md shadow-sm"
-          />
-          <button
-            onClick={handleSearch}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-          >
-            Search
-          </button>
+          <p className="streamlite-intro">
+            Find movies by title in our StreamLite catalog.
+          </p>
+
+          {/* Form for Enter key support */}
+          <form onSubmit={handleSubmit} className="streamlite-full-width streamlite-mb-4" style={{ display: 'flex', gap: '0.5rem' }}>
+            <input
+              type="text"
+              placeholder="Enter movie title..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="streamlite-full-width"
+              style={{
+                padding: '0.5rem',
+                borderRadius: '0.5rem',
+                border: '1px solid #e5e7eb',
+                flex: 1,
+              }}
+            />
+            <button
+              type="submit"
+              className="streamlite-section-search-button"
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                borderRadius: '0.5rem',
+                fontWeight: 600,
+              }}
+            >
+              Search
+            </button>
+          </form>
+
+          {loading && <p className="streamlite-text-left">Loading...</p>}
+
+          {results && results.length > 0 ? (
+            <ul className="streamlite-sections streamlite-text-left">
+              {results.map((movie) => (
+                <li key={movie.id} className="streamlite-section">
+                  <div className="streamlite-section-content">{movie.title}</div>
+                </li>
+              ))}
+            </ul>
+          ) : results && results.length === 0 ? (
+            <p className="streamlite-text-left">No movies found.</p>
+          ) : null}
         </div>
-
-        {loading && <p>Loading...</p>}
-
-        {results && results.length > 0 ? (
-          <ul className="space-y-2">
-            {results.map((movie) => (
-              <li key={movie.id} className="p-3 border rounded-md shadow-sm">
-                {movie.title}
-              </li>
-            ))}
-          </ul>
-        ) : results && results.length === 0 ? (
-          <p>No movies found.</p>
-        ) : null}
       </div>
     </AuthorizeView>
   );

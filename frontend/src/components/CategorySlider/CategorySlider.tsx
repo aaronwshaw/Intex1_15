@@ -1,20 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useEffect } from 'react';
 import Slider from 'react-slick';
 import Spinner from '../Spinner/Spinner';
-
-type Category = {
-  _id: string;
-  name: string;
-  image: string;
-};
-
-type ApiResponse = {
-  data: {
-    data: Category[];
-  };
-};
+import { fetchTopRatedMovies } from '../../api/MoviesApi';
+import { Movie } from '../../types/Movie';
+import { toast } from 'react-toastify';
 
 export default function CategorySlider() {
   const settings = {
@@ -54,48 +44,43 @@ export default function CategorySlider() {
     ],
   };
 
-  const getCategories = async (): Promise<ApiResponse> => {
-    const response = await axios.get('https://ecommerce.routemisr.com/api/v1/categories');
-    return response;
-  };
-
-  const { data } = useQuery({
-    queryKey: ['category'],
-    queryFn: getCategories,
-    select: (response) => response.data.data,
+  const {
+    data: movies,
+    isLoading,
+    isError,
+  } = useQuery<Movie[] | null>({
+    queryKey: ['topRatedMovies'],
+    queryFn: () => fetchTopRatedMovies(10),
   });
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    if (isError) toast.error('Failed to load top-rated movies');
+  }, [isError]);
 
   return (
     <div className="container my-10">
-      <h3 className="text-3xl font-medium mb-5">Popular Categories</h3>
-      {data ? (
+      <h3 className="text-3xl font-medium mb-5">Top Rated Movies</h3>
+      {isLoading ? (
+        <Spinner />
+      ) : (
         <Slider {...settings}>
-          {data.map((category) => (
+          {movies?.map((movie) => (
             <div
-              key={category._id}
-              className="rounded-lg px-4 dark:bg-gray-800 dark:border-gray-700"
+              key={movie.show_id}
+              className="rounded-lg px-4 py-6 dark:bg-gray-800 dark:border-gray-700 text-center shadow-md"
             >
-              <img
-                className="rounded-lg hover:shadow-green-300 transition-shadow shadow-md object-cover object-top w-full h-80"
-                src={category.image}
-                alt={category.name}
-              />
-              <div className="text-center">
-                <a href="#">
-                  <h3 className="text-gray-900 mt-2 overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-xl tracking-tight dark:text-white">
-                    {category.name}
-                  </h3>
-                </a>
-              </div>
+              {/* Placeholder for image — will connect to Amazon Blob Storage later */}
+              {/* <img
+                src={movie.poster_url}
+                alt={movie.title}
+                className="rounded-lg object-cover w-full h-80 mb-4"
+              /> */}
+              <h3 className="text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-xl tracking-tight dark:text-white">
+                {movie.title}
+              </h3>
             </div>
           ))}
         </Slider>
-      ) : (
-        <Spinner />
       )}
     </div>
   );
