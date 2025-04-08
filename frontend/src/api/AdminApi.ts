@@ -14,7 +14,7 @@ import { API_url } from './config'; // adjust path if needed
 // Admin: Add a new movie
 export async function addMovie(movie: Movie): Promise<Movie | null> {
   try {
-    const res = await fetch(`${API_url}/api/Movies`, {
+    const res = await fetch(`${API_url}/api/Movies/AddMovie`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(movie),
