@@ -8,6 +8,7 @@ import { useState } from 'react';
 import GenreFilter from '../components/GenreFilter';
 import { useNavigate } from 'react-router-dom';
 import WelcomeBand from '../components/WelcomeBand';
+
 function HomePage() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const navigate = useNavigate();
@@ -21,7 +22,6 @@ function HomePage() {
         <p onClick={() => navigate('/privacy')}>Privacy Policy</p>
       </span>
       <WelcomeBand />
-
       <GenreFilter
         selectedGenres={selectedGenres}
         setSelectedGenres={setSelectedGenres}
