@@ -3,6 +3,7 @@
 import WelcomeBand from '../components/WelcomeBand';
 import AuthorizeView, { AuthorizedUser } from '../components/AuthorizeView';
 import Logout from '../components/Logout';
+import MovieList from '../components/MovieList';
 
 function HomePage() {
   return (
@@ -13,6 +14,7 @@ function HomePage() {
         </Logout>
       </span>
       <WelcomeBand />
+      <MovieList />
     </AuthorizeView>
   );
 }
