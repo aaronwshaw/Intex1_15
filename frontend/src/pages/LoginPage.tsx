@@ -38,7 +38,7 @@ function LoginPage() {
     const result = await loginUser(email, password, rememberme);
 
     if (result.ok) {
-      navigate('/');
+      navigate('/Home');
     } else {
       setError(result.error);
     }
