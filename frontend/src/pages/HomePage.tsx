@@ -9,10 +9,8 @@ import GenreFilter from '../components/GenreFilter';
 import { useNavigate } from 'react-router-dom';
 import WelcomeBand from '../components/WelcomeBand';
 function HomePage() {
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const navigate = useNavigate();
-
-
 
   return (
     <AuthorizeView>
@@ -20,11 +18,9 @@ function HomePage() {
         <Logout>
           Logout <AuthorizedUser value="email" />
         </Logout>
-        <p onClick={()=> navigate('/privacy')}>Privacy Policy</p>
+        <p onClick={() => navigate('/privacy')}>Privacy Policy</p>
       </span>
       <WelcomeBand />
-
-      <P
 
       <GenreFilter
         selectedGenres={selectedGenres}
@@ -34,4 +30,4 @@ function HomePage() {
     </AuthorizeView>
   );
 }
- export default HomePage
+export default HomePage;
