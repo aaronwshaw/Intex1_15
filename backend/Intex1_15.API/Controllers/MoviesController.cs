@@ -169,18 +169,20 @@ namespace Intex1_15.API.Controllers
                 return BadRequest("Page number and size must be greater than 0.");
 
             var totalMovies = await _context.Movies.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
 
-            var movies = await _context.Movies
+            var movies = await _context.Movies // Optional: add sorting
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             return Ok(new
             {
-                TotalCount = totalMovies,
-                Movies = movies
+                totalPages,
+                movies
             });
         }
+
 
 
 
