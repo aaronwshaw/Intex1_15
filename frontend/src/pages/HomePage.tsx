@@ -3,28 +3,26 @@
 //import WelcomeBand from '../components/WelcomeBand';
 import AuthorizeView, { AuthorizedUser } from '../components/AuthorizeView';
 import Logout from '../components/Logout';
-import CategorySlider from '../components/CategorySlider/CategorySlider';
-import Products from '../components/Products/Products';
-import MainSlider from '../components/MainSlider/MainSlider';
-import WelcomeBand from '../components/WelcomeBand';
+import MovieList from '../components/MovieList';
+import { useState } from 'react';
+import GenreFilter from '../components/GenreFilter';
 
-export default function HomePage() {
+function HomePage() {
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+
   return (
     <AuthorizeView>
-      <>
-        {/* Top bar with logout and email */}
-        <div style={{ textAlign: 'right', margin: '1rem' }}>
-          <Logout>
-            Logout <AuthorizedUser value="email" />
-          </Logout>
-        </div>
-
-        {/* Main content layout */}
-        <WelcomeBand />
-        <MainSlider />
-        {/* /*<CategorySlider /> */}
-        <Products />
-      </>
+      <span>
+        <Logout>
+          Logout <AuthorizedUser value="email" />
+        </Logout>
+      </span>
+      <WelcomeBand />
+      <GenreFilter 
+      selectedGenres={selectedGenres}
+      setSelectedGenres={setSelectedGenres}/>
+      <MovieList 
+      selectedGenres={selectedGenres}/>
     </AuthorizeView>
   );
 }
