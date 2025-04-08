@@ -61,7 +61,7 @@ namespace Intex1_15.API.Controllers
                 return BadRequest("Search query cannot be empty.");
 
             var results = await _context.Movies
-                .Where(m => EF.Functions.Like(m.Title, $"%{query}%"))
+                .Where(m => EF.Functions.Like(m.title, $"%{query}%"))
                 .ToListAsync();
 
             return Ok(results);
@@ -86,15 +86,33 @@ namespace Intex1_15.API.Controllers
         //Get top rated Movies
         // GET: api/movies/TopRated?count=10
         [HttpGet("TopRated")]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetTopRatedMovies([FromQuery] int count = 10)
+        public async Task<ActionResult<IEnumerable<object>>> GetTopRatedMovies([FromQuery] int count = 10)
         {
-            var topMovies = await _context.Movies
-                .OrderByDescending(m => m.AvgRating)
+            var topMovies = await _context.MovieRatings
+                .GroupBy(r => r.show_id)
+                .Select(group => new
+                {
+                    ShowId = group.Key,
+                    AvgRating = group.Average(r => r.rating)
+                })
+                .OrderByDescending(x => x.AvgRating)
                 .Take(count)
+                .Join(_context.Movies,
+                      rating => rating.ShowId,
+                      movie => movie.show_id,
+                      (rating, movie) => new
+                      {
+                          movie.show_id,
+                          movie.title,
+                          movie.release_year,
+                          movie.description,
+                          AvgRating = rating.AvgRating
+                      })
                 .ToListAsync();
 
             return Ok(topMovies);
         }
+
 
 
         //Recommendation endpoints
@@ -177,7 +195,7 @@ namespace Intex1_15.API.Controllers
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMovieById), new { id = movie.ShowId }, movie);
+            return CreatedAtAction(nameof(GetMovieById), new { id = movie.show_id }, movie);
         }
 
         //Update a movie
@@ -185,7 +203,7 @@ namespace Intex1_15.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMovie(string id, [FromBody] Movie updatedMovie)
         {
-            if (id != updatedMovie.ShowId)
+            if (id != updatedMovie.show_id)
                 return BadRequest("Movie ID mismatch.");
 
             var existingMovie = await _context.Movies.FindAsync(id);

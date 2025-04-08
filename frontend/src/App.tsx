@@ -2,22 +2,26 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import HomePage from './pages/HomePage'
+import HomePage from './pages/HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PrivacyPolicy from './pages/PrivacyTest';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LandingPage from './pages/LandingPage';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/landing" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
       </Router>
