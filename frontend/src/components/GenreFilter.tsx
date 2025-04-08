@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import "./GenreFilter.css"
+import { fetchGenres } from '../api/MoviesApi';
 
 function GenreFilter({
   selectedGenres,
