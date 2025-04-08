@@ -8,6 +8,7 @@ import { useState } from 'react';
 import GenreFilter from '../components/GenreFilter';
 import { useNavigate } from 'react-router-dom';
 import WelcomeBand from '../components/WelcomeBand';
+import CategorySlider from '../components/CategorySlider/CategorySlider';
 
 function HomePage() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
