@@ -11,8 +11,8 @@ function HomePage() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
 
   return (
-    <AuthorizeView>
-      <span>
+    <>
+    <span>
         <Logout>
           Logout <AuthorizedUser value="email" />
         </Logout>
@@ -23,8 +23,7 @@ function HomePage() {
       setSelectedGenres={setSelectedGenres}/>
       <MovieList 
       selectedGenres={selectedGenres}/>
-
-    </AuthorizeView>
+    </>
   );
 }
 
