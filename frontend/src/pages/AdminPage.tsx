@@ -3,6 +3,7 @@ import AuthorizeView from '../components/AuthorizeView';
 import { Movie } from '../types/Movie';
 import { deleteMovie, updateMovie } from '../api/AdminApi';
 import { fetchPaginatedMovies } from '../api/IntexAPI';
+import { searchMovies } from '../api/MoviesApi';
 import { toast } from 'react-toastify';
 import NewMovieForm from '../components/NewMovieForm';
 
@@ -19,7 +20,12 @@ function AdminPage() {
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+
   useEffect(() => {
+    if (isSearching) return;
+
     const loadMovies = async () => {
       try {
         setLoading(true);
@@ -36,7 +42,7 @@ function AdminPage() {
     };
 
     loadMovies();
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize, isSearching]);
 
   const handleEditClick = (movie: Movie) => {
     setEditingMovie(movie);
@@ -74,7 +80,6 @@ function AdminPage() {
         setMovies(data.movies);
         setTotalPages(data.totalPages);
       }
-      toast.success('Movie deleted successfully!');
     } catch (error) {
       toast.error('Failed to delete movie. Please try again.');
     }
@@ -94,18 +99,15 @@ function AdminPage() {
     }
 
     range.push(1);
-
     if (currentPage > 3) range.push('...');
 
     const start = Math.max(2, currentPage - delta);
     const end = Math.min(totalPages - 1, currentPage + delta);
 
     for (let i = start; i <= end; i++) range.push(i);
-
     if (currentPage < totalPages - 2) range.push('...');
 
     range.push(totalPages);
-
     return range;
   };
 
@@ -115,6 +117,57 @@ function AdminPage() {
   return (
     <AuthorizeView>
       <h1>Welcome, Admin!</h1>
+
+      {/* 🔍 Search Input */}
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search movies by title..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button
+          className="btn btn-primary"
+          onClick={async () => {
+            if (searchQuery.trim() === '') {
+              setIsSearching(false);
+              const data = await fetchPaginatedMovies(1, pageSize);
+              if (data) {
+                setMovies(data.movies);
+                setTotalPages(data.totalPages);
+                setCurrentPage(1);
+              }
+              return;
+            }
+
+            setIsSearching(true);
+            const results = await searchMovies(searchQuery);
+            if (results) {
+              setMovies(results);
+              setTotalPages(1);
+              setCurrentPage(1);
+            }
+          }}
+        >
+          Search
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={async () => {
+            setSearchQuery('');
+            setIsSearching(false);
+            const data = await fetchPaginatedMovies(1, pageSize);
+            if (data) {
+              setMovies(data.movies);
+              setTotalPages(data.totalPages);
+              setCurrentPage(1);
+            }
+          }}
+        >
+          Clear
+        </button>
+      </div>
 
       {!showForm && (
         <button className="btn btn-success mb-3" onClick={() => setShowForm(true)}>
@@ -196,39 +249,44 @@ function AdminPage() {
             </tbody>
           </table>
 
-          {/* Condensed Pagination */}
-          <div className="d-flex justify-content-center mt-4">
-            <nav>
-              <ul className="pagination">
-                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}>
-                    Previous
-                  </button>
-                </li>
-
-                {getPaginationRange().map((page, idx) => (
-                  <li
-                    key={idx}
-                    className={`page-item ${page === currentPage ? 'active' : ''} ${page === '...' ? 'disabled' : ''}`}
-                  >
-                    {page === '...' ? (
-                      <span className="page-link">…</span>
-                    ) : (
-                      <button className="page-link" onClick={() => setCurrentPage(Number(page))}>
-                        {page}
-                      </button>
-                    )}
+          {/* ⏩ Condensed Pagination */}
+          {!isSearching && (
+            <div className="d-flex justify-content-center mt-4">
+              <nav>
+                <ul className="pagination">
+                  <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                    <button className="page-link" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}>
+                      Previous
+                    </button>
                   </li>
-                ))}
 
-                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}>
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </div>
+                  {getPaginationRange().map((page, idx) => (
+                    <li
+                      key={idx}
+                      className={`page-item ${page === currentPage ? 'active' : ''} ${page === '...' ? 'disabled' : ''}`}
+                    >
+                      {page === '...' ? (
+                        <span className="page-link">…</span>
+                      ) : (
+                        <button className="page-link" onClick={() => setCurrentPage(Number(page))}>
+                          {page}
+                        </button>
+                      )}
+                    </li>
+                  ))}
+
+                  <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                    <button
+                      className="page-link"
+                      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    >
+                      Next
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          )}
         </>
       )}
     </AuthorizeView>
