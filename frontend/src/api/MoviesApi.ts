@@ -15,7 +15,11 @@ import { API_url } from './config'; // adjust path if needed
  * - unlikeMovie(userId, showId): Remove the movie rating
  */
 
-export const fetchMovies = async (): Promise<Movie[]> => {
+interface FetchMoviesResponse {
+  movies: Movie[];
+}
+
+export const fetchMovies = async (): Promise<FetchMoviesResponse> => {
   try {
     const response = await fetch(`${API_url}/api/Movies/AllMovies`, {
       credentials: 'include',
@@ -25,14 +29,16 @@ export const fetchMovies = async (): Promise<Movie[]> => {
       throw new Error('Failed to fetch movies');
     }
 
-    // Cast the response to the Movie type
-    const data: Movie[] = await response.json();
-    return data;
+    // Log the raw response
+    const result = await response.json();
+    console.log('Fetched movies:', result); // Log to see the structure
+    return { movies: result.movies || result }; // Handle both possible structures
   } catch (error) {
     console.error('Error fetching movies:', error);
     throw error;
   }
 };
+
 
 // Search for a movie by title
   export async function searchMovies(query: string): Promise<Movie[] | null> {
