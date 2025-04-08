@@ -23,6 +23,9 @@ function HomePage() {
         <p onClick={()=> navigate('/privacy')}>Privacy Policy</p>
       </span>
       <WelcomeBand />
+
+      <P
+
       <GenreFilter
         selectedGenres={selectedGenres}
         setSelectedGenres={setSelectedGenres}
