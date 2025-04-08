@@ -186,16 +186,29 @@ namespace Intex1_15.API.Controllers
 
         //add a new movie
         // POST: api/movies
-        [HttpPost]
-        public async Task<ActionResult<Movie>> AddMovie([FromBody] Movie movie)
+        [HttpPost("AddMovie")]
+        public IActionResult AddMovie([FromBody] Movie newMovie)
         {
-            if (movie == null)
-                return BadRequest("Movie data is required.");
+            // Safely get max numeric ID from existing show_id values
+            var allIds = _context.Movies
+                .Where(m => m.show_id.StartsWith("s"))
+                .Select(m => m.show_id)
+                .ToList();
 
-            _context.Movies.Add(movie);
-            await _context.SaveChangesAsync();
+            var maxId = allIds
+                .Select(id => int.TryParse(id.Substring(1), out var num) ? num : 0)
+                .DefaultIfEmpty(0)
+                .Max();
 
-            return CreatedAtAction(nameof(GetMovieById), new { id = movie.show_id }, movie);
+            // Generate new show_id
+            var newId = $"s{maxId + 1}";
+            newMovie.show_id = newId;
+
+            // Save to DB
+            _context.Movies.Add(newMovie);
+            _context.SaveChanges();
+
+            return Ok(newMovie);
         }
 
         //Update a movie
