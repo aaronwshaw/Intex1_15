@@ -1,0 +1,123 @@
+/* StreamLite Application Styles */
+/* Base styles for the privacy policy page and other similar components */
+
+/* Page background and layout */
+.streamlite-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-image: linear-gradient(to bottom, #3b82f6, #1d4ed8); */
+    padding: 0rem;
+  }
+  
+  /* Container styling */
+  .streamlite-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 48rem;
+    text-align: left;
+  }
+  
+  /* Typography */
+  .streamlite-title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  
+  .streamlite-intro {
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  .streamlite-footer {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 2rem;
+    text-align: left;
+  }
+  
+  /* Collapsible sections */
+  .streamlite-sections {
+    width: 100%;
+  }
+  
+  .streamlite-section {
+    width: 100%;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+  }
+  
+  .streamlite-section:last-child {
+    border-bottom: none;
+  }
+  
+  .streamlite-section-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    text-align: left;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .streamlite-section-button:hover {
+    color: #3b82f6;
+  }
+  
+  .streamlite-section-button-active {
+    color: #3b82f6;
+  }
+  
+  .streamlite-section-content {
+    width: 100%;
+    padding-left: 1rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
+    color: #4b5563;
+    text-align: left;
+  }
+  
+  /* Button indicators */
+  .streamlite-indicator {
+    color: #3b82f6;
+  }
+  
+  /* Utility classes */
+  .streamlite-full-width {
+    width: 100%;
+  }
+  
+  .streamlite-text-left {
+    text-align: left !important;
+  }
+  
+  .streamlite-mt-4 {
+    margin-top: 1rem;
+  }
+  
+  .streamlite-mb-4 {
+    margin-bottom: 1rem;
+  }
+  
+  /* Force overrides for handling potential conflicts */
+  .streamlite-no-background {
+    background: none !important;
+  }
+  
+  .streamlite-transparent {
+    background-color: transparent !important;
+  }
