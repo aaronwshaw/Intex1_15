@@ -15,9 +15,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-//Intex database connection. All the data stuff
+// Intex database connection. All the data stuff
 builder.Services.AddDbContext<IntexDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("IntexConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("IntexConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()
+    )
+);
 
 //Login Identity String database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
