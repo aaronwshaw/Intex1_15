@@ -40,11 +40,12 @@ function GenreFilter({
         {genres.map((c) => (
           <div key={c} className="genre-item">
             <input
-              type="checkbox"
-              id={c}
-              value={c}
-              className="genre-checkbox"
-              onChange={handleCheckboxChange}
+            type="checkbox"
+            id={c}
+            value={c}
+            className="genre-checkbox"
+            onChange={handleCheckboxChange}
+            checked={selectedGenres.includes(c)}
             />
             <label htmlFor={c}>{c}</label>
           </div>

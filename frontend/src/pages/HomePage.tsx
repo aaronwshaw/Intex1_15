@@ -21,7 +21,8 @@ function HomePage() {
       <GenreFilter 
       selectedGenres={selectedGenres}
       setSelectedGenres={setSelectedGenres}/>
-      <MovieList />
+      <MovieList 
+      selectedGenres={selectedGenres}/>
 
     </AuthorizeView>
   );

@@ -2,19 +2,16 @@ import { useEffect, useState } from 'react';
 import { fetchMovies } from '../api/IntexAPI';
 import { Movie } from '../types/Movie';
 
-function MovieList() {
+function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    
-    const loadBooks = async () => {
+    const loadMovies = async () => {
       try {
-        console.log('hello')
         setLoading(true);
         const data = await fetchMovies();
-
         setMovies(data);
       } catch (error) {
         setError((error as Error).message);
@@ -22,22 +19,27 @@ function MovieList() {
         setLoading(false);
       }
     };
-    loadBooks();
-  },[]);
+    loadMovies();
+  }, []);
 
-if (loading) return <p>Loading projects...</p>
-if (error) return <p>Error: {error}</p>
+  // Filter the movies based on selected genres
+  const filteredMovies = movies.filter((movie) =>
+    selectedGenres.length === 0 || selectedGenres.includes(movie.primaryGenre)
+  );
 
-return(
+  if (loading) return <p>Loading movies...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
     <>
-    {movies.map((m) => ( 
+      {filteredMovies.map((m) => (
         <div id='movieCard' className='card' key={m.show_id}>
-            <h3 className='card-title'>{m.title}</h3>
-            <h2>{m.primaryGenre}</h2>
+          <h3 className='card-title'>{m.title}</h3>
+          <h2>{m.primaryGenre}</h2>
         </div>
-    ))}
+      ))}
     </>
-)
+  );
 }
 
 export default MovieList;
