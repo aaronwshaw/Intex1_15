@@ -80,7 +80,6 @@ function AdminPage() {
         setMovies(data.movies);
         setTotalPages(data.totalPages);
       }
-      toast.success('Movie deleted successfully!');
     } catch (error) {
       toast.error('Failed to delete movie. Please try again.');
     }
