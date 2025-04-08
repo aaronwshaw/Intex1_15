@@ -92,6 +92,10 @@
   .streamlite-section-button:hover {
     color: #3b82f6;
   }
+
+  .streamlite-hover:hover {
+    color: #3b82f6;
+  }
   
   .streamlite-section-button-active {
     color: #3b82f6;

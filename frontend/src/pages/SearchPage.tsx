@@ -76,13 +76,13 @@ function SearchPage() {
               {results.map((movie) => (
                 <li
                   key={movie.show_id}
-                  className="streamlite-section"
+                  className="streamlite-section streamlite-hover"
                   onClick={() => navigate(`/movieinfo/${movie.show_id}`)}
                   style={{
                     cursor: 'pointer',
                   }}
                 >
-                  <div className="streamlite-section-content">{movie.title}</div>
+                  <div className="streamlite-section-content streamlite-hover">{movie.title}</div>
                 </li>
               ))}
             </ul>
