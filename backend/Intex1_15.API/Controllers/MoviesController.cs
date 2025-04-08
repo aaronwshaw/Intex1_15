@@ -231,5 +231,49 @@ namespace Intex1_15.API.Controllers
             return NoContent();
         }
 
+
+        //Rate a movie
+        // POST: api/Movies/AddRating
+        [HttpPost("AddRating")]
+        public async Task<IActionResult> AddRating([FromBody] MovieRating rating)
+        {
+            if (rating == null || string.IsNullOrEmpty(rating.show_id))
+                return BadRequest("Invalid rating");
+
+            // Optional: prevent duplicate ratings by same user
+            var existing = await _context.MovieRatings
+                .FirstOrDefaultAsync(r => r.user_id == rating.user_id && r.show_id == rating.show_id);
+
+            if (existing != null)
+            {
+                existing.rating = rating.rating; // update if it already exists
+            }
+            else
+            {
+                _context.MovieRatings.Add(rating);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        //Delete a rating
+        // DELETE: api/Movies/DeleteRating?userId=1&showId=tt123
+        [HttpDelete("DeleteRating")]
+        public async Task<IActionResult> DeleteRating([FromQuery] int userId, [FromQuery] string showId)
+        {
+            var rating = await _context.MovieRatings
+                .FirstOrDefaultAsync(r => r.user_id == userId && r.show_id == showId);
+
+            if (rating == null)
+                return NotFound("Rating not found");
+
+            _context.MovieRatings.Remove(rating);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
     }
 }
