@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import "./GenreFilter.css"
 
 function GenreFilter({
   selectedGenres,
