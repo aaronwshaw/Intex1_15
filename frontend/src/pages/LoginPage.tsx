@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/IntexAPI';
-import './Identity.css';
 import '@fortawesome/fontawesome-free/css/all.css';
+import '../styles/Identity.css';
 
 function LoginPage() {
   const [email, setEmail] = useState<string>('');
