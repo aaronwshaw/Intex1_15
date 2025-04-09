@@ -17,9 +17,9 @@ type Movie = {
 };
 
 type ContentItem = {
-  id: string;
-  title: string;
-  rank: number;
+  showId: string;
+  recommendedShow: string;
+ 
   // Add other fields if needed
 };
 
@@ -29,20 +29,36 @@ function MovieInfo() {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [recommended, setRecommended] = useState<ContentItem[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [recMovies, setRecMovies] = useState<Record<string, Movie>>({});
+
 
   useEffect(() => {
     const fetchMovieAndRecs = async () => {
       if (!show_id) return;
-
+  
       const [fetchedMovie, recs] = await Promise.all([
         getMovieById(show_id),
         getContentRecs(show_id),
       ]);
-
+  
+      console.log('Recommendations:', recs); // <--- See what's undefined
       setMovie(fetchedMovie);
       setRecommended(recs);
+      const resolvedMovies: Record<string, Movie> = {};
+
+      await Promise.all(
+        recs.map(async (rec) => {
+          if (rec.recommendedShow) {
+            const movie = await getMovieById(rec.recommendedShow);
+            if (movie) resolvedMovies[rec.recommendedShow] = movie;
+          }
+        })
+      );
+
+setRecMovies(resolvedMovies);
       setLoading(false);
     };
+  
 
     fetchMovieAndRecs();
   }, [show_id]);
@@ -77,21 +93,25 @@ function MovieInfo() {
                 <>
                   <h2 className="streamlite-title streamlite-mt-4">You Might Also Like</h2>
                   <ul className="streamlite-sections streamlite-text-left">
-                    {recommended.map((rec) => (
-                      <li
-                        key={rec.id}
-                        className="streamlite-section"
-                        onClick={() => navigate(`/movieinfo/${rec.id}`)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <div className="streamlite-section-content">
-                          {rec.title} (Rank: {rec.rank})
-                        </div>
-                      </li>
-                    ))}
+                    {recommended.map((rec) => {
+                      const resolved = recMovies[rec.recommendedShow];
+                      return (
+                        <li
+                          key={`${rec.showId}-${rec.recommendedShow}`}
+                          className="streamlite-section"
+                          onClick={() => navigate(`/movieinfo/${rec.recommendedShow}`)}
+                          style={{ cursor: resolved ? 'pointer' : 'default' }}
+                        >
+                          <div className="streamlite-section-content">
+                            {resolved ? resolved.title : <em>Loading...</em>}
+                          </div>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </>
               )}
+
             </>
           ) : (
             <p className="streamlite-text-left">Movie not found.</p>
