@@ -106,8 +106,6 @@ export async function pingAuth() {
     });
 
     const contentType = response.headers.get('content-type');
-
-    // Check if response is valid JSON
     if (!contentType || !contentType.includes('application/json')) {
       throw new Error('Invalid response format from server');
     }
@@ -115,7 +113,7 @@ export async function pingAuth() {
     const data = await response.json();
 
     if (data.email) {
-      return { ok: true, email: data.email };
+      return { ok: true, email: data.email, roles: data.roles ?? [] };
     } else {
       throw new Error('Invalid user session');
     }
