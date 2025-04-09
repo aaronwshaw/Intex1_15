@@ -1,0 +1,21 @@
+.floatingTrialButton {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--blue-main);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+  }
+  
+  .floatingTrialButton:hover {
+    background-color: var(--blue-hover);
+  }
+  

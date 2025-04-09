@@ -1,0 +1,76 @@
+.carouselWrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* keep it to one screen height */
+    overflow: hidden;
+  }
+  
+  .carouselBg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .carouselBg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(11, 12, 15, 0.2));
+    z-index: 2;
+  }
+  
+  .heroContent {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 3;
+    width: 100%;
+    max-width: 800px;
+    padding: 0 1rem;
+  }
+  
+  .heroTitle {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .emailForm {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  @media (max-width: 768px) {
+    .heroTitle {
+      font-size: 2rem;
+    }
+  
+    .heroSubtitle {
+      font-size: 1rem;
+    }
+  
+    .emailForm {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
