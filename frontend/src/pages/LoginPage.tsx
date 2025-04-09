@@ -45,9 +45,9 @@ function LoginPage() {
   };
 
   return (
-    <div className="container">
+    <div className="login-page full-height d-flex justify-content-center align-items-center">
       <div className="row">
-        <div className="card border-0 shadow rounded-3 ">
+        <div className="card border-0 shadow rounded-3">
           <div className="card-body p-4 p-sm-5">
             <h5 className="card-title text-center mb-5 fw-light fs-5">
               Sign In
