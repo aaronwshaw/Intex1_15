@@ -7,6 +7,7 @@ import { searchMovies } from '../api/MoviesApi';
 import { toast } from 'react-toastify';
 import NewMovieForm from '../components/NewMovieForm';
 import Navbar from '../components/Navbar';
+import RequireRole from '../components/RequireRole';
 
 function AdminPage() {
   const [error, setError] = useState<string | null>(null);
@@ -133,22 +134,48 @@ function AdminPage() {
 
   return (
     <AuthorizeView>
-      <Navbar />
-      <h1>Welcome, Admin!</h1>
+      <RequireRole role="Admin">
+        <Navbar />
+        <h1>Welcome, Admin!</h1>
 
-      {/* 🔍 Search Input */}
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search movies by title..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button
-          className="btn btn-primary"
-          onClick={async () => {
-            if (searchQuery.trim() === '') {
+        {/* 🔍 Search Input */}
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search movies by title..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button
+            className="btn btn-primary"
+            onClick={async () => {
+              if (searchQuery.trim() === '') {
+                setIsSearching(false);
+                const data = await fetchPaginatedMovies(1, pageSize);
+                if (data) {
+                  setMovies(data.movies);
+                  setTotalPages(data.totalPages);
+                  setCurrentPage(1);
+                }
+                return;
+              }
+
+              setIsSearching(true);
+              const results = await searchMovies(searchQuery);
+              if (results) {
+                setMovies(results);
+                setTotalPages(1);
+                setCurrentPage(1);
+              }
+            }}
+          >
+            Search
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={async () => {
+              setSearchQuery('');
               setIsSearching(false);
               const data = await fetchPaginatedMovies(1, pageSize);
               if (data) {
@@ -156,228 +183,206 @@ function AdminPage() {
                 setTotalPages(data.totalPages);
                 setCurrentPage(1);
               }
-              return;
-            }
-
-            setIsSearching(true);
-            const results = await searchMovies(searchQuery);
-            if (results) {
-              setMovies(results);
-              setTotalPages(1);
-              setCurrentPage(1);
-            }
-          }}
-        >
-          Search
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={async () => {
-            setSearchQuery('');
-            setIsSearching(false);
-            const data = await fetchPaginatedMovies(1, pageSize);
-            if (data) {
-              setMovies(data.movies);
-              setTotalPages(data.totalPages);
-              setCurrentPage(1);
-            }
-          }}
-        >
-          Clear
-        </button>
-      </div>
-
-      {!showForm && (
-        <button
-          className="btn btn-success mb-3"
-          onClick={() => setShowForm(true)}
-        >
-          Add Projects
-        </button>
-      )}
-
-      {showForm && (
-        <NewMovieForm
-          onSuccess={async () => {
-            setShowForm(false);
-            const data = await fetchPaginatedMovies(currentPage, pageSize);
-            if (data) {
-              setMovies(data.movies);
-              setTotalPages(data.totalPages);
-            }
-          }}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
-
-      {editingMovie ? (
-        <div className="card p-3 mb-4">
-          <h3>Editing: {editingMovie.title}</h3>
-          {[
-            'title',
-            'type',
-            'director',
-            'country',
-            'release_year',
-            'rating',
-            'duration',
-            'primaryGenre',
-          ].map((field) => (
-            <div className="mb-2" key={field}>
-              <label>{field.replace('_', ' ').toUpperCase()}</label>
-              <input
-                value={editedMovie[field as keyof Movie] || ''}
-                onChange={(e) =>
-                  handleChange(field as keyof Movie, e.target.value)
-                }
-                className="form-control mb-2"
-              />
-            </div>
-          ))}
-          <button
-            className="btn btn-success me-2"
-            onClick={() => handleSaveEdit(editingMovie.show_id)}
+            }}
           >
-            Save
-          </button>
-          <button className="btn btn-secondary" onClick={handleCancelEdit}>
-            Cancel
+            Clear
           </button>
         </div>
-      ) : (
-        <>
-          <table className="table table-bordered table-striped">
-            <thead className="table-dark">
-              <tr>
-                <th>Poster</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Director</th>
-                <th>Country</th>
-                <th>Release Year</th>
-                <th>Rating</th>
-                <th>Duration</th>
-                <th>Genre</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {movies.map((m) => (
-                <tr key={m.show_id}>
-                  <td style={{ width: '100px' }}>
-                    {!failedPosters[m.title] ? (
-                      <img
-                        src={getPosterUrl(m.title)}
-                        alt={`${m.title} poster`}
-                        style={{
-                          width: '80px',
-                          height: '120px',
-                          objectFit: 'cover',
-                        }}
-                        onError={() =>
-                          setFailedPosters((prev) => ({
-                            ...prev,
-                            [m.title]: true,
-                          }))
-                        }
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          width: '80px',
-                          height: '120px',
-                          backgroundColor: '#ccc',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '0.75rem',
-                          color: '#666',
-                        }}
-                      >
-                        No Image
-                      </div>
-                    )}
-                  </td>
-                  <td>{m.title}</td>
-                  <td>{m.type}</td>
-                  <td>{m.director}</td>
-                  <td>{m.country}</td>
-                  <td>{m.release_year}</td>
-                  <td>{m.rating}</td>
-                  <td>{m.duration}</td>
-                  <td>{m.primaryGenre}</td>
-                  <td>
-                    <button
-                      className="btn btn-primary btn-sm w-100 mb-1"
-                      onClick={() => handleEditClick(m)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm w-100"
-                      onClick={() => handleDelete(m.show_id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+
+        {!showForm && (
+          <button
+            className="btn btn-success mb-3"
+            onClick={() => setShowForm(true)}
+          >
+            Add Projects
+          </button>
+        )}
+
+        {showForm && (
+          <NewMovieForm
+            onSuccess={async () => {
+              setShowForm(false);
+              const data = await fetchPaginatedMovies(currentPage, pageSize);
+              if (data) {
+                setMovies(data.movies);
+                setTotalPages(data.totalPages);
+              }
+            }}
+            onCancel={() => setShowForm(false)}
+          />
+        )}
+
+        {editingMovie ? (
+          <div className="card p-3 mb-4">
+            <h3>Editing: {editingMovie.title}</h3>
+            {[
+              'title',
+              'type',
+              'director',
+              'country',
+              'release_year',
+              'rating',
+              'duration',
+              'primaryGenre',
+            ].map((field) => (
+              <div className="mb-2" key={field}>
+                <label>{field.replace('_', ' ').toUpperCase()}</label>
+                <input
+                  value={editedMovie[field as keyof Movie] || ''}
+                  onChange={(e) =>
+                    handleChange(field as keyof Movie, e.target.value)
+                  }
+                  className="form-control mb-2"
+                />
+              </div>
+            ))}
+            <button
+              className="btn btn-success me-2"
+              onClick={() => handleSaveEdit(editingMovie.show_id)}
+            >
+              Save
+            </button>
+            <button className="btn btn-secondary" onClick={handleCancelEdit}>
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <>
+            <table className="table table-bordered table-striped">
+              <thead className="table-dark">
+                <tr>
+                  <th>Poster</th>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Director</th>
+                  <th>Country</th>
+                  <th>Release Year</th>
+                  <th>Rating</th>
+                  <th>Duration</th>
+                  <th>Genre</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {!isSearching && (
-            <div className="d-flex justify-content-center mt-4">
-              <nav>
-                <ul className="pagination">
-                  <li
-                    className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.max(prev - 1, 1))
-                      }
-                    >
-                      Previous
-                    </button>
-                  </li>
-
-                  {getPaginationRange().map((page, idx) => (
-                    <li
-                      key={idx}
-                      className={`page-item ${page === currentPage ? 'active' : ''} ${page === '...' ? 'disabled' : ''}`}
-                    >
-                      {page === '...' ? (
-                        <span className="page-link">…</span>
+              </thead>
+              <tbody>
+                {movies.map((m) => (
+                  <tr key={m.show_id}>
+                    <td style={{ width: '100px' }}>
+                      {!failedPosters[m.title] ? (
+                        <img
+                          src={getPosterUrl(m.title)}
+                          alt={`${m.title} poster`}
+                          style={{
+                            width: '80px',
+                            height: '120px',
+                            objectFit: 'cover',
+                          }}
+                          onError={() =>
+                            setFailedPosters((prev) => ({
+                              ...prev,
+                              [m.title]: true,
+                            }))
+                          }
+                        />
                       ) : (
-                        <button
-                          className="page-link"
-                          onClick={() => setCurrentPage(Number(page))}
+                        <div
+                          style={{
+                            width: '80px',
+                            height: '120px',
+                            backgroundColor: '#ccc',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.75rem',
+                            color: '#666',
+                          }}
                         >
-                          {page}
-                        </button>
+                          No Image
+                        </div>
                       )}
-                    </li>
-                  ))}
+                    </td>
+                    <td>{m.title}</td>
+                    <td>{m.type}</td>
+                    <td>{m.director}</td>
+                    <td>{m.country}</td>
+                    <td>{m.release_year}</td>
+                    <td>{m.rating}</td>
+                    <td>{m.duration}</td>
+                    <td>{m.primaryGenre}</td>
+                    <td>
+                      <button
+                        className="btn btn-primary btn-sm w-100 mb-1"
+                        onClick={() => handleEditClick(m)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm w-100"
+                        onClick={() => handleDelete(m.show_id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-                  <li
-                    className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() =>
-                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                      }
+            {!isSearching && (
+              <div className="d-flex justify-content-center mt-4">
+                <nav>
+                  <ul className="pagination">
+                    <li
+                      className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
                     >
-                      Next
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          )}
-        </>
-      )}
+                      <button
+                        className="page-link"
+                        onClick={() =>
+                          setCurrentPage((prev) => Math.max(prev - 1, 1))
+                        }
+                      >
+                        Previous
+                      </button>
+                    </li>
+
+                    {getPaginationRange().map((page, idx) => (
+                      <li
+                        key={idx}
+                        className={`page-item ${page === currentPage ? 'active' : ''} ${page === '...' ? 'disabled' : ''}`}
+                      >
+                        {page === '...' ? (
+                          <span className="page-link">…</span>
+                        ) : (
+                          <button
+                            className="page-link"
+                            onClick={() => setCurrentPage(Number(page))}
+                          >
+                            {page}
+                          </button>
+                        )}
+                      </li>
+                    ))}
+
+                    <li
+                      className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+                    >
+                      <button
+                        className="page-link"
+                        onClick={() =>
+                          setCurrentPage((prev) =>
+                            Math.min(prev + 1, totalPages)
+                          )
+                        }
+                      >
+                        Next
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            )}
+          </>
+        )}
+      </RequireRole>
     </AuthorizeView>
   );
 }
