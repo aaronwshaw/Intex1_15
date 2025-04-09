@@ -160,3 +160,15 @@ export async function unlikeMovie(
     return false;
   }
 }
+
+export async function fetchMoviesByGenres(selectedGenres: string[]) {
+  const params = selectedGenres.map(g => `genres=${encodeURIComponent(g)}`).join('&');
+  const response = await fetch(`${API_url}/api/Movies/MoviesByGenre?${params}`);
+
+  if (!response.ok) {
+    console.error("Failed to fetch movies");
+    return [];
+  }
+
+  return response.json();
+}
