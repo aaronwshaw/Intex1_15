@@ -2,11 +2,16 @@ import { useEffect, useState } from 'react';
 import { fetchMovies } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
 import MoviePoster from '../components/MoviePoster';
+import { Link } from 'react-router-dom';
 
-function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
+const BATCH_SIZE = 10;
+
+function MovieList() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -23,28 +28,42 @@ function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
     loadMovies();
   }, []);
 
-  const filteredMovies = movies.filter((movie) =>
-    selectedGenres.length === 0 || selectedGenres.includes(movie.primaryGenre)
-  );
+  useEffect(() => {
+    const handleScroll = () => {
+      const nearBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
 
-  if (loading) return <p className="text-center w-full p-4">Loading movies...</p>;
-  if (error) return <p className="text-center text-red-500 w-full p-4">Error: {error}</p>;
+      if (nearBottom && !isLoadingMore && visibleCount < movies.length) {
+        setIsLoadingMore(true);
+        setTimeout(() => {
+          setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, movies.length));
+          setIsLoadingMore(false);
+        }, 500);
+      }
+    };
 
-  // Define inline styles to override any parent styling
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [visibleCount, isLoadingMore, movies.length]);
+
+  const visibleMovies = movies.slice(0, visibleCount);
+
   const containerStyle = {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     gap: '20px',
-    width: '100%',
+    width: '100vw',
     padding: '20px',
     boxSizing: 'border-box' as const,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: '1200px',
   };
 
   const cardStyle = {
     flex: '0 0 auto',
     width: '200px',
-    margin: '0',
     display: 'flex',
     flexDirection: 'column' as const,
     alignItems: 'center',
@@ -61,47 +80,55 @@ function MovieList({ selectedGenres }: { selectedGenres: string[] }) {
   };
 
   return (
-    <div style={containerStyle}>
-      {filteredMovies.map((m) => (
-        <div 
-          id='movieCard' 
-          className='card'
-          key={m.show_id}
-          style={cardStyle}
-          onMouseEnter={(e) => {
-            Object.assign(e.currentTarget.style, cardHoverStyle);
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = '';
-            e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-          }}
-        >
-          <div style={{ width: '100%', height: '240px', marginBottom: '10px', overflow: 'hidden', borderRadius: '4px' }}>
-            <MoviePoster title={m.title} />
-          </div>
-          <h3 style={{ 
-            fontSize: '16px', 
-            fontWeight: 'bold',
-            margin: '0 0 5px 0',
-            textAlign: 'center',
-            width: '100%',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}>
-            {m.title}
-          </h3>
-          <p style={{ 
-            fontSize: '14px', 
-            color: '#666',
-            margin: '0',
-            textAlign: 'center' 
-          }}>
-            {m.primaryGenre}
-          </p>
-        </div>
-      ))}
-    </div>
+    <main style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
+      <h1 style={{ textAlign: 'center', paddingTop: '1rem', fontSize: '24px' }}>
+        Movie List
+      </h1>
+
+      {loading && <p style={{ textAlign: 'center' }}>Loading movies...</p>}
+      {error && <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>}
+
+      <div style={containerStyle}>
+        {visibleMovies.map((m) => (
+          <Link
+            key={m.show_id}
+            to={`/movieinfo/${m.show_id}`}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <div
+              style={cardStyle}
+              onMouseEnter={(e) => {
+                Object.assign(e.currentTarget.style, cardHoverStyle);
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = '';
+                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+              }}
+            >
+              <div
+                style={{
+                  width: '100%',
+                  height: '240px',
+                  marginBottom: '10px',
+                  overflow: 'hidden',
+                  borderRadius: '4px',
+                }}
+              >
+                <MoviePoster title={m.title} />
+              </div>
+              <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '5px' }}>
+                {m.title}
+              </h3>
+              <p style={{ fontSize: '14px', color: '#666' }}>{m.primaryGenre}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {isLoadingMore && (
+        <p style={{ textAlign: 'center', paddingBottom: '1rem' }}>Loading more...</p>
+      )}
+    </main>
   );
 }
 

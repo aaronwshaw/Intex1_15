@@ -21,7 +21,7 @@ namespace Intex1_15.API.Controllers
         {
             try
             {
-                var movies = await _context.Movies.Take(10).ToListAsync();
+                var movies = await _context.Movies.ToListAsync();
                 return Ok(movies);
             }
             catch (Exception ex)
