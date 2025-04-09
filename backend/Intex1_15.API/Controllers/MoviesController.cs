@@ -56,6 +56,23 @@ namespace Intex1_15.API.Controllers
                 return StatusCode(500, $"Error retrieving genres: {ex.Message}");
             }
         }
+        
+        [HttpGet("MoviesByGenre")]
+        public IActionResult GetMoviesByGenres([FromQuery] List<string> genres)
+        {
+            var moviesQuery = _context.Movies.AsQueryable();
+
+            if (genres.Any())
+            {
+                moviesQuery = moviesQuery.AsEnumerable()
+                    .Where(m => genres.Contains(m.PrimaryGenre)).AsQueryable();
+            }
+
+            var movies = moviesQuery.ToList();
+
+            return Ok(movies);
+        }
+
 
         //Search for a movie by title
         // GET: api/movies/Search?query=matrix
