@@ -145,3 +145,26 @@ export async function fetchPaginatedMovies(
     return null;
   }
 }
+
+export async function fetchPaginatedMoviesByGenre(
+  genre: string,
+  pageNumber: number,
+  pageSize: number
+) {
+  try {
+    const res = await fetch(
+      `${API_url}/api/Movies/PaginatedByGenre?genre=${encodeURIComponent(
+        genre
+      )}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    if (!res.ok) throw new Error('Failed to fetch genre-filtered movies');
+    return await res.json();
+  } catch (error) {
+    console.error('Error fetching genre movies:', error);
+    return null;
+  }
+}

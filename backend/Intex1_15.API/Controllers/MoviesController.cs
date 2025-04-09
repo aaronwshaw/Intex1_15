@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Intex1_15.API.Data;
 
@@ -182,6 +184,86 @@ namespace Intex1_15.API.Controllers
                 movies
             });
         }
+        
+        private static readonly Dictionary<string, string> GenreMap = new()
+        {
+            { "Action", "action" },
+            { "Adventure", "adventure" },
+            { "Anime Series International TV Shows", "anime" },
+            { "British TV Shows Docuseries International TV Shows", "british" },
+            { "Children", "children" },
+            { "Comedies", "comedies" },
+            { "Comedies Dramas International Movies", "comedies_dramas_int" },
+            { "Comedies International Movies", "comedies_int" },
+            { "Comedies Romantic Movies", "comedies_rom" },
+            { "Crime TV Shows Docuseries", "crime_docu" },
+            { "Documentaries", "documentaries" },
+            { "Documentaries International Movies", "documentaries_int" },
+            { "Docuseries", "docuseries" },
+            { "Dramas", "dramas" },
+            { "Dramas International Movies", "dramas_int" },
+            { "Dramas Romantic Movies", "dramas_rom" },
+            { "Family Movies", "family" },
+            { "Fantasy", "fantasy" },
+            { "Horror Movies", "horror" },
+            { "International Movies Thrillers", "thrillers_int" },
+            { "International TV Shows Romantic TV Shows TV Dramas", "romantic_tv_shows_int" },
+            { "Kids' TV", "kids" },
+            { "Language TV Shows", "language_tv" },
+            { "Musicals", "musicals" },
+            { "Nature TV", "nature" },
+            { "Reality TV", "reality" },
+            { "Spirituality", "spirituality" },
+            { "TV Action", "action_tv" },
+            { "TV Comedies", "tv_comedies" },
+            { "TV Dramas", "tv_dramas" },
+            { "Talk Shows TV Comedies", "talk_shows" },
+            { "Thrillers", "thrillers" }
+        };
+
+        
+        [HttpGet("PaginatedByGenre")]
+        public async Task<ActionResult> GetPaginatedMoviesByGenre(
+            [FromQuery] string genre,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 9)
+        {
+            if (string.IsNullOrWhiteSpace(genre))
+                return BadRequest("Genre is required.");
+
+            // Map the display name to actual property name
+            var propName = GenreMap.TryGetValue(genre, out var mappedName)
+                ? mappedName
+                : genre; // fallback to using raw input
+
+            var genreProperty = typeof(Movie).GetProperty(
+                propName,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance
+            );
+
+            if (genreProperty == null)
+                return BadRequest($"Genre '{genre}' is not valid.");
+
+            // Build expression: m => m.<genre> == 1
+            var param = Expression.Parameter(typeof(Movie), "m");
+            var property = Expression.Property(param, genreProperty);
+            var value = Expression.Constant(1, typeof(int?));
+            var condition = Expression.Equal(property, value);
+            var lambda = Expression.Lambda<Func<Movie, bool>>(condition, param);
+
+            var query = _context.Movies.Where(lambda);
+
+            var totalMovies = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
+
+            var movies = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new { totalPages, movies });
+        }
+
 
 
 
