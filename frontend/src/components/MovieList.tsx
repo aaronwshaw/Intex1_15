@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 
 const PAGE_SIZE = 10;
 
-function MovieList() {
+function MovieList({
+  overrideMovies,
+}: {
+  overrideMovies?: Movie[]; // If provided, we show only these
+}) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number | null>(null);
@@ -17,8 +21,6 @@ function MovieList() {
     if (loading || (totalPages && page > totalPages)) return;
 
     setLoading(true);
-    console.log(`🔄 Loading next batch... (page ${page})`);
-
     const result = await fetchPaginatedMovies(page, PAGE_SIZE);
 
     if (result) {
@@ -29,7 +31,6 @@ function MovieList() {
       });
       setTotalPages(result.totalPages);
       setPage((prev) => prev + 1);
-      console.log(`✅ Loaded page ${page}, total pages: ${result.totalPages}`);
     } else {
       setError('Failed to load movies');
     }
@@ -38,10 +39,12 @@ function MovieList() {
   }, [page, loading, totalPages]);
 
   useEffect(() => {
-    loadMore();
-  }, []);
+    if (!overrideMovies) loadMore();
+  }, [overrideMovies]);
 
   useEffect(() => {
+    if (overrideMovies) return;
+
     const handleScroll = () => {
       const nearBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
@@ -53,24 +56,19 @@ function MovieList() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loadMore, loading, page, totalPages]);
+  }, [loadMore, loading, page, totalPages, overrideMovies]);
+
+  const moviesToRender = overrideMovies ?? movies;
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        minHeight: '100vh',
-        backgroundColor: '#f0f0f0',
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        display: 'block',
-        padding: '1rem',
-      }}
-    >
-      <h1 style={{ textAlign: 'center', fontSize: '24px' }}>Movie List</h1>
+    <main style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
+      <h1 style={{ textAlign: 'center', paddingTop: '1rem', fontSize: '24px' }}>
+        Movie List
+      </h1>
 
       {error && <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>}
-      {!loading && movies.length === 0 && (
+
+      {!loading && moviesToRender.length === 0 && (
         <p style={{ textAlign: 'center' }}>No movies found.</p>
       )}
 
@@ -87,7 +85,7 @@ function MovieList() {
           margin: '0 auto',
         }}
       >
-        {movies.map((m) => (
+        {moviesToRender.map((m) => (
           <Link
             key={m.show_id}
             to={`/movieinfo/${m.show_id}`}
@@ -134,10 +132,10 @@ function MovieList() {
         ))}
       </div>
 
-      {loading && (
+      {loading && !overrideMovies && (
         <p style={{ textAlign: 'center', paddingBottom: '1rem' }}>Loading more...</p>
       )}
-    </div>
+    </main>
   );
 }
 
