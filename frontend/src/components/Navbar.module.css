@@ -1,5 +1,11 @@
 /* Navbar.module.css */
 
+.navLeft {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Staatliches', sans-serif; /* 👈 this is the key line */
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -17,11 +23,6 @@
   margin: 0 auto;
   left: 0;
   right: 0;
-}
-
-.navLeft {
-  font-size: 1.5rem;
-  font-weight: bold;
 }
 
 .navCenter {
