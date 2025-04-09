@@ -12,6 +12,7 @@
   z-index: 1000;
   width: 100vw;
   max-width: 100%;
+  align-items: stretch;
 }
 
 .logo {
@@ -27,20 +28,26 @@
   text-decoration: none;  /* optional: removes underline */
 }
 
-.login-button {
-  background-color: #e50914;
-  border: none;
-  color: white;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.9rem;
-  border-radius: 30px;
-  cursor: pointer;
-  text-decoration: none;
+.nav-login-tab {
+  background-color: white;
+  color: black;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  text-decoration: none;
+  height: 60px;             /* ✅ match navbar height */
+  width: 100px;             /* ✅ hardcoded width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0;         /* ❌ no rounding */
+  transition: background-color 0.3s;
+  cursor: pointer;
+  font-family: 'Staatliches', sans-serif;
+  font-size: 1rem;
 }
 
-.login-button:hover {
-  background-color: #D10026;
-  color: white;
+
+.nav-login-tab:hover {
+  background-color: #e6e6e6;
 }
+
