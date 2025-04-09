@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthorizeView from '../components/AuthorizeView';
 import { searchMovies } from '../api/MoviesApi';
 import MovieList from '../components/MovieList';
+import Navbar from '../components/Navbar';
 
 type Movie = {
   show_id: string;
@@ -33,6 +34,7 @@ function SearchPage() {
 
   return (
     <AuthorizeView>
+      <Navbar />
       <div className="streamlite-page">
         <div className="streamlite-container">
           <h1 className="streamlite-title">Search Movies</h1>
@@ -42,7 +44,11 @@ function SearchPage() {
           </p>
 
           {/* Form for Enter key support */}
-          <form onSubmit={handleSubmit} className="streamlite-full-width streamlite-mb-4" style={{ display: 'flex', gap: '0.5rem' }}>
+          <form
+            onSubmit={handleSubmit}
+            className="streamlite-full-width streamlite-mb-4"
+            style={{ display: 'flex', gap: '0.5rem' }}
+          >
             <input
               type="text"
               placeholder="Enter movie title..."
@@ -84,7 +90,9 @@ function SearchPage() {
                     cursor: 'pointer',
                   }}
                 >
-                  <div className="streamlite-section-content streamlite-hover">{movie.title}</div>
+                  <div className="streamlite-section-content streamlite-hover">
+                    {movie.title}
+                  </div>
                 </li>
               ))}
             </ul>
