@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import {
   fetchTopRatedMovies,
-  fetchMovies,
   fetchGenres,
 } from '../api/MoviesApi';
+import { fetchPaginatedMovies, fetchPaginatedMoviesByGenre } from '../api/IntexAPI';
 import { Movie } from '../types/Movie';
 import styles from './AppWrapper.module.css';
 import {
@@ -15,37 +15,35 @@ import {
 import MovieCarouselSection from '../components/MovieCarouselSection';
 import AuthorizeView from '../components/AuthorizeView';
 
-// TODO: Replace this with real user ID from context/auth
 const mockUserId = 104;
 
 function HomePage() {
   const [topRated, setTopRated] = useState<Movie[]>([]);
   const [recommended, setRecommended] = useState<Movie[]>([]);
   const [genreMovies, setGenreMovies] = useState<Record<string, Movie[]>>({});
-  const [userLikedCarousels, setUserLikedCarousels] = useState<
-    Record<string, Movie[]>
-  >({});
+  const [userLikedCarousels, setUserLikedCarousels] = useState<Record<string, Movie[]>>({});
+  const [visibleCarouselCount, setVisibleCarouselCount] = useState(4);
 
   useEffect(() => {
     const loadAll = async () => {
-      const [top, recs, allMovies, genres, ratings] = await Promise.all([
+      const [top, recs, genreList, ratings] = await Promise.all([
         fetchTopRatedMovies(10),
         getUserRecs(mockUserId),
-        fetchMovies(),
         fetchGenres(),
         getUserRatings(mockUserId),
       ]);
 
       if (top) setTopRated(top);
 
-      if (recs && allMovies?.movies) {
+      if (recs) {
         const recIds = recs.map((r: any) => r.recommendedShow);
-        const fullMovies = allMovies.movies.filter((movie: Movie) =>
-          recIds.includes(movie.show_id)
-        );
-
+        const recPage = await fetchPaginatedMovies(1, 200); // Load enough to match recommended IDs
         const movieById: Record<string, Movie> = {};
-        fullMovies.forEach((m) => (movieById[m.show_id] = m));
+        recPage.movies.forEach((m: Movie) => {
+          if (recIds.includes(m.show_id)) {
+            movieById[m.show_id] = m;
+          }
+        });
 
         const sorted = recs
           .map((r: any) => movieById[r.recommendedShow])
@@ -55,26 +53,27 @@ function HomePage() {
         setRecommended(sorted);
       }
 
-      if (genres && allMovies?.movies) {
+      if (genreList) {
         const genreSections: Record<string, Movie[]> = {};
-        for (const genre of genres) {
-          const filtered = allMovies.movies.filter(
-            (movie: Movie) => movie.primaryGenre === genre
-          );
-          if (filtered.length > 0) {
-            genreSections[genre] = filtered.slice(0, 10);
+      
+        for (const genre of genreList) {
+          const result = await fetchPaginatedMoviesByGenre(genre, 1, 9);
+          if (result && result.movies.length === 9) {
+            genreSections[genre] = result.movies;
           }
         }
+      
         setGenreMovies(genreSections);
       }
 
-      // Create "Because you liked..." carousels using item-based recommendations
-      if (ratings && allMovies?.movies) {
+      if (ratings) {
         const liked = ratings.filter((r) => r.rating >= 3);
         const likedCarousels: Record<string, Movie[]> = {};
 
+        const allMoviePages = await fetchPaginatedMovies(1, 300); // Pull more to cover recs
+
         for (const rating of liked) {
-          const likedMovie = allMovies.movies.find(
+          const likedMovie = allMoviePages.movies.find(
             (m) => m.show_id === rating.show_id
           );
           if (!likedMovie) continue;
@@ -82,7 +81,7 @@ function HomePage() {
           const recs = await getCollabItemRecs(likedMovie.show_id);
           if (!recs) continue;
 
-          const fullRecs = allMovies.movies.filter((m) =>
+          const fullRecs = allMoviePages.movies.filter((m) =>
             recs.includes(m.show_id)
           );
 
@@ -98,14 +97,32 @@ function HomePage() {
     loadAll();
   }, []);
 
+  // Infinite scroll to load more carousels
+  useEffect(() => {
+    const handleScroll = () => {
+      const nearBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+
+      if (nearBottom) {
+        console.log('📦 Loading more carousels...');
+        setVisibleCarouselCount((prev) => prev + 2);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const combinedCarousels = () => {
     const genreEntries = Object.entries(genreMovies);
     const likedEntries = Object.entries(userLikedCarousels);
     const maxLength = Math.max(genreEntries.length, likedEntries.length);
     const combined = [];
 
-    for (let i = 0; i < maxLength; i++) {
-      if (i < likedEntries.length) {
+    let count = 0;
+
+    for (let i = 0; i < maxLength && count < visibleCarouselCount; i++) {
+      if (i < likedEntries.length && count < visibleCarouselCount) {
         const [title, movies] = likedEntries[i];
         combined.push(
           <MovieCarouselSection
@@ -114,8 +131,9 @@ function HomePage() {
             movies={movies}
           />
         );
+        count++;
       }
-      if (i < genreEntries.length) {
+      if (i < genreEntries.length && count < visibleCarouselCount) {
         const [genre, movies] = genreEntries[i];
         combined.push(
           <MovieCarouselSection
@@ -124,6 +142,7 @@ function HomePage() {
             movies={movies}
           />
         );
+        count++;
       }
     }
 
