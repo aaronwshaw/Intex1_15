@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AuthorizeView from '../components/AuthorizeView';
 import { getMovieById } from '../api/MoviesApi';
 import { getContentRecs } from '../api/RecomendationsApi';
-
+import Navbar from '../components/Navbar';
 
 type Movie = {
   show_id: string;
@@ -19,7 +19,7 @@ type Movie = {
 type ContentItem = {
   showId: string;
   recommendedShow: string;
- 
+
   // Add other fields if needed
 };
 
@@ -31,16 +31,15 @@ function MovieInfo() {
   const [loading, setLoading] = useState(true);
   const [recMovies, setRecMovies] = useState<Record<string, Movie>>({});
 
-
   useEffect(() => {
     const fetchMovieAndRecs = async () => {
       if (!show_id) return;
-  
+
       const [fetchedMovie, recs] = await Promise.all([
         getMovieById(show_id),
         getContentRecs(show_id),
       ]);
-  
+
       console.log('Recommendations:', recs); // <--- See what's undefined
       setMovie(fetchedMovie);
       setRecommended(recs);
@@ -55,25 +54,28 @@ function MovieInfo() {
         })
       );
 
-setRecMovies(resolvedMovies);
+      setRecMovies(resolvedMovies);
       setLoading(false);
     };
-  
 
     fetchMovieAndRecs();
   }, [show_id]);
 
   return (
     <AuthorizeView>
+      <Navbar />
       <div className="streamlite-page">
         <div className="streamlite-container">
           {loading ? (
             <p className="streamlite-text-left">Loading movie details...</p>
           ) : movie ? (
             <>
-              <h1 className="streamlite-title">{movie.title} ({movie.release_year})</h1>
+              <h1 className="streamlite-title">
+                {movie.title} ({movie.release_year})
+              </h1>
               <p className="streamlite-intro">
-                <strong>Description:</strong> {movie.description || 'No description available.'}
+                <strong>Description:</strong>{' '}
+                {movie.description || 'No description available.'}
               </p>
               <p className="streamlite-text-left">
                 <strong>Genre:</strong> {movie.primaryGenre || 'Unknown'}
@@ -91,7 +93,9 @@ setRecMovies(resolvedMovies);
               {/* Recommended Movies Section */}
               {recommended && recommended.length > 0 && (
                 <>
-                  <h2 className="streamlite-title streamlite-mt-4">You Might Also Like</h2>
+                  <h2 className="streamlite-title streamlite-mt-4">
+                    You Might Also Like
+                  </h2>
                   <ul className="streamlite-sections streamlite-text-left">
                     {recommended.map((rec) => {
                       const resolved = recMovies[rec.recommendedShow];
@@ -99,7 +103,9 @@ setRecMovies(resolvedMovies);
                         <li
                           key={`${rec.showId}-${rec.recommendedShow}`}
                           className="streamlite-section"
-                          onClick={() => navigate(`/movieinfo/${rec.recommendedShow}`)}
+                          onClick={() =>
+                            navigate(`/movieinfo/${rec.recommendedShow}`)
+                          }
                           style={{ cursor: resolved ? 'pointer' : 'default' }}
                         >
                           <div className="streamlite-section-content">
@@ -111,7 +117,6 @@ setRecMovies(resolvedMovies);
                   </ul>
                 </>
               )}
-
             </>
           ) : (
             <p className="streamlite-text-left">Movie not found.</p>
