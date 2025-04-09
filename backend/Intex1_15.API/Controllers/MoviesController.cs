@@ -3,6 +3,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Intex1_15.API.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Intex1_15.API.Controllers
 {
@@ -19,6 +20,7 @@ namespace Intex1_15.API.Controllers
 
         // GET: api/movies/AllMovies
         [HttpGet("AllMovies")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Movie>>> GetTestMovies()
         {
             try
@@ -35,6 +37,7 @@ namespace Intex1_15.API.Controllers
         //fetch all genres
         // GET: api/movies/GetGenres
         [HttpGet("GetGenres")]
+        [Authorize]
         public IActionResult GetGenres()
         {
             try
@@ -74,6 +77,7 @@ namespace Intex1_15.API.Controllers
         //Search for a movie by title
         // GET: api/movies/Search?query=matrix
         [HttpGet("Search")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Movie>>> SearchMovies([FromQuery] string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -90,6 +94,7 @@ namespace Intex1_15.API.Controllers
         //get information about a specific movie
         // GET: api/movies/{id}
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Movie>> GetMovieById(string id)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -139,6 +144,7 @@ namespace Intex1_15.API.Controllers
         //get recomendations based on a movie they liked
         // GET: api/movies/CollabItems/{showId}
         [HttpGet("CollabItems/{showId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<CollabItem>>> GetCollabItemRecs(string showId)
         {
             var results = await _context.CollabItems
@@ -152,6 +158,7 @@ namespace Intex1_15.API.Controllers
         //get recomendations based on similiar movie descriptions
         // GET: api/movies/ContentItems/{showId}
         [HttpGet("ContentItems/{showId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ContentItem>>> GetContentRecs(string showId)
         {
             var results = await _context.ContentItems
@@ -165,6 +172,7 @@ namespace Intex1_15.API.Controllers
         //Get recomendations based on the specific user
         // GET: api/movies/CollabUsers/{userId}
         [HttpGet("CollabUsers/{userId}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<CollabUser>>> GetUserBasedRecs(int userId)
         {
             var results = await _context.CollabUsers
@@ -182,6 +190,7 @@ namespace Intex1_15.API.Controllers
         // GET: api/movies/Paginated?pageNumber=1&pageSize=10
         // GET: api/movies/Paginated?pageNumber=1&pageSize=10
         [HttpGet("Paginated")]
+        [Authorize]
         public async Task<ActionResult> GetPaginatedMovies([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             if (pageNumber <= 0 || pageSize <= 0)
@@ -240,6 +249,7 @@ namespace Intex1_15.API.Controllers
 
         
         [HttpGet("PaginatedByGenre")]
+        [Authorize]
         public async Task<ActionResult> GetPaginatedMoviesByGenre(
             [FromQuery] string genre,
             [FromQuery] int pageNumber = 1,
@@ -288,6 +298,7 @@ namespace Intex1_15.API.Controllers
         //add a new movie
         // POST: api/movies
         [HttpPost("AddMovie")]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddMovie([FromBody] Movie newMovie)
         {
             // Safely get max numeric ID from existing show_id values
@@ -315,6 +326,7 @@ namespace Intex1_15.API.Controllers
         //Update a movie
         // PUT: api/movies/{id}
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateMovie(string id, [FromBody] Movie updatedMovie)
         {
             if (id != updatedMovie.show_id)
@@ -333,6 +345,7 @@ namespace Intex1_15.API.Controllers
         //Delete a movie
         // DELETE: api/movies/{id}
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMovie(string id)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -349,6 +362,7 @@ namespace Intex1_15.API.Controllers
         //Rate a movie
         // POST: api/Movies/AddRating
         [HttpPost("AddRating")]
+        [Authorize]
         public async Task<IActionResult> AddRating([FromBody] MovieRating rating)
         {
             if (rating == null || string.IsNullOrEmpty(rating.show_id))
@@ -374,6 +388,7 @@ namespace Intex1_15.API.Controllers
         //Delete a rating
         // DELETE: api/Movies/DeleteRating?userId=1&showId=tt123
         [HttpDelete("DeleteRating")]
+        [Authorize]
         public async Task<IActionResult> DeleteRating([FromQuery] int userId, [FromQuery] string showId)
         {
             var rating = await _context.MovieRatings
@@ -390,6 +405,7 @@ namespace Intex1_15.API.Controllers
 
         // GET: api/Movies/UserRatings/4
         [HttpGet("UserRatings/{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetRatingsByUser(int userId)
         {
             var ratings = await _context.MovieRatings
