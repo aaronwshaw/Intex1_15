@@ -4,6 +4,8 @@ import AuthorizeView from '../components/AuthorizeView';
 import { getMovieById } from '../api/MoviesApi';
 import { getContentRecs } from '../api/RecomendationsApi';
 import Navbar from '../components/Navbar';
+import MoviePoster from '../components/MoviePoster';
+import MovieCarouselSection from '../components/MovieCarouselSection';
 
 type Movie = {
   show_id: string;
@@ -19,8 +21,6 @@ type Movie = {
 type ContentItem = {
   showId: string;
   recommendedShow: string;
-
-  // Add other fields if needed
 };
 
 function MovieInfo() {
@@ -40,11 +40,10 @@ function MovieInfo() {
         getContentRecs(show_id),
       ]);
 
-      console.log('Recommendations:', recs); // <--- See what's undefined
       setMovie(fetchedMovie);
       setRecommended(recs);
-      const resolvedMovies: Record<string, Movie> = {};
 
+      const resolvedMovies: Record<string, Movie> = {};
       await Promise.all(
         recs.map(async (rec) => {
           if (rec.recommendedShow) {
@@ -64,73 +63,62 @@ function MovieInfo() {
   return (
     <AuthorizeView>
       <Navbar />
-      <div className="streamlite-page">
-        <div className="streamlite-container">
-          {loading ? (
-            <p className="streamlite-text-left">Loading movie details...</p>
-          ) : movie ? (
-            <>
-              <h1 className="streamlite-title">
-                {movie.title} ({movie.release_year})
-              </h1>
-              <p className="streamlite-intro">
-                <strong>Description:</strong>{' '}
-                {movie.description || 'No description available.'}
-              </p>
-              <p className="streamlite-text-left">
-                <strong>Genre:</strong> {movie.primaryGenre || 'Unknown'}
-              </p>
-              <p className="streamlite-text-left">
-                <strong>Director:</strong> {movie.director || 'Unknown'}
-              </p>
-              <p className="streamlite-text-left">
-                <strong>Cast:</strong> {movie.cast || 'Unknown'}
-              </p>
-              <p className="streamlite-text-left">
-                <strong>Duration:</strong> {movie.duration || 'Unknown'}
-              </p>
+      <main style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+        {loading ? (
+          <p style={{ textAlign: 'center' }}>Loading movie details...</p>
+        ) : movie ? (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+              <MoviePoster title={movie.title} width={240} height={360} />
+            </div>
 
-              {/* Recommended Movies Section */}
-              {recommended && recommended.length > 0 && (
-                <>
-                  <h2 className="streamlite-title streamlite-mt-4">
-                    You Might Also Like
-                  </h2>
-                  <ul className="streamlite-sections streamlite-text-left">
-                    {recommended.map((rec) => {
-                      const resolved = recMovies[rec.recommendedShow];
-                      return (
-                        <li
-                          key={`${rec.showId}-${rec.recommendedShow}`}
-                          className="streamlite-section"
-                          onClick={() =>
-                            navigate(`/movieinfo/${rec.recommendedShow}`)
-                          }
-                          style={{ cursor: resolved ? 'pointer' : 'default' }}
-                        >
-                          <div className="streamlite-section-content">
-                            {resolved ? resolved.title : <em>Loading...</em>}
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </>
-              )}
-            </>
-          ) : (
-            <p className="streamlite-text-left">Movie not found.</p>
-          )}
+            <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+              {movie.title} ({movie.release_year})
+            </h1>
+            <p style={{ marginBottom: '1rem' }}>
+              <strong>Description:</strong> {movie.description || 'No description available.'}
+            </p>
+            <p>
+              <strong>Genre:</strong> {movie.primaryGenre || 'Unknown'}
+            </p>
+            <p>
+              <strong>Director:</strong> {movie.director || 'Unknown'}
+            </p>
+            <p>
+              <strong>Cast:</strong> {movie.cast || 'Unknown'}
+            </p>
+            <p style={{ marginBottom: '2rem' }}>
+              <strong>Duration:</strong> {movie.duration || 'Unknown'}
+            </p>
 
-          <p
-            onClick={() => navigate('/home')}
-            style={{ cursor: 'pointer' }}
-            className="streamlite-footer streamlite-hover"
-          >
-            Return
-          </p>
-        </div>
-      </div>
+            {/* Recommended Movies Section */}
+            {recommended && recommended.length > 0 && (
+              <MovieCarouselSection
+                title="You Might Also Like"
+                movies={recommended
+                  .map((rec) => recMovies[rec.recommendedShow])
+                  .filter((movie): movie is Movie => !!movie)}
+              />
+            )}
+
+
+            <p
+              onClick={() => navigate('/home')}
+              style={{
+                marginTop: '2rem',
+                cursor: 'pointer',
+                color: '#3b82f6',
+                textDecoration: 'underline',
+                textAlign: 'center',
+              }}
+            >
+              Return
+            </p>
+          </>
+        ) : (
+          <p style={{ textAlign: 'center' }}>Movie not found.</p>
+        )}
+      </main>
     </AuthorizeView>
   );
 }
