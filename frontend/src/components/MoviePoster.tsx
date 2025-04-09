@@ -1,4 +1,3 @@
-// src/components/MoviePoster.tsx
 import { useState } from 'react';
 
 interface MoviePosterProps {
@@ -10,9 +9,16 @@ interface MoviePosterProps {
 const MoviePoster = ({ title, width = 200, height = 300 }: MoviePosterProps) => {
   const [failed, setFailed] = useState(false);
 
+  const normalizeTitleToMatchBlob = (title: string) => {
+    return title
+      .replace(/[^a-zA-Z0-9 ]/g, '') // remove special characters but keep existing spaces
+      .replace(/ /g, '%20');         // replace each space with %20 (including double spaces)
+  };
+  
+
   const getPosterUrl = (title: string) => {
-    const encoded = encodeURIComponent(`${title}.jpg`);
-    return `https://posterstorage115.blob.core.windows.net/posters/Movie%20Posters/${encoded}`;
+    const normalized = normalizeTitleToMatchBlob(title);
+    return `https://posterstorage115.blob.core.windows.net/posters/Movie%20Posters/${normalized}.jpg`;
   };
 
   if (failed) {
