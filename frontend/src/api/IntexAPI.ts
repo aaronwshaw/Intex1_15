@@ -24,13 +24,35 @@ export async function registerUser(email: string, password: string) {
       body: JSON.stringify({ email, password }),
     });
 
-    // Check if the response is OK
     if (!response.ok) {
-      throw new Error('Error registering.');
+      const contentType = response.headers.get('Content-Type') || '';
+      let errorMessage = 'Error registering.';
+
+      if (contentType.includes('application/json')) {
+        const errorBody = await response.json();
+
+        if (errorBody.errors) {
+          // Flatten and join all error messages
+          const messages = Object.values(errorBody.errors).flat().join(' ');
+          errorMessage = messages || errorMessage;
+        } else if (errorBody.title) {
+          errorMessage = errorBody.title;
+        }
+      } else {
+        const errorText = await response.text();
+        if (errorText) errorMessage = errorText;
+      }
+
+      throw new Error(errorMessage);
     }
 
-    // Parse the response
-    const data = await response.json();
+    // Handle successful registration (response might be empty)
+    const contentType = response.headers.get('Content-Type') || '';
+    let data = null;
+    if (contentType.includes('application/json')) {
+      data = await response.json();
+    }
+
     return { ok: true, data };
   } catch (error) {
     console.error('Registration error:', error);
@@ -142,6 +164,29 @@ export async function fetchPaginatedMovies(
   } catch (error) {
     console.error('Error fetching paginated movies:', error);
     toast.error('Error loading movies');
+    return null;
+  }
+}
+
+export async function fetchPaginatedMoviesByGenre(
+  genre: string,
+  pageNumber: number,
+  pageSize: number
+) {
+  try {
+    const res = await fetch(
+      `${API_url}/api/Movies/PaginatedByGenre?genre=${encodeURIComponent(
+        genre
+      )}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    if (!res.ok) throw new Error('Failed to fetch genre-filtered movies');
+    return await res.json();
+  } catch (error) {
+    console.error('Error fetching genre movies:', error);
     return null;
   }
 }

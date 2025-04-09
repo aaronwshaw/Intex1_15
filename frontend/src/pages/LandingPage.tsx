@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Carousel from 'react-bootstrap/Carousel';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import '../styles/LandingPage.css';
-
-import MoviePoster from '../components/MoviePoster';
 import { fetchTopRatedMovies } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import HeroCarousel from '../components/landing/HeroCarousel';
 import MovieCarouselSection from '../components/MovieCarouselSection';
+import PricingPlans from '../components/landing/PricingPlans';
+import FloatingTrialButton from '../components/landing/FloatingTrialButton';
+
+import styles from '../styles/LandingPage.module.css'; // ✅ Use CSS module
 
 const LandingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -79,114 +79,15 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="landing-container">
+    <div className={styles.landingContainer}>
       <Header />
-
-      <div className="hero-section">
-        <div className="carousel-wrapper">
-          <Carousel controls={false} indicators={false} fade interval={4000} pause="hover">
-            {topMovies.map((movie) => (
-              <Carousel.Item key={movie.show_id}>
-                <div className="carousel-bg" style={{ overflow: 'hidden' }}>
-                  <MoviePoster title={movie.title} width={1280} height={720} />
-                </div>
-              </Carousel.Item>
-            ))}
-          </Carousel>
-
-          <div className="hero-content">
-            <h1 className="hero-title">Unlimited Movies, TV Shows, and More.</h1>
-            <p className="hero-subtitle">Personalized entertainment at your fingertips.</p>
-            <div className="email-form">
-              <Link to="/login" className="btn btn-danger">Get Started</Link>
-            </div>
-          </div>
-
-          <div className="overlay" />
-        </div>
-      </div>
-
-      {/* Ensure content below the hero appears after full screen height */}
+      <HeroCarousel movies={topMovies} />
       <div style={{ marginTop: '100vh' }} />
-
-      <div className="scroll-content">
+      <div className={styles.scrollContent}>
         <MovieCarouselSection title="Top Rated" movies={topMovies} />
-
-        <section id="plans" className="subscription-container text-center reveal">
-          <h2 className="section-title">Choose Your Plan</h2>
-          <div className="billing-toggle">
-            <span>Monthly</span>
-            <label className="switch">
-              <input type="checkbox" checked={isAnnual} onChange={toggleBilling} />
-              <span className="slider round"></span>
-            </label>
-            <span>Annual</span>
-          </div>
-
-          <table className="plan-table">
-            <thead>
-              <tr>
-                <th>Features</th>
-                {plans.map((plan) => (
-                  <th key={plan.name} className={`plan-header ${plan.mostPopular ? 'most-popular' : ''}`}>
-                    {plan.mostPopular && (
-                      <div className="ribbon"><span>Most Popular</span></div>
-                    )}
-                    {plan.name}
-                    <br />
-                    <span>{isAnnual ? plan.annualPrice : plan.monthlyPrice}</span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Number of Devices</td>
-                {plans.map((plan) => <td key={plan.name}>{plan.features.devices}</td>)}
-              </tr>
-              <tr>
-                <td>Ad-Free Streaming</td>
-                {plans.map((plan) => (
-                  <td key={plan.name}>{plan.features.adFree ? 'Yes' : 'No'}</td>
-                ))}
-              </tr>
-              <tr>
-                <td>Offline Downloads</td>
-                {plans.map((plan) => (
-                  <td key={plan.name}>{plan.features.downloads ? 'Yes' : 'No'}</td>
-                ))}
-              </tr>
-              <tr>
-                <td>HD Available</td>
-                {plans.map((plan) => (
-                  <td key={plan.name}>{plan.features.hd ? 'Yes' : 'No'}</td>
-                ))}
-              </tr>
-              <tr>
-                <td>4K + HDR</td>
-                {plans.map((plan) => (
-                  <td key={plan.name}>{plan.features.ultraHD ? 'Yes' : 'No'}</td>
-                ))}
-              </tr>
-              <tr>
-                <td></td>
-                {plans.map((plan) => (
-                  <td key={plan.name}>
-                    <Link to="/login" className="btn btn-danger">
-                      Select {plan.name}
-                    </Link>
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </section>
+        <PricingPlans isAnnual={isAnnual} toggleBilling={toggleBilling} plans={plans} />
       </div>
-
-      <button className="floating-trial-button" onClick={scrollToPlans}>
-        Start Free Trial
-      </button>
-
+      <FloatingTrialButton onClick={scrollToPlans} />
       <Footer />
     </div>
   );
