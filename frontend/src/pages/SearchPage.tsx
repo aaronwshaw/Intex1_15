@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthorizeView from '../components/AuthorizeView';
 import { searchMovies } from '../api/MoviesApi';
+import MovieList from '../components/MovieList';
 
 type Movie = {
   show_id: string;
@@ -10,6 +11,7 @@ type Movie = {
 };
 
 function SearchPage() {
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Movie[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -91,6 +93,7 @@ function SearchPage() {
           ) : null}
         </div>
       </div>
+      <MovieList selectedGenres={selectedGenres} />
     </AuthorizeView>
   );
 }
