@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchMovies } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
 import MoviePoster from '../components/MoviePoster';
+import { Link } from 'react-router-dom';
 
 const BATCH_SIZE = 10;
 
@@ -27,7 +28,6 @@ function MovieList() {
     loadMovies();
   }, []);
 
-  // Scroll listener
   useEffect(() => {
     const handleScroll = () => {
       const nearBottom =
@@ -38,7 +38,7 @@ function MovieList() {
         setTimeout(() => {
           setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, movies.length));
           setIsLoadingMore(false);
-        }, 500); // Simulate network delay
+        }, 500);
       }
     };
 
@@ -48,7 +48,6 @@ function MovieList() {
 
   const visibleMovies = movies.slice(0, visibleCount);
 
-  // Layout styling
   const containerStyle = {
     display: 'flex',
     flexWrap: 'wrap',
@@ -91,33 +90,38 @@ function MovieList() {
 
       <div style={containerStyle}>
         {visibleMovies.map((m) => (
-          <div
+          <Link
             key={m.show_id}
-            style={cardStyle}
-            onMouseEnter={(e) => {
-              Object.assign(e.currentTarget.style, cardHoverStyle);
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = '';
-              e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-            }}
+            to={`/movieinfo/${m.show_id}`}
+            style={{ textDecoration: 'none', color: 'inherit' }}
           >
             <div
-              style={{
-                width: '100%',
-                height: '240px',
-                marginBottom: '10px',
-                overflow: 'hidden',
-                borderRadius: '4px',
+              style={cardStyle}
+              onMouseEnter={(e) => {
+                Object.assign(e.currentTarget.style, cardHoverStyle);
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = '';
+                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
               }}
             >
-              <MoviePoster title={m.title} />
+              <div
+                style={{
+                  width: '100%',
+                  height: '240px',
+                  marginBottom: '10px',
+                  overflow: 'hidden',
+                  borderRadius: '4px',
+                }}
+              >
+                <MoviePoster title={m.title} />
+              </div>
+              <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '5px' }}>
+                {m.title}
+              </h3>
+              <p style={{ fontSize: '14px', color: '#666' }}>{m.primaryGenre}</p>
             </div>
-            <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '5px' }}>
-              {m.title}
-            </h3>
-            <p style={{ fontSize: '14px', color: '#666' }}>{m.primaryGenre}</p>
-          </div>
+          </Link>
         ))}
       </div>
 
