@@ -146,7 +146,7 @@ namespace Intex1_15.API.Controllers
         //Get recomendations based on the specific user
         // GET: api/movies/CollabUsers/{userId}
         [HttpGet("CollabUsers/{userId}")]
-        public async Task<ActionResult<IEnumerable<CollabUser>>> GetUserBasedRecs(string userId)
+        public async Task<ActionResult<IEnumerable<CollabUser>>> GetUserBasedRecs(int userId)
         {
             var results = await _context.CollabUsers
                 .Where(x => x.UserId == userId)

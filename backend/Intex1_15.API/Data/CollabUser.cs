@@ -9,7 +9,7 @@ namespace Intex1_15.API.Data
     {
         [Key]
         [Column("user_id", Order = 0)]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         [Key]
         [Column("recommended_show_id", Order = 1)]
