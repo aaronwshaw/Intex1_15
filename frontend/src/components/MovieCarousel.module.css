@@ -1,0 +1,41 @@
+/* MovieCarousel.module.css */
+
+.carouselContainer {
+    max-width: 1200px;
+    margin: 0 auto; /* ✅ recenters the whole section */
+    padding: 1rem;
+  }
+  
+  .carouselTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  .scrollRow {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    scroll-behavior: smooth;
+    padding-bottom: 0.5rem;
+  }
+  
+  .scrollRow::-webkit-scrollbar {
+    display: none; /* ✅ hides the scrollbar */
+  }
+  
+  .movieCard {
+    flex: 0 0 auto;
+    width: 200px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .movieTitle {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
