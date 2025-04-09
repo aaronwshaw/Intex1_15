@@ -1,63 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
 .cineniche-header {
-    width: 100%;
-    background: transparent !important;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    position: sticky;
-    top: 0;
-  }
-  
-  .logo {
-    font-size: 2rem;
-    font-weight: 900;
-    color: #7adbfb !important;
-    text-decoration: none !important;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    margin: 0;
-  }
-  
-  .logo:hover {
-    text-shadow: 0 0 12px rgba(93, 193, 255, 0.8);
-    transform: scale(1.05);
-  }
-  
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-  }
-  
-  .search-container {
-    position: relative;
-  }
-  
-  .search-bar {
-    width: 200px;
-    background-color: #1c1c1c;
-    border: 1px solid #444;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 4px;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .search-bar:focus {
-    outline: none;
-    box-shadow: 0 0 10px #7adbfb;
-  }
-  
-  .login-button {
-    font-weight: 600;
-    border-radius: 4px;
-    padding: 6px 14px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .login-button:hover {
-    background-color: #e60000;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background-color: #141414;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100vw;
+  max-width: 100%;
+}
+
+.logo {
+  font-family: 'Staatliches', sans-serif;
+  font-size: 2rem;
+  font-weight: normal;
+  color: white;
+  text-decoration: none;
+}
+
+.logo:hover{
+  color: #e50914;           /* ✅ no purple on hover or visited */
+  text-decoration: none;  /* optional: removes underline */
+}
+
+.login-button {
+  background-color: #e50914;
+  border: none;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #D10026;
+  color: white;
+}

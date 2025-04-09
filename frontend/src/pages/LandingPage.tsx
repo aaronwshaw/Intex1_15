@@ -87,7 +87,11 @@ const LandingPage: React.FC = () => {
       <div style={{ marginTop: '100vh' }} />
       <div className={styles.scrollContent}>
         <MovieCarouselSection title="Top Rated" movies={topMovies} />
-        <PricingPlans isAnnual={isAnnual} toggleBilling={toggleBilling} plans={plans} />
+        <PricingPlans
+          isAnnual={isAnnual}
+          toggleBilling={toggleBilling}
+          plans={plans}
+        />
       </div>
       <FloatingTrialButton onClick={scrollToPlans} />
       <Footer />
