@@ -1,70 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Boldonse&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@300;400;500;700&display=swap');
 
-/* Remove the root styling that's interfering with your layout */
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
-
-/* Keep only the specific styles you need */
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+  font-family: 'Netflix Sans', Arial, sans-serif;
+  background-color: black;
+  color: white;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-/* These utility classes can stay, but make sure they don't conflict with Tailwind */
-.card {
-  padding: 1em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-/* Use more specific selectors for these to prevent unwanted styling */
-.custom-row {
-  background-color: white;
-}
-
-.logout-button {
-  color: #fff;
-  font-size: large;
-  font-weight: bold;
-}
-
-.results-count {
-  margin: 1em;
-}
-
-.rk-header {
-  font-family: 'Boldonse', system-ui;
-  font-weight: 200;
-  font-style: normal;
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
