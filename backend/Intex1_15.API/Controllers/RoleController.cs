@@ -6,7 +6,7 @@ namespace Intex1_15.API.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-[Authorize(Roles = "Administrator")]
+[Authorize(Roles = "Admin")]
 public class RoleController : Controller
 {
     private readonly RoleManager<IdentityRole> _roleManager;
