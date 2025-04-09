@@ -1,17 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AuthorizeView from '../components/AuthorizeView';
-import { searchMovies } from '../api/MoviesApi';
+import { searchMovies, fetchMoviesByGenres } from '../api/MoviesApi';
 import MovieList from '../components/MovieList';
 import Navbar from '../components/Navbar';
+import GenreFilter from '../components/GenreFilter';
 
 function SearchPage() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [showGenreFilter, setShowGenreFilter] = useState(false);
 
   const handleSearch = async () => {
     if (!query.trim()) {
-      setResults(null); // Show regular movie list
+      setResults(null);
       return;
     }
 
@@ -25,6 +28,21 @@ function SearchPage() {
     e.preventDefault();
     handleSearch();
   };
+
+  useEffect(() => {
+    const fetchFilteredMovies = async () => {
+      if (selectedGenres.length === 0) {
+        setResults(null);
+        return;
+      }
+      setLoading(true);
+      const movies = await fetchMoviesByGenres(selectedGenres);
+      setResults(movies);
+      setLoading(false);
+    };
+
+    fetchFilteredMovies();
+  }, [selectedGenres]);
 
   return (
     <AuthorizeView>
@@ -59,6 +77,27 @@ function SearchPage() {
               Search
             </button>
           </form>
+
+          <button
+            onClick={() => setShowGenreFilter(!showGenreFilter)}
+            style={{
+              marginTop: '1rem',
+              padding: '0.5rem 1rem',
+              backgroundColor: '#6b7280',
+              color: 'white',
+              borderRadius: '0.5rem',
+              fontWeight: 600,
+            }}
+          >
+            {showGenreFilter ? 'Hide Genre Filter' : 'Filter by Genre'}
+          </button>
+
+          {showGenreFilter && (
+            <GenreFilter
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
+            />
+          )}
 
           {loading && <p>Loading...</p>}
         </div>
