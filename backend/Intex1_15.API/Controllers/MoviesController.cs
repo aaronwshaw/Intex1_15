@@ -289,6 +289,21 @@ namespace Intex1_15.API.Controllers
             return NoContent();
         }
 
+        // GET: api/Movies/UserRatings/4
+        [HttpGet("UserRatings/{userId}")]
+        public async Task<IActionResult> GetRatingsByUser(int userId)
+        {
+            var ratings = await _context.MovieRatings
+                .Where(r => r.user_id == userId)
+                .ToListAsync();
+
+            if (ratings == null || !ratings.Any())
+                return NotFound($"No ratings found for user {userId}");
+
+            return Ok(ratings);
+        }
+
+
 
     }
 }

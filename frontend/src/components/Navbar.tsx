@@ -22,11 +22,14 @@ function Navbar() {
       <div className={styles.navLeft}>MovieApp</div>
 
       <div className={styles.navCenter}>
-        <Link to="/" className={styles.navLink}>
+        <Link to="/home" className={styles.navLink}>
           Home
         </Link>
         <Link to="/search" className={styles.navLink}>
           Search
+        </Link>
+        <Link to="/admin" className={styles.navLink}>
+          Admin
         </Link>
       </div>
 
