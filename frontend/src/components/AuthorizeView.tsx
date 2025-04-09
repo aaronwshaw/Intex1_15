@@ -4,6 +4,7 @@ import { pingAuth } from '../api/IntexAPI';
 
 interface User {
   email: string;
+  roles: string[];
 }
 
 // ✅ Export the context so other files can import it
@@ -12,13 +13,13 @@ export const UserContext = createContext<User | null>(null);
 function AuthorizeView(props: { children: React.ReactNode }) {
   const [authorized, setAuthorized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<User>({ email: '' });
+  const [user, setUser] = useState<User>({ email: '', roles: [] });
 
   useEffect(() => {
     async function authorizeUser() {
       const result = await pingAuth();
       if (result.ok) {
-        setUser({ email: result.email });
+        setUser({ email: result.email, roles: result.roles });
         setAuthorized(true);
       } else {
         setAuthorized(false);

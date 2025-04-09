@@ -24,13 +24,35 @@ export async function registerUser(email: string, password: string) {
       body: JSON.stringify({ email, password }),
     });
 
-    // Check if the response is OK
     if (!response.ok) {
-      throw new Error('Error registering.');
+      const contentType = response.headers.get('Content-Type') || '';
+      let errorMessage = 'Error registering.';
+
+      if (contentType.includes('application/json')) {
+        const errorBody = await response.json();
+
+        if (errorBody.errors) {
+          // Flatten and join all error messages
+          const messages = Object.values(errorBody.errors).flat().join(' ');
+          errorMessage = messages || errorMessage;
+        } else if (errorBody.title) {
+          errorMessage = errorBody.title;
+        }
+      } else {
+        const errorText = await response.text();
+        if (errorText) errorMessage = errorText;
+      }
+
+      throw new Error(errorMessage);
     }
 
-    // Parse the response
-    const data = await response.json();
+    // Handle successful registration (response might be empty)
+    const contentType = response.headers.get('Content-Type') || '';
+    let data = null;
+    if (contentType.includes('application/json')) {
+      data = await response.json();
+    }
+
     return { ok: true, data };
   } catch (error) {
     console.error('Registration error:', error);
@@ -84,8 +106,6 @@ export async function pingAuth() {
     });
 
     const contentType = response.headers.get('content-type');
-
-    // Check if response is valid JSON
     if (!contentType || !contentType.includes('application/json')) {
       throw new Error('Invalid response format from server');
     }
@@ -93,7 +113,7 @@ export async function pingAuth() {
     const data = await response.json();
 
     if (data.email) {
-      return { ok: true, email: data.email };
+      return { ok: true, email: data.email, roles: data.roles ?? [] };
     } else {
       throw new Error('Invalid user session');
     }
