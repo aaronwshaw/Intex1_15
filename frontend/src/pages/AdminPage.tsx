@@ -6,6 +6,7 @@ import { fetchPaginatedMovies } from '../api/IntexAPI';
 import { searchMovies } from '../api/MoviesApi';
 import { toast } from 'react-toastify';
 import NewMovieForm from '../components/NewMovieForm';
+import Navbar from '../components/Navbar';
 
 function AdminPage() {
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +23,11 @@ function AdminPage() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+
+  // Track which posters failed to load
+  const [failedPosters, setFailedPosters] = useState<Record<string, boolean>>(
+    {}
+  );
 
   useEffect(() => {
     if (isSearching) return;
@@ -44,6 +50,11 @@ function AdminPage() {
     loadMovies();
   }, [currentPage, pageSize, isSearching]);
 
+  const getPosterUrl = (title: string) => {
+    const encoded = encodeURIComponent(`${title}.jpg`);
+    return `https://posterstorage115.blob.core.windows.net/posters/Movie%20Posters/${encoded}`;
+  };
+
   const handleEditClick = (movie: Movie) => {
     setEditingMovie(movie);
     setEditedMovie({ ...movie });
@@ -58,7 +69,11 @@ function AdminPage() {
     try {
       const success = await updateMovie(show_id, editedMovie as Movie);
       if (success) {
-        setMovies(movies.map((m) => (m.show_id === show_id ? { ...m, ...editedMovie } : m)));
+        setMovies(
+          movies.map((m) =>
+            m.show_id === show_id ? { ...m, ...editedMovie } : m
+          )
+        );
         setEditingMovie(null);
         setEditedMovie({});
       } else {
@@ -70,7 +85,9 @@ function AdminPage() {
   };
 
   const handleDelete = async (show_id: string) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this movie?');
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this movie?'
+    );
     if (!confirmDelete) return;
 
     try {
@@ -116,6 +133,7 @@ function AdminPage() {
 
   return (
     <AuthorizeView>
+      <Navbar />
       <h1>Welcome, Admin!</h1>
 
       {/* 🔍 Search Input */}
@@ -170,7 +188,10 @@ function AdminPage() {
       </div>
 
       {!showForm && (
-        <button className="btn btn-success mb-3" onClick={() => setShowForm(true)}>
+        <button
+          className="btn btn-success mb-3"
+          onClick={() => setShowForm(true)}
+        >
           Add Projects
         </button>
       )}
@@ -192,17 +213,31 @@ function AdminPage() {
       {editingMovie ? (
         <div className="card p-3 mb-4">
           <h3>Editing: {editingMovie.title}</h3>
-          {['title', 'type', 'director', 'country', 'release_year', 'rating', 'duration', 'primaryGenre'].map((field) => (
+          {[
+            'title',
+            'type',
+            'director',
+            'country',
+            'release_year',
+            'rating',
+            'duration',
+            'primaryGenre',
+          ].map((field) => (
             <div className="mb-2" key={field}>
               <label>{field.replace('_', ' ').toUpperCase()}</label>
               <input
                 value={editedMovie[field as keyof Movie] || ''}
-                onChange={(e) => handleChange(field as keyof Movie, e.target.value)}
+                onChange={(e) =>
+                  handleChange(field as keyof Movie, e.target.value)
+                }
                 className="form-control mb-2"
               />
             </div>
           ))}
-          <button className="btn btn-success me-2" onClick={() => handleSaveEdit(editingMovie.show_id)}>
+          <button
+            className="btn btn-success me-2"
+            onClick={() => handleSaveEdit(editingMovie.show_id)}
+          >
             Save
           </button>
           <button className="btn btn-secondary" onClick={handleCancelEdit}>
@@ -214,6 +249,7 @@ function AdminPage() {
           <table className="table table-bordered table-striped">
             <thead className="table-dark">
               <tr>
+                <th>Poster</th>
                 <th>Title</th>
                 <th>Type</th>
                 <th>Director</th>
@@ -228,6 +264,40 @@ function AdminPage() {
             <tbody>
               {movies.map((m) => (
                 <tr key={m.show_id}>
+                  <td style={{ width: '100px' }}>
+                    {!failedPosters[m.title] ? (
+                      <img
+                        src={getPosterUrl(m.title)}
+                        alt={`${m.title} poster`}
+                        style={{
+                          width: '80px',
+                          height: '120px',
+                          objectFit: 'cover',
+                        }}
+                        onError={() =>
+                          setFailedPosters((prev) => ({
+                            ...prev,
+                            [m.title]: true,
+                          }))
+                        }
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: '80px',
+                          height: '120px',
+                          backgroundColor: '#ccc',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.75rem',
+                          color: '#666',
+                        }}
+                      >
+                        No Image
+                      </div>
+                    )}
+                  </td>
                   <td>{m.title}</td>
                   <td>{m.type}</td>
                   <td>{m.director}</td>
@@ -237,10 +307,16 @@ function AdminPage() {
                   <td>{m.duration}</td>
                   <td>{m.primaryGenre}</td>
                   <td>
-                    <button className="btn btn-primary btn-sm w-100 mb-1" onClick={() => handleEditClick(m)}>
+                    <button
+                      className="btn btn-primary btn-sm w-100 mb-1"
+                      onClick={() => handleEditClick(m)}
+                    >
                       Edit
                     </button>
-                    <button className="btn btn-danger btn-sm w-100" onClick={() => handleDelete(m.show_id)}>
+                    <button
+                      className="btn btn-danger btn-sm w-100"
+                      onClick={() => handleDelete(m.show_id)}
+                    >
                       Delete
                     </button>
                   </td>
@@ -249,13 +325,19 @@ function AdminPage() {
             </tbody>
           </table>
 
-          {/* ⏩ Condensed Pagination */}
           {!isSearching && (
             <div className="d-flex justify-content-center mt-4">
               <nav>
                 <ul className="pagination">
-                  <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                    <button className="page-link" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}>
+                  <li
+                    className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(prev - 1, 1))
+                      }
+                    >
                       Previous
                     </button>
                   </li>
@@ -268,17 +350,24 @@ function AdminPage() {
                       {page === '...' ? (
                         <span className="page-link">…</span>
                       ) : (
-                        <button className="page-link" onClick={() => setCurrentPage(Number(page))}>
+                        <button
+                          className="page-link"
+                          onClick={() => setCurrentPage(Number(page))}
+                        >
                           {page}
                         </button>
                       )}
                     </li>
                   ))}
 
-                  <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                  <li
+                    className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+                  >
                     <button
                       className="page-link"
-                      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                      }
                     >
                       Next
                     </button>

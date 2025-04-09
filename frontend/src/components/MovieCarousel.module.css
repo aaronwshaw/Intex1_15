@@ -1,0 +1,60 @@
+.carouselContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative; /* Needed for button positioning */
+}
+
+.carouselTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.scrollRow {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  scroll-behavior: smooth;
+  padding-bottom: 0.5rem;
+}
+
+.scrollRow::-webkit-scrollbar {
+  display: none;
+}
+
+.movieCard {
+  flex: 0 0 auto;
+  width: 200px;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+}
+
+.movieTitle {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.scrollButton {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background: rgba(20, 20, 20, 0.7);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.leftButton {
+  left: 0;
+}
+
+.rightButton {
+  right: 0;
+}

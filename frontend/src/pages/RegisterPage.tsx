@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/IntexAPI';
+import '../styles/Identity.css';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -50,7 +51,7 @@ function Register() {
   };
 
   return (
-    <div className="container">
+    <div className="login-page full-height d-flex justify-content-center align-items-center">
       <div className="row">
         <div className="card border-0 shadow rounded-3">
           <div className="card-body p-4 p-sm-5">
@@ -100,7 +101,7 @@ function Register() {
               </div>
               <div className="d-grid mb-2">
                 <button
-                  className="btn btn-primary btn-login text-uppercase fw-bold"
+                  className="btn btn-primary btn-google text-uppercase fw-bold"
                   onClick={handleLoginClick}
                 >
                   Go to Login

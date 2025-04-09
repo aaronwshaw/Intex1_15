@@ -1,0 +1,39 @@
+:root {
+    --blue-main: #0063e5;
+    --blue-hover: #1f80e0;
+    --background: #0b0c0f;
+    --text-light: #ffffff;
+    --text-muted: #bbbbbb;
+    --accent-dark: #1c1c1c;
+  }
+  
+  .landingContainer {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    color: white;
+    background-color: var(--background);
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .scrollContent {
+    position: relative;
+    z-index: 4;
+    padding: 4rem 1.5rem;
+    background-color: var(--background);
+  }
+  
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  

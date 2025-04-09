@@ -11,11 +11,11 @@ namespace Intex1_15.API.Data
         public string ShowId { get; set; }
 
         [Key]
-        [Column("recommended_show", Order = 1)]
+        [Column("recommended_show_id", Order = 1)]
         public string RecommendedShow { get; set; }
 
         [Required]
-        [Column("rank")]
-        public double Rank { get; set; }
+        [Column("similarity_score")]
+        public int Rank { get; set; }
     }
 }

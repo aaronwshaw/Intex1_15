@@ -19,6 +19,38 @@
   min-width: 400px;
 }
 
+.login-page.full-height {
+  height: 100vh;
+}
+
+.login-page .card {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.login-page .card-body {
+  padding: 2rem;
+}
+.login-page .card-body h5 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+.login-page .card-body p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.login-page .card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+.login-page .card-header h5 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
 .error {
   color: red;
   font-weight: bold;

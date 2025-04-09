@@ -21,7 +21,7 @@ namespace Intex1_15.API.Controllers
         {
             try
             {
-                var movies = await _context.Movies.Take(10).ToListAsync();
+                var movies = await _context.Movies.ToListAsync();
                 return Ok(movies);
             }
             catch (Exception ex)
@@ -146,7 +146,7 @@ namespace Intex1_15.API.Controllers
         //Get recomendations based on the specific user
         // GET: api/movies/CollabUsers/{userId}
         [HttpGet("CollabUsers/{userId}")]
-        public async Task<ActionResult<IEnumerable<CollabUser>>> GetUserBasedRecs(string userId)
+        public async Task<ActionResult<IEnumerable<CollabUser>>> GetUserBasedRecs(int userId)
         {
             var results = await _context.CollabUsers
                 .Where(x => x.UserId == userId)
@@ -288,6 +288,21 @@ namespace Intex1_15.API.Controllers
 
             return NoContent();
         }
+
+        // GET: api/Movies/UserRatings/4
+        [HttpGet("UserRatings/{userId}")]
+        public async Task<IActionResult> GetRatingsByUser(int userId)
+        {
+            var ratings = await _context.MovieRatings
+                .Where(r => r.user_id == userId)
+                .ToListAsync();
+
+            if (ratings == null || !ratings.Any())
+                return NotFound($"No ratings found for user {userId}");
+
+            return Ok(ratings);
+        }
+
 
 
     }
