@@ -1,40 +1,23 @@
 import React from "react";
 
-interface TitleBannerProps {
-  title: string;
-}
-
-const TitleBanner: React.FC<TitleBannerProps> = ({ title }) => {
+const TitleBanner: React.FC = () => {
   return (
     <div
       style={{
-        backgroundImage: "url('/background.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "300px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         position: "relative",
+        width: "100vw",
+        overflow: "hidden",
       }}
     >
-      <div
+      <img
+        src="/background.png"
+        alt="Banner Background"
         style={{
-          backgroundColor: "rgba(0,0,0,0.5)",
-          padding: "1rem 2rem",
-          borderRadius: "10px",
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
+          width: "100%",
+          height: "auto",     // ✅ maintain full height
+          display: "block",
         }}
-      >
-        <img
-          src="/worldreel-logo.png"
-          alt="WorldReel Logo"
-          style={{ height: "50px", width: "50px" }}
-        />
-        <h1 style={{ color: "white", fontSize: "2rem", margin: 0 }}>{title}</h1>
-      </div>
+      />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import PricingPlans from '../components/landing/PricingPlans';
 import FloatingTrialButton from '../components/landing/FloatingTrialButton';
 
 import styles from '../styles/LandingPage.module.css'; // ✅ Use CSS module
+import TitleBanner from '../components/TitleBanner';
 
 const LandingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -81,6 +82,7 @@ const LandingPage: React.FC = () => {
   return (
     <div className={styles.landingContainer}>
       <Header />
+      <TitleBanner />
       <HeroCarousel movies={topMovies} />
       <div style={{ marginTop: '100vh' }} />
       <div className={styles.scrollContent}>
