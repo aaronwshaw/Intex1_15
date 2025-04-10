@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
+"scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.prod.json && vite build && cpx staticwebapp.config.json dist",
+    "build": "tsc -p tsconfig.prod.json && vite build",
     "check": "tsc -p tsconfig.app.json",
     "lint": "eslint .",
     "preview": "vite preview"
