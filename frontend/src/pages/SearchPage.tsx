@@ -106,6 +106,7 @@ function SearchPage() {
       </div>
 
 
+
       <div className='search-page-wrapper'>
         <div   className='row'>
           <div className='col-md-1'  >
