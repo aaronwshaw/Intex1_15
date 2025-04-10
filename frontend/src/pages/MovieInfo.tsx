@@ -44,10 +44,10 @@ function MovieInfo() {
 
       const resolvedMovies: Record<string, Movie> = {};
       await Promise.all(
-        recs.map(async (rec) => {
+        recs.map(async (rec: ContentItem) => {
           if (rec.recommendedShow) {
-            const movie = await getMovieById(rec.recommendedShow);
-            if (movie) resolvedMovies[rec.recommendedShow] = movie;
+        const movie: Movie | null = await getMovieById(rec.recommendedShow);
+        if (movie) resolvedMovies[rec.recommendedShow] = movie;
           }
         })
       );
