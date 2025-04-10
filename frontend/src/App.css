@@ -19,8 +19,11 @@ body,
   font-family: 'Netflix Sans', Arial, sans-serif !important;
   display: block; /* or remove 'display' entirely */
   text-align: center;
-  overflow-x: hidden;
-  overflow-y: auto;
+  /* overflow-x: hidden;
+  overflow-y: auto; */
 }
 
-
+.search-page-wrapper {
+  overflow: visible !important;
+  position: relative;
+}

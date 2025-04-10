@@ -105,26 +105,23 @@ function SearchPage() {
         </div>
       </div>
 
-      <div className='row'>
+
+
+      <div className='search-page-wrapper'>
+        <div   className='row'>
+          <div className='col-md-1'  >
+          <GenreFilter
+                selectedGenres={selectedGenres}
+                setSelectedGenres={setSelectedGenres}
+              />
+          </div>
         
+          <div className='col-md-10'>
+          <MovieList overrideMovies={results ?? undefined} />
+          </div>
+        </div> 
+      </div>
 
-        <div className='col-md-1  '>
-        <GenreFilter
-              selectedGenres={selectedGenres}
-              setSelectedGenres={setSelectedGenres}
-            />
-
-        </div>
-      
-        <div className='col-md-10'>
-         <MovieList overrideMovies={results ?? undefined} />
-        </div>
-
-      
-
-        
-      </div> 
-     
       
 
     </AuthorizeView>
