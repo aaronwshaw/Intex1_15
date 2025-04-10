@@ -139,55 +139,85 @@ function AdminPage() {
         <h1>Welcome, Admin!</h1>
 
         {/* 🔍 Search Input */}
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search movies by title..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button
-            className="btn btn-primary"
-            onClick={async () => {
-              if (searchQuery.trim() === '') {
-                setIsSearching(false);
-                const data = await fetchPaginatedMovies(1, pageSize);
-                if (data) {
-                  setMovies(data.movies);
-                  setTotalPages(data.totalPages);
-                  setCurrentPage(1);
-                }
-                return;
-              }
+{/* 🔍 Search Input */}
+<div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+  <form
+    onSubmit={async (e) => {
+      e.preventDefault();
+      if (searchQuery.trim() === '') {
+        setIsSearching(false);
+        const data = await fetchPaginatedMovies(1, pageSize);
+        if (data) {
+          setMovies(data.movies);
+          setTotalPages(data.totalPages);
+          setCurrentPage(1);
+        }
+        return;
+      }
+      setIsSearching(true);
+      const results = await searchMovies(searchQuery);
+      if (results) {
+        setMovies(results);
+        setTotalPages(1);
+        setCurrentPage(1);
+      }
+    }}
+    style={{ display: 'flex', gap: '0.5rem', maxWidth: '600px', width: '100%' }}
+  >
+    <input
+      type="text"
+      placeholder="Search movies by title..."
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      style={{
+        flex: 1,
+        padding: '0.5rem 1rem',
+        borderRadius: '0.5rem',
+        border: '1px solid #ccc',
+        backgroundColor: '#f8f9fa',
+        color: '#333',
+      }}
+    />
+    <button
+      type="submit"
+      style={{
+        backgroundColor: '#2563eb',
+        color: 'white',
+        border: 'none',
+        padding: '0.5rem 1rem',
+        borderRadius: '0.5rem',
+        fontWeight: 'bold',
+      }}
+    >
+      Search
+    </button>
+    <button
+      type="button"
+      onClick={async () => {
+        setSearchQuery('');
+        setIsSearching(false);
+        const data = await fetchPaginatedMovies(1, pageSize);
+        if (data) {
+          setMovies(data.movies);
+          setTotalPages(data.totalPages);
+          setCurrentPage(1);
+        }
+      }}
+      style={{
+        backgroundColor: '#6b7280',
+        color: 'white',
+        border: 'none',
+        padding: '0.5rem 1rem',
+        borderRadius: '0.5rem',
+        fontWeight: 'bold',
+      }}
+    >
+      Clear
+    </button>
+  </form>
+</div>
 
-              setIsSearching(true);
-              const results = await searchMovies(searchQuery);
-              if (results) {
-                setMovies(results);
-                setTotalPages(1);
-                setCurrentPage(1);
-              }
-            }}
-          >
-            Search
-          </button>
-          <button
-            className="btn btn-secondary"
-            onClick={async () => {
-              setSearchQuery('');
-              setIsSearching(false);
-              const data = await fetchPaginatedMovies(1, pageSize);
-              if (data) {
-                setMovies(data.movies);
-                setTotalPages(data.totalPages);
-                setCurrentPage(1);
-              }
-            }}
-          >
-            Clear
-          </button>
-        </div>
+
 
         {!showForm && (
           <button
