@@ -12,6 +12,7 @@ function SearchPage() {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [showGenreFilter, setShowGenreFilter] = useState(false);
 
+
   const handleSearch = async () => {
     if (!query.trim()) {
       setResults(null);
