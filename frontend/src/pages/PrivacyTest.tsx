@@ -91,7 +91,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <p className="streamlite-footer">Last updated: April 7, 2025</p>
-          <p onClick={()=> navigate('/home')} style={{cursor: 'pointer',}} className="streamlite-footer streamlite-hover">Return</p>
+          <p onClick={()=> navigate(-1)} style={{cursor: 'pointer',}} className="streamlite-footer streamlite-hover">Return</p>
         </div>
       </div>
   );
