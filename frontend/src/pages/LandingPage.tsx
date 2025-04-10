@@ -93,7 +93,7 @@ const LandingPage: React.FC = () => {
           plans={plans}
         />
       </div>
-      <FloatingTrialButton onClick={scrollToPlans} />
+      <FloatingTrialButton />
       <Footer />
     </div>
   );
