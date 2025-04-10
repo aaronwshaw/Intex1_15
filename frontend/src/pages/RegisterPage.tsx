@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/IntexAPI';
 import '../styles/Identity.css';
@@ -115,6 +116,15 @@ function Register() {
                 >
                   Go to Login
                 </button>
+              </div>
+              <div className="text-center mt-3">
+                <Link
+                  to="/"
+                  className="text-decoration-none"
+                  style={{ color: '#0d6efd' }}
+                >
+                  ← Back to Home
+                </Link>
               </div>
             </form>
 
