@@ -405,7 +405,6 @@ namespace Intex1_15.API.Controllers
 
         // GET: api/Movies/UserRatings/4
         [HttpGet("UserRatings/{userId}")]
-        [Authorize]
         public async Task<IActionResult> GetRatingsByUser(int userId)
         {
             var ratings = await _context.MovieRatings
@@ -417,6 +416,17 @@ namespace Intex1_15.API.Controllers
 
             return Ok(ratings);
         }
+        
+        [HttpGet("by-ids")]
+        public async Task<ActionResult<List<Movie>>> GetMoviesByShowIds([FromQuery] List<string> ids)
+        {
+            var movies = await _context.Movies
+                .Where(m => ids.Contains(m.show_id))
+                .ToListAsync();
+
+            return Ok(movies);
+        }
+
 
 
 
