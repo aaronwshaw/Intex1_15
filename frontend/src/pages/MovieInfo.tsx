@@ -172,7 +172,7 @@ function MovieInfo() {
             )}
 
             <p
-              onClick={() => navigate('/home')}
+              onClick={() => navigate(-1)}
               style={{
                 marginTop: '2rem',
                 cursor: 'pointer',
