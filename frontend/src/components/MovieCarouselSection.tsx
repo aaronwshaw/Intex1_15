@@ -1,5 +1,5 @@
 // MovieCarouselSection.tsx
-import React, { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '../types/Movie';
 import MoviePoster from './MoviePoster';

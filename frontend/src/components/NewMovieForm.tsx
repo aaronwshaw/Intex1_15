@@ -10,13 +10,38 @@ interface NewBookFormProps {
 
 // List of all genre options
 const genreOptions = [
-  'action', 'adventure', 'anime', 'british', 'children', 'comedies',
-  'comedies_dramas_int', 'comedies_int', 'comedies_rom', 'crime_docu',
-  'documentaries', 'documentaries_int', 'docuseries', 'dramas',
-  'dramas_int', 'dramas_rom', 'family', 'fantasy', 'horror', 'thrillers_int',
-  'romantic_tv_shows_int', 'kids', 'language_tv', 'musicals', 'nature',
-  'reality', 'spirituality', 'action_tv', 'tv_comedies', 'tv_dramas',
-  'talk_shows', 'thrillers'
+  'action',
+  'adventure',
+  'anime',
+  'british',
+  'children',
+  'comedies',
+  'comedies_dramas_int',
+  'comedies_int',
+  'comedies_rom',
+  'crime_docu',
+  'documentaries',
+  'documentaries_int',
+  'docuseries',
+  'dramas',
+  'dramas_int',
+  'dramas_rom',
+  'family',
+  'fantasy',
+  'horror',
+  'thrillers_int',
+  'romantic_tv_shows_int',
+  'kids',
+  'language_tv',
+  'musicals',
+  'nature',
+  'reality',
+  'spirituality',
+  'action_tv',
+  'tv_comedies',
+  'tv_dramas',
+  'talk_shows',
+  'thrillers',
 ];
 
 const NewMovieForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
@@ -62,7 +87,7 @@ const NewMovieForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
     tv_comedies: 0,
     tv_dramas: 0,
     talk_shows: 0,
-    thrillers: 0
+    thrillers: 0,
     // primaryGenre is still computed by the backend
   });
 
@@ -81,9 +106,9 @@ const NewMovieForm = ({ onSuccess, onCancel }: NewBookFormProps) => {
       setFormData((prev) => ({
         ...prev,
         ...genreOptions.reduce((acc, genre) => {
-          acc[genre as keyof Movie] = genre === value ? 1 : 0;
+          (acc as any)[genre] = genre === value ? 1 : 0;
           return acc;
-        }, {} as Partial<Movie>)
+        }, {} as Partial<Movie>),
       }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
