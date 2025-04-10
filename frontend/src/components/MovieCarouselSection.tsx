@@ -16,9 +16,7 @@ function MovieCarouselSection({ title, movies }: Props) {
   const scrollLeft = () => {
     const container = scrollRef.current;
     if (!container) return;
-
-    const scrollAmount = 250;
-    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    container.scrollBy({ left: -250, behavior: 'smooth' });
   };
 
   const scrollRight = () => {
@@ -28,7 +26,6 @@ function MovieCarouselSection({ title, movies }: Props) {
     const scrollAmount = 250;
     const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
-    // Only loop back if user is past the last scrollable position
     if (container.scrollLeft + scrollAmount >= maxScrollLeft - 1) {
       container.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
@@ -72,3 +69,4 @@ function MovieCarouselSection({ title, movies }: Props) {
 }
 
 export default MovieCarouselSection;
+

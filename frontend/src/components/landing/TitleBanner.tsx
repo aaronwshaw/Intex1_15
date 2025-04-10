@@ -32,7 +32,7 @@ const TitleBanner: React.FC = () => {
       </div>
 
       {/* Text Section */}
-      <div
+      {/* <div
         style={{
           backgroundColor: '#141414',
           color: 'white',
@@ -62,7 +62,7 @@ const TitleBanner: React.FC = () => {
           Our top-rated picks and personalized recommendations make movie nights
           better than ever.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };

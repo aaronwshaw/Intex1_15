@@ -1,11 +1,11 @@
-/* Navbar.module.css */
-
+/* === Logo / Brand === */
 .navLeft {
   font-size: 1.5rem;
   font-weight: bold;
-  font-family: 'Staatliches', sans-serif; /* 👈 this is the key line */
+  font-family: 'Staatliches', sans-serif;
 }
 
+/* === Main Navbar Container === */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -17,7 +17,6 @@
   top: 0;
   z-index: 1000;
 
-  /* 🧨 Add these lines to force full width and override weird global styles */
   width: 100vw;
   max-width: 100%;
   margin: 0 auto;
@@ -25,17 +24,31 @@
   right: 0;
 }
 
-.navCenter {
-  display: flex;
-  gap: 1rem;
-}
-
+/* === Right section: nav links + user info + logout === */
 .navRight {
   display: flex;
   align-items: center;
+  gap: 1.5rem; /* space between groups */
+}
+
+/* ✅ New: container for nav links (moved from center) */
+.navLinks {
+  display: flex;
   gap: 1rem;
 }
 
+/* ✅ New: styled user tab */
+.userInfo {
+  background-color: #1f1f1f;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #d1d5db;
+  white-space: nowrap;
+}
+
+/* === Individual navigation link === */
 .navLink {
   color: white;
   text-decoration: none;
@@ -46,6 +59,7 @@
   text-decoration: underline;
 }
 
+/* === Logout button === */
 .logoutButton {
   background: none;
   border: 1px solid white;
@@ -53,9 +67,11 @@
   padding: 0.4rem 0.8rem;
   cursor: pointer;
   font-size: 0.9rem;
+  border-radius: 8px;
 }
 
 .logoutButton:hover {
   background-color: white;
   color: #141414;
 }
+
