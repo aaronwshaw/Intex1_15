@@ -12,6 +12,7 @@ import TitleBanner from '../components/landing/TitleBanner';
 import LandingVideo from '../components/landing/LandingVideo';
 
 import styles from '../styles/LandingPage.module.css';
+import CookieConsent from '../components/landing/CookieConsent';
 
 const LandingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -70,16 +71,16 @@ const LandingPage: React.FC = () => {
   useEffect(() => {
     const loadSelectedMovies = async () => {
       const ids = [
-        "s6201",
-        "s1",
-        "s392",
-        "s821",
-        "s6617",
-        "s491",
-        "s334",
-        "s343",
-        "s5264",
-        "s76"
+        's6201',
+        's1',
+        's392',
+        's821',
+        's6617',
+        's491',
+        's334',
+        's343',
+        's5264',
+        's76',
       ];
       const movies = await fetchMoviesByIds(ids);
       if (movies) setSelectedMovies(movies);
@@ -98,7 +99,11 @@ const LandingPage: React.FC = () => {
     <div className={styles.landingContainer}>
       <Header />
       <TitleBanner />
-      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
+      <MovieCarouselSection
+        title="Top Rated Movies"
+        movies={topRatedMovies}
+      />{' '}
+      {/* ✅ Render here */}
       <LandingVideo />
       <HeroCarousel movies={selectedMovies} />
       <div style={{ marginTop: '2vh' }} />
@@ -110,6 +115,7 @@ const LandingPage: React.FC = () => {
         />
       </div>
       <FloatingTrialButton />
+      <CookieConsent />
       <Footer />
     </div>
   );
