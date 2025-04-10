@@ -32,7 +32,6 @@ function GenreFilter({
 
   return (
     <div className="genre-filter">
-      <h5>Genres</h5>
       <div className="genre-list">
         {genres.map((c) => (
           <div key={c} className="genre-item">
