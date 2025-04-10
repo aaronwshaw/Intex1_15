@@ -6,6 +6,8 @@ import { getContentRecs } from '../api/RecomendationsApi';
 import Navbar from '../components/Navbar';
 import MoviePoster from '../components/MoviePoster';
 import MovieCarouselSection from '../components/MovieCarouselSection';
+import { likeMovie, unlikeMovie, getUserRatingForMovie } from '../api/MoviesApi';
+import { API_url } from '../api/config';
 
 type Movie = {
   show_id: string;
@@ -30,6 +32,8 @@ function MovieInfo() {
   const [recommended, setRecommended] = useState<ContentItem[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [recMovies, setRecMovies] = useState<Record<string, Movie>>({});
+  const [userRating, setUserRating] = useState<number | null>(null);
+  const [userId] = useState<number>(4); // Replace 4 with actual logged-in user ID if dynamic
 
   useEffect(() => {
     const fetchMovieAndRecs = async () => {
@@ -52,6 +56,13 @@ function MovieInfo() {
           }
         })
       );
+
+    // Fetch current user rating if movie and userId exist
+    if (fetchedMovie && userId) {
+      const rating = await getUserRatingForMovie(userId, fetchedMovie.show_id);
+      setUserRating(rating); // could be null
+    }
+    
 
       setRecMovies(resolvedMovies);
       setLoading(false);
@@ -90,6 +101,44 @@ function MovieInfo() {
             <p style={{ marginBottom: '2rem' }}>
               <strong>Duration:</strong> {movie.duration || 'Unknown'}
             </p>
+
+            <div style={{ marginTop: '1.5rem' }}>
+            <span style={{ marginRight: '0.5rem', fontWeight: 'bold' }}>Your Rating:</span>
+            {[1, 2, 3, 4, 5].map((star) => {
+              const isFilled = userRating !== null && star <= userRating;
+
+              return (
+                <span
+                  key={star}
+                  onClick={async () => {
+                    if (loading || !movie) return;
+
+                    if (userRating === star) {
+                      // Remove rating if clicked again
+                      const success = await unlikeMovie(userId, movie.show_id);
+                      if (success) setUserRating(null);
+                    } else {
+                      const success = await likeMovie(userId, movie.show_id, star);
+                      if (success) setUserRating(star);
+                    }
+                  }}
+                  style={{
+                    cursor: loading ? 'default' : 'pointer',
+                    fontSize: '1.75rem',
+                    color: isFilled ? '#facc15' : '#d1d5db', // filled = yellow-400, empty = gray-300
+                    transition: 'color 0.2s ease',
+                    marginRight: '0.25rem',
+                    opacity: loading ? 0.5 : 1,
+                  }}
+                  title={loading ? 'Loading...' : `Rate ${star} star${star > 1 ? 's' : ''}`}
+                >
+                  ★
+                </span>
+              );
+            })}
+          </div>
+
+
 
             {/* Recommended Movies Section */}
             {recommended && recommended.length > 0 && (
