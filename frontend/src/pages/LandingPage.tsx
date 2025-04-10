@@ -109,7 +109,7 @@ console.log(movies); // You'll get full movie info for each ID
           plans={plans}
         />
       </div>
-      <FloatingTrialButton onClick={scrollToPlans} />
+      <FloatingTrialButton />
       <Footer />
     </div>
   );
