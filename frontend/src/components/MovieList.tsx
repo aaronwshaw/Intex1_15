@@ -26,7 +26,9 @@ function MovieList({
     if (result) {
       setMovies((prev) => {
         const existingIds = new Set(prev.map((m) => m.show_id));
-        const newMovies = result.movies.filter((m) => !existingIds.has(m.show_id));
+        const newMovies = result.movies.filter(
+          (m: Movie) => !existingIds.has(m.show_id)
+        );
         return [...prev, ...newMovies];
       });
       setTotalPages(result.totalPages);
@@ -61,12 +63,16 @@ function MovieList({
   const moviesToRender = overrideMovies ?? movies;
 
   return (
-    <main style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#f0f0f0' }}>
+    <main
+      style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#f0f0f0' }}
+    >
       <h1 style={{ textAlign: 'center', paddingTop: '1rem', fontSize: '24px' }}>
         Movie List
       </h1>
 
-      {error && <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>}
+      {error && (
+        <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>
+      )}
 
       {!loading && moviesToRender.length === 0 && (
         <p style={{ textAlign: 'center' }}>No movies found.</p>
@@ -105,11 +111,13 @@ function MovieList({
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px)';
-                e.currentTarget.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                e.currentTarget.style.boxShadow =
+                  '0 5px 15px rgba(0, 0, 0, 0.1)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = '';
-                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                e.currentTarget.style.boxShadow =
+                  '0 2px 4px rgba(0, 0, 0, 0.1)';
               }}
             >
               <div
@@ -123,17 +131,27 @@ function MovieList({
               >
                 <MoviePoster title={m.title} />
               </div>
-              <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '5px' }}>
+              <h3
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  marginBottom: '5px',
+                }}
+              >
                 {m.title}
               </h3>
-              <p style={{ fontSize: '14px', color: '#666' }}>{m.primaryGenre}</p>
+              <p style={{ fontSize: '14px', color: '#666' }}>
+                {m.primaryGenre}
+              </p>
             </div>
           </Link>
         ))}
       </div>
 
       {loading && !overrideMovies && (
-        <p style={{ textAlign: 'center', paddingBottom: '1rem' }}>Loading more...</p>
+        <p style={{ textAlign: 'center', paddingBottom: '1rem' }}>
+          Loading more...
+        </p>
       )}
     </main>
   );
