@@ -418,7 +418,6 @@ namespace Intex1_15.API.Controllers
         }
         
         [HttpGet("by-ids")]
-        [Authorize]
         public async Task<ActionResult<List<Movie>>> GetMoviesByShowIds([FromQuery] List<string> ids)
         {
             var movies = await _context.Movies
