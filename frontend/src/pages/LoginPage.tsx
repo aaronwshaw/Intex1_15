@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { loginUser } from '../api/IntexAPI';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '../styles/Identity.css';
@@ -123,6 +124,15 @@ function LoginPage() {
                   <i className="fa-brands fa-facebook-f me-2"></i> Sign in with
                   Facebook
                 </button>
+              </div>
+              <div className="text-center mt-3">
+                <Link
+                  to="/"
+                  className="text-decoration-none"
+                  style={{ color: '#0d6efd' }}
+                >
+                  ← Back to Home
+                </Link>
               </div>
             </form>
             {error && <p className="text-danger">{error}</p>}

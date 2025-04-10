@@ -9,7 +9,7 @@ import PricingPlans from '../components/landing/PricingPlans';
 import FloatingTrialButton from '../components/landing/FloatingTrialButton';
 
 import styles from '../styles/LandingPage.module.css'; // ✅ Use CSS module
-import TitleBanner from '../components/TitleBanner';
+import TitleBanner from '../components/landing/TitleBanner';
 
 const LandingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);

@@ -1,15 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/FloatingTrialButton.module.css';
 
-interface FloatingTrialButtonProps {
-  onClick: () => void;
-}
+const FloatingTrialButton: React.FC = () => {
+  const navigate = useNavigate();
 
-const FloatingTrialButton: React.FC<FloatingTrialButtonProps> = ({ onClick }) => (
-  <button className={styles.floatingTrialButton} onClick={onClick}>
-    Start Free Trial
-  </button>
-);
+  const handleClick = () => {
+    navigate('/register');
+  };
+
+  return (
+    <button className={styles.floatingTrialButton} onClick={handleClick}>
+      Start Free Trial
+    </button>
+  );
+};
 
 export default FloatingTrialButton;
-
