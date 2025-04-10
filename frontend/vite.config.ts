@@ -13,7 +13,7 @@ export default defineConfig({
         "img-src 'self' data: https://posterstorage115.blob.core.windows.net http://localhost:3000; " + // <-- fixed space here
         "frame-ancestors 'none'; " +
         "font-src 'self' fonts.gstatic.com data:; " +
-        "connect-src 'self' https://localhost:5000 https://intex-1-15-backend-cqgrhvbugjc3avhe.eastus-01.azurewebsites.net https://accounts.google.com https://oauth2.googleapis.com; " +
+        "connect-src 'self' https://localhost:5000 https://intex1-15-backend-d9ehehbcgrajf7fk.eastus-01.azurewebsites.net https://accounts.google.com https://oauth2.googleapis.com; " +
         "object-src 'none'; " +
         "base-uri 'self'; " +
         "form-action 'self'; " +
