@@ -1,0 +1,29 @@
+.cookie-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999; /* ← bump this up HIGH */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cookie-banner.hidden {
+  transform: translateY(-100%);
+}
+
+.cookie-banner button {
+  background-color: #00aaff;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}

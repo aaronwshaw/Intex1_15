@@ -171,8 +171,8 @@ function MovieInfo() {
               />
             )}
 
-            <button
-              onClick={() => navigate('/home')}
+            <p
+              onClick={() => navigate(-1)}
               style={{
                 marginTop: '2rem',
                 cursor: 'pointer',
