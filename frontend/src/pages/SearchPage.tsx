@@ -48,9 +48,9 @@ function SearchPage() {
   return (
     <AuthorizeView>
       <Navbar />
-      <div className="streamlite-page">
-        <div className="streamlite-container">
-          <h1 className="streamlite-title">Search Movies</h1>
+      <div className="">
+        <div className="">
+          <h1 className="">Search Movies</h1>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.5rem' }}>
             <input
@@ -69,7 +69,7 @@ function SearchPage() {
               type="submit"
               style={{
                 padding: '0.5rem 1rem',
-                backgroundColor: '#3b82f6',
+                backgroundColor: '#6b7280',
                 color: 'white',
                 borderRadius: '0.5rem',
                 fontWeight: 600,
@@ -100,7 +100,7 @@ function SearchPage() {
             />
           )}
 
-          {loading && <p>Loading...</p>}
+          {loading && <p >Loading...</p>}
         </div>
       </div>
 
