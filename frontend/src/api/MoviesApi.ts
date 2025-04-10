@@ -161,6 +161,25 @@ export async function unlikeMovie(
   }
 }
 
+
+// Get rating for a specific movie and user
+export async function getUserRatingForMovie(userId: number, showId: string): Promise<number | null> {
+  try {
+    const response = await fetch(`${API_url}/api/Movies/UserRatings/${userId}`, {
+      credentials: 'include',
+    });
+
+    if (!response.ok) return null;
+
+    const ratings = await response.json();
+    const rating = ratings.find((r: any) => r.show_id === showId);
+    return rating ? rating.rating : null;
+  } catch (error) {
+    console.error('Error fetching user rating:', error);
+    return null;
+  }
+}
+
 export async function fetchMoviesByGenres(selectedGenres: string[]) {
   const params = selectedGenres.map(g => `genres=${encodeURIComponent(g)}`).join('&');
   const response = await fetch(`${API_url}/api/Movies/MoviesByGenre?${params}`);
