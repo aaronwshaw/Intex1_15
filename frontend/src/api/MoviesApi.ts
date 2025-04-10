@@ -191,3 +191,19 @@ export async function fetchMoviesByGenres(selectedGenres: string[]) {
 
   return response.json();
 }
+
+export async function fetchMoviesByIds(showIds: string[]): Promise<Movie[]> {
+  const queryParams = showIds.map(id => `ids=${encodeURIComponent(id)}`).join('&');
+
+  const response = await fetch(`${API_url}/api/Movies/by-ids?${queryParams}`, {
+    method: 'GET',
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch movies');
+  }
+
+  return await response.json(); // This will be your list of movies
+}
+

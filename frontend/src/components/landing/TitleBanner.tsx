@@ -6,18 +6,15 @@ const TitleBanner: React.FC = () => {
       style={{
         margin: 0,
         padding: 0,
-        border: 0,
-        fontSize: '100%',
-        verticalAlign: 'baseline',
       }}
     >
-      {/* Background Image Container */}
+      {/* Background Image */}
       <div
         style={{
           margin: 0,
           padding: 0,
           width: '100%',
-          lineHeight: '0', // removes inline whitespace
+          lineHeight: 0,
         }}
       >
         <img
@@ -26,20 +23,21 @@ const TitleBanner: React.FC = () => {
           style={{
             width: '100%',
             height: 'auto',
-            display: 'block', // removes extra space under image
+            display: 'block',
             margin: 0,
             padding: 0,
+            border: 'none',
           }}
         />
       </div>
 
-      {/* Text Directly Below */}
+      {/* Text Section */}
       <div
         style={{
-          backgroundColor: '#0b0c0f',
+          backgroundColor: '#141414',
           color: 'white',
           padding: '2rem 1rem',
-          marginTop: 0, // ensure no spacing
+          marginTop: '0px',
           textAlign: 'center',
         }}
       >
@@ -50,7 +48,7 @@ const TitleBanner: React.FC = () => {
             margin: '0 0 1rem 0',
           }}
         >
-          Welcome to CineNiche
+          Why be sad when you can watch a movie, ding
         </h2>
         <p
           style={{
@@ -70,3 +68,4 @@ const TitleBanner: React.FC = () => {
 };
 
 export default TitleBanner;
+

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
+import { fetchTopRatedMovies, fetchGenres } from '../api/MoviesApi';
 import {
-  fetchTopRatedMovies,
-  fetchGenres,
-} from '../api/MoviesApi';
-import { fetchPaginatedMovies, fetchPaginatedMoviesByGenre } from '../api/IntexAPI';
+  fetchPaginatedMovies,
+  fetchPaginatedMoviesByGenre,
+} from '../api/IntexAPI';
 import { Movie } from '../types/Movie';
 import styles from './AppWrapper.module.css';
 import {
@@ -21,7 +21,9 @@ function HomePage() {
   const [topRated, setTopRated] = useState<Movie[]>([]);
   const [recommended, setRecommended] = useState<Movie[]>([]);
   const [genreMovies, setGenreMovies] = useState<Record<string, Movie[]>>({});
-  const [userLikedCarousels, setUserLikedCarousels] = useState<Record<string, Movie[]>>({});
+  const [userLikedCarousels, setUserLikedCarousels] = useState<
+    Record<string, Movie[]>
+  >({});
   const [visibleCarouselCount, setVisibleCarouselCount] = useState(4);
 
   useEffect(() => {
@@ -55,14 +57,14 @@ function HomePage() {
 
       if (genreList) {
         const genreSections: Record<string, Movie[]> = {};
-      
+
         for (const genre of genreList) {
           const result = await fetchPaginatedMoviesByGenre(genre, 1, 9);
           if (result && result.movies.length === 9) {
             genreSections[genre] = result.movies;
           }
         }
-      
+
         setGenreMovies(genreSections);
       }
 
@@ -74,14 +76,14 @@ function HomePage() {
 
         for (const rating of liked) {
           const likedMovie = allMoviePages.movies.find(
-            (m) => m.show_id === rating.show_id
+            (m: Movie) => m.show_id === rating.show_id
           );
           if (!likedMovie) continue;
 
           const recs = await getCollabItemRecs(likedMovie.show_id);
           if (!recs) continue;
 
-          const fullRecs = allMoviePages.movies.filter((m) =>
+          const fullRecs = allMoviePages.movies.filter((m: Movie) =>
             recs.includes(m.show_id)
           );
 
@@ -104,7 +106,7 @@ function HomePage() {
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
 
       if (nearBottom) {
-        console.log('📦 Loading more carousels...');
+        console.log('Loading more carousels...');
         setVisibleCarouselCount((prev) => prev + 2);
       }
     };
