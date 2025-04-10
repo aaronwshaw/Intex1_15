@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navbar from '../components/Navbar';
 import {
   fetchTopRatedMovies,
@@ -29,10 +29,10 @@ function HomePage() {
     Record<string, Movie[]>
   >({});
   const [visibleCarouselCount, setVisibleCarouselCount] = useState(4);
+  const genreRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     const loadAll = async () => {
-      // Fetch reusable movie page first (used in genre and liked sections)
       const recPage = await fetchPaginatedMovies(1, 200);
 
       const [top, recs, genreList, ratings] = await Promise.all([
@@ -92,14 +92,12 @@ function HomePage() {
     loadAll();
   }, []);
 
-  // Infinite scroll to load more carousels
   useEffect(() => {
     const handleScroll = () => {
       const nearBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
 
       if (nearBottom) {
-        console.log('Loading more carousels...');
         setVisibleCarouselCount((prev) => prev + 2);
       }
     };
@@ -107,6 +105,21 @@ function HomePage() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleGenreClick = (genre: string) => {
+    const genreIndex = Object.keys(genreMovies).indexOf(genre);
+    const requiredVisible = genreIndex * 2 + 2;
+
+    if (requiredVisible > visibleCarouselCount) {
+      setVisibleCarouselCount(requiredVisible);
+
+      setTimeout(() => {
+        genreRefs.current[genre]?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    } else {
+      genreRefs.current[genre]?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const combinedCarousels = () => {
     const genreEntries = Object.entries(genreMovies);
@@ -131,11 +144,14 @@ function HomePage() {
       if (i < genreEntries.length && count < visibleCarouselCount) {
         const [genre, movies] = genreEntries[i];
         combined.push(
-          <MovieCarouselSection
+          <div
             key={`genre-${genre}`}
-            title={genre}
-            movies={movies}
-          />
+            ref={(el) => {
+              genreRefs.current[genre] = el;
+            }}
+          >
+            <MovieCarouselSection title={genre} movies={movies} />
+          </div>
         );
         count++;
       }
@@ -148,6 +164,24 @@ function HomePage() {
     <AuthorizeView>
       <div className={styles.pageWrapper}>
         <Navbar />
+
+        {Object.keys(genreMovies).length > 0 && (
+          <section className={styles.genreSection}>
+            <h2 className={styles.genreHeader}>Choose a Genre</h2>
+            <div className={styles.genreNav}>
+              {Object.keys(genreMovies).map((genre) => (
+                <button
+                  key={genre}
+                  onClick={() => handleGenreClick(genre)}
+                  className={styles.genreButton}
+                >
+                  {genre}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
         <main>
           <MovieCarouselSection title="Top Rated" movies={topRated} />
           <MovieCarouselSection

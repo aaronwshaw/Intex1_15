@@ -2,20 +2,22 @@ import { useEffect, useState, useCallback } from 'react';
 import { fetchPaginatedMovies } from '../api/IntexAPI';
 import { Movie } from '../types/Movie';
 import MoviePoster from '../components/MoviePoster';
+import GenreFilter from '../components/GenreFilter'; // make sure this exists
 import { Link } from 'react-router-dom';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 14;
 
 function MovieList({
   overrideMovies,
 }: {
-  overrideMovies?: Movie[]; // If provided, we show only these
+  overrideMovies?: Movie[];
 }) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // optional genre filtering
 
   const loadMore = useCallback(async () => {
     if (loading || (totalPages && page > totalPages)) return;
@@ -64,96 +66,113 @@ function MovieList({
 
   return (
     <main
-      style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#141414' }}
+      style={{
+        width: '100vw',
+        minHeight: '100vh',
+        backgroundColor: '#141414',
+        display: 'flex',
+        padding: '2rem',
+        boxSizing: 'border-box',
+        gap: '2rem',
+      }}
     >
-      <h1 style={{ textAlign: 'center', paddingTop: '1rem', fontSize: '24px'}}>
-        Movie List
-      </h1>
+      {/* Sidebar for Genre Filter */}
+      <aside style={{ width: '200px', color: 'white' }}>
+        <h3 style={{ color: 'white', marginBottom: '1rem' , textDecoration: "underline"}}>Filter by Genre</h3>
+        <GenreFilter
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
+        />
+      </aside>
 
-      {error && (
-        <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>
-      )}
+      {/* Movie Grid */}
+      <section style={{ flex: 1 }}>
+        {error && (
+          <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>
+        )}
 
-      {!loading && moviesToRender.length === 0 && (
-        <p style={{ textAlign: 'center' }}>No movies found.</p>
-      )}
+        {!loading && moviesToRender.length === 0 && (
+          <p style={{ textAlign: 'center', color: 'white' }}>No movies found.</p>
+        )}
 
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '20px',
-          width: '100%',
-          padding: '20px',
-          boxSizing: 'border-box',
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}
-      >
-        {moviesToRender.map((m) => (
-          <Link
-            key={m.show_id}
-            to={`/movieinfo/${m.show_id}`}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            <div
-              style={{
-                width: '200px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '10px',
-                backgroundColor: 'white',
-                borderRadius: '8px',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px)';
-                e.currentTarget.style.boxShadow =
-                  '0 5px 15px rgba(0, 0, 0, 0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = '';
-                e.currentTarget.style.boxShadow =
-                  '0 2px 4px rgba(0, 0, 0, 0.1)';
-              }}
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)', // now rows of 5
+    gap: '20px',
+    padding: '20px',
+    boxSizing: 'border-box',
+  }}
+>
+
+          {moviesToRender.map((m) => (
+            <Link
+              key={m.show_id}
+              to={`/movieinfo/${m.show_id}`}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <div
                 style={{
-                  width: '100%',
-                  height: '240px',
-                  marginBottom: '10px',
-                  overflow: 'hidden',
-                  borderRadius: '4px',
+                  width: '200px',
+                  height: '330px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '10px',
+                  backgroundColor: 'white',
+                  borderRadius: '8px',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  justifyContent: 'space-between',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = '';
+                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
                 }}
               >
-                <MoviePoster title={m.title} />
-              </div>
-              <h3
-                style={{
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  marginBottom: '5px',
-                  color: 'black'
-                }}
-              >
-                {m.title}
-              </h3>
-              <p style={{ fontSize: '14px', color: '#666' }}>
-                {m.primaryGenre}
-              </p>
-            </div>
-          </Link>
-        ))}
-      </div>
+                <div
+                  style={{
+                    width: '100%',
+                    height: '240px',
+                    marginBottom: '10px',
+                    overflow: 'hidden',
+                    borderRadius: '4px',
+                  }}
+                >
+                  <MoviePoster title={m.title} />
+                </div>
 
-      {loading && !overrideMovies && (
-        <p style={{ textAlign: 'center', paddingBottom: '1rem' }}>
-          Loading more...
-        </p>
-      )}
+                <h3
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    color: 'black',
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    width: '100%',
+                  }}
+                >
+                  {m.title}
+                </h3>
+
+                <p style={{ fontSize: '14px', color: '#666' }}>{m.primaryGenre}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {loading && !overrideMovies && (
+          <p style={{ textAlign: 'center', paddingBottom: '1rem', color: 'white' }}>
+            Loading more...
+          </p>
+        )}
+      </section>
     </main>
   );
 }
