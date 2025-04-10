@@ -96,21 +96,21 @@ function MovieInfo() {
               {movie.title} ({movie.release_year})
             </h1>
             <p style={{ marginBottom: '1rem' }}>
-              <strong>Description:</strong>{' '}
+              {/* <strong>Description:</strong>{' '} */}
               {movie.description || 'No description available.'}
             </p>
             <p>
-              <strong>Genre:</strong> {movie.primaryGenre || 'Unknown'}
+              {movie.primaryGenre || 'Unknown'} 
             </p>
             <p>
-              <strong>Director:</strong> {movie.director || 'Unknown'}
+              <strong>Director:</strong> {movie.director || 'Unknown'} - <strong>  Duration:</strong> {movie.duration || 'Unknown'}
             </p>
             <p>
               <strong>Cast:</strong> {movie.cast || 'Unknown'}
             </p>
-            <p style={{ marginBottom: '2rem' }}>
+            {/* <p style={{ marginBottom: '2rem' }}>
               <strong>Duration:</strong> {movie.duration || 'Unknown'}
-            </p>
+            </p> */}
 
             <div style={{ marginTop: '1.5rem' }}>
               <span style={{ marginRight: '0.5rem', fontWeight: 'bold' }}>
@@ -171,18 +171,19 @@ function MovieInfo() {
               />
             )}
 
-            <p
+            <button
               onClick={() => navigate('/home')}
               style={{
                 marginTop: '2rem',
                 cursor: 'pointer',
-                color: '#3b82f6',
-                textDecoration: 'underline',
+                // color: '#ffffff',
+                // textDecoration: 'underline',
                 textAlign: 'center',
+                borderRadius: '8px'
               }}
             >
               Return
-            </p>
+            </button>
           </>
         ) : (
           <p style={{ textAlign: 'center' }}>Movie not found.</p>
