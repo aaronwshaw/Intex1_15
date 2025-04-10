@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import noPoster from "../assets/no_post.png"
 
 interface MoviePosterProps {
   title: string;
@@ -31,14 +32,17 @@ const MoviePoster = ({ title, width = 200, height = 300 }: MoviePosterProps) => 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '0.9rem',
-          color: '#666',
         }}
       >
-        No Image
+        <img
+          src={noPoster}
+          alt="Poster Coming Soon"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
     );
   }
+  
 
   return (
     <img
