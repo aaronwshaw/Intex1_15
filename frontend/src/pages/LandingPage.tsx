@@ -94,13 +94,6 @@ const LandingPage: React.FC = () => {
     loadTopRatedMovies();
   }, []);
 
-  const scrollToPlans = () => {
-    const planSection = document.getElementById('plans');
-    if (planSection) {
-      planSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className={styles.landingContainer}>
       <Header />
