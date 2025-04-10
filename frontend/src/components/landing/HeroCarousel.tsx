@@ -16,7 +16,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ movies }) => {
         {movies.map((movie) => (
           <Carousel.Item key={movie.show_id}>
             <div className={styles.carouselBg} style={{ overflow: 'hidden' }}>
-              <MoviePoster title={movie.title} width={900} height={1000} />
+              <MoviePoster title={movie.title} width={1000} height={1000} />
             </div>
           </Carousel.Item>
         ))}

@@ -9,6 +9,7 @@ import MovieCarouselSection from '../components/MovieCarouselSection';
 import PricingPlans from '../components/landing/PricingPlans';
 import FloatingTrialButton from '../components/landing/FloatingTrialButton';
 import TitleBanner from '../components/landing/TitleBanner';
+import LandingVideo from '../components/landing/LandingVideo';
 
 import styles from '../styles/LandingPage.module.css';
 
@@ -104,6 +105,7 @@ const LandingPage: React.FC = () => {
     <div className={styles.landingContainer}>
       <Header />
       <TitleBanner />
+      <LandingVideo />
       <HeroCarousel movies={selectedMovies} />
       <div style={{ marginTop: '2vh' }} />
       <div className={styles.scrollContent}>
