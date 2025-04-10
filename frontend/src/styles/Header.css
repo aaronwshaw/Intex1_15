@@ -3,16 +3,12 @@
 .cineniche-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 2rem;
-  background-color: #141414;
-  color: white;
+  align-items: center; /* ⬅️ This vertically centers items */
+  background-color: #0b0c0f;
+  padding: 1rem 2rem;
   position: sticky;
   top: 0;
   z-index: 1000;
-  width: 100vw;
-  max-width: 100%;
-  align-items: stretch;
 }
 
 .logo {
@@ -35,10 +31,11 @@
   color: white;
   padding: 0.5rem 1.25rem;
   font-size: 1rem;
-  font-weight: 500;
-  border-radius: 6px;
+  font-weight: 700; /* ⬅️ Make it bold */
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  align-items: center;
 }
 
 .login-button:hover {
