@@ -197,7 +197,6 @@ export async function fetchMoviesByIds(showIds: string[]): Promise<Movie[]> {
 
   const response = await fetch(`${API_url}/api/Movies/by-ids?${queryParams}`, {
     method: 'GET',
-    credentials: 'include'
   });
 
   if (!response.ok) {

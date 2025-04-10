@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchMoviesByIds } from '../api/MoviesApi';
+import { fetchTopRatedMovies } from '../api/MoviesApi'; // ✅ Import the function
 import { Movie } from '../types/Movie';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,13 +8,14 @@ import HeroCarousel from '../components/landing/HeroCarousel';
 import MovieCarouselSection from '../components/MovieCarouselSection';
 import PricingPlans from '../components/landing/PricingPlans';
 import FloatingTrialButton from '../components/landing/FloatingTrialButton';
-
-import styles from '../styles/LandingPage.module.css'; // ✅ Use CSS module
 import TitleBanner from '../components/landing/TitleBanner';
+
+import styles from '../styles/LandingPage.module.css';
 
 const LandingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-  const [topMovies, setTopMovies] = useState<Movie[]>([]);
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([]);
+  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]); // ✅ New state
 
   const toggleBilling = () => setIsAnnual(!isAnnual);
 
@@ -65,7 +67,7 @@ const LandingPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const loadTopMovies = async () => {
+    const loadSelectedMovies = async () => {
       const ids = [
         "s6201",
         "s1",
@@ -77,15 +79,18 @@ const LandingPage: React.FC = () => {
         "s343",
         "s5264",
         "s76"
-      ]
-      ;
+      ];
       const movies = await fetchMoviesByIds(ids);
-
-console.log(movies); // You'll get full movie info for each ID
-
-      if (movies) setTopMovies(movies);
+      if (movies) setSelectedMovies(movies);
     };
-    loadTopMovies();
+
+    const loadTopRatedMovies = async () => {
+      const topMovies = await fetchTopRatedMovies(10);
+      if (topMovies) setTopRatedMovies(topMovies);
+    };
+
+    loadSelectedMovies();
+    loadTopRatedMovies();
   }, []);
 
   const scrollToPlans = () => {
@@ -99,10 +104,10 @@ console.log(movies); // You'll get full movie info for each ID
     <div className={styles.landingContainer}>
       <Header />
       <TitleBanner />
-      <HeroCarousel movies={topMovies} />
-      <div style={{ marginTop: '100vh' }} />
+      <HeroCarousel movies={selectedMovies} />
+      <div style={{ marginTop: '2vh' }} />
       <div className={styles.scrollContent}>
-        <MovieCarouselSection title="Top Rated" movies={topMovies} />
+        <MovieCarouselSection title="Top Rated" movies={topRatedMovies} /> {/* ✅ Render here */}
         <PricingPlans
           isAnnual={isAnnual}
           toggleBilling={toggleBilling}
