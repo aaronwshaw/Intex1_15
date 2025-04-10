@@ -87,6 +87,15 @@ function Register() {
                 />
                 <label htmlFor="password">Password</label>
               </div>
+              <div
+                className={`form-text mb-3 ${
+                  password.length >= 12 ? 'text-success' : 'text-danger'
+                }`}
+              >
+                Password must be at least 12 characters. No special characters,
+                numbers, or capitalization required.
+              </div>
+
               <div className="form-floating mb-3">
                 <input
                   className="form-control"
