@@ -12,9 +12,19 @@
     margin: 2rem 0;
   }
   
+  button,
+  button:focus,
+  button:active,
+  button:focus-visible,
+  button::-moz-focus-inner {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none;
+  }
+  
   .tabButton {
     background-color: transparent;
-    border: 2px solid var(--blue-main);
+    border: 2px solid red;
     color: white;
     padding: 0.5rem 1.5rem;
     border-radius: 20px;
@@ -24,12 +34,12 @@
   }
   
   .tabButton:hover {
-    background-color: var(--blue-main);
+    background-color: red;
     color: white;
   }
   
   .activeTab {
-    background-color: var(--blue-main);
+    background-color: red;
     color: white;
   }
   
