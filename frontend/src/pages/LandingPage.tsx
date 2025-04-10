@@ -96,12 +96,9 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className={styles.landingContainer}>
-      <Header />
+      {/* <Header /> */}
       <TitleBanner />
-      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
-      <LandingVideo />
       <HeroCarousel movies={selectedMovies} />
-      <div style={{ marginTop: '2vh' }} />
       <div className={styles.scrollContent}>
         <PricingPlans
           isAnnual={isAnnual}
@@ -109,6 +106,10 @@ const LandingPage: React.FC = () => {
           plans={plans}
         />
       </div>
+      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
+      <LandingVideo />
+      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
+      {/* <div style={{ marginTop: '2vh' }} /> */}
       <FloatingTrialButton />
       <Footer />
     </div>
