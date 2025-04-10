@@ -28,16 +28,43 @@
   flex: 0 0 auto;
   width: 200px;
   text-align: center;
-  color: white;
   text-decoration: none;
+  color: white;
+
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  overflow: hidden; /* 🔥 This hides the internal image corners spilling outside */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 0.75rem; /* Only padding at bottom for spacing below poster */
+}
+
+.movieCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .movieTitle {
   margin-top: 0.5rem;
   font-size: 1rem;
   font-weight: 500;
+  color: white;
 }
 
+/* 👇 Add this if the image inside is not already styled */
+.movieCard img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: block;
+}
+
+/* Scroll Buttons */
 .scrollButton {
   position: absolute;
   top: 40%;
@@ -58,3 +85,4 @@
 .rightButton {
   right: 0;
 }
+

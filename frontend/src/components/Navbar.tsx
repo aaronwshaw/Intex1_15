@@ -10,7 +10,7 @@ function Navbar() {
   const handleLogout = async () => {
     const result = await logoutUser();
     if (result.ok) {
-      navigate('/login');
+      navigate('/'); // 👈 redirects to landing page
     } else {
       alert('Logout failed. Try again.');
     }
@@ -18,24 +18,27 @@ function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.navLeft}>MovieApp</div>
-
-      <div className={styles.navCenter}>
-        <Link to="/home" className={styles.navLink}>
-          Home
-        </Link>
-        <Link to="/search" className={styles.navLink}>
-          Search
-        </Link>
-        <Link to="/admin" className={styles.navLink}>
-          Admin
-        </Link>
-      </div>
+      <div className={styles.navLeft}>CineNiche</div>
 
       <div className={styles.navRight}>
-        <span>
+        {/* Page links shifted right */}
+        <div className={styles.navLinks}>
+          <Link to="/home" className={styles.navLink}>
+            Home
+          </Link>
+          <Link to="/search" className={styles.navLink}>
+            Search
+          </Link>
+          <Link to="/admin" className={styles.navLink}>
+            Admin
+          </Link>
+        </div>
+
+        {/* Logged in user in its own box */}
+        <div className={styles.userInfo}>
           Logged in as: <AuthorizedUser value="email" />
-        </span>
+        </div>
+
         <button onClick={handleLogout} className={styles.logoutButton}>
           Logout
         </button>
