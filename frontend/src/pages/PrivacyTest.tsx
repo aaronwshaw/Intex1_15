@@ -3,9 +3,9 @@ import './streamlite-styles.css'; // Import the CSS file
 import { useNavigate } from 'react-router-dom';
 
 export default function PrivacyPolicy() {
-  const [openSection, setOpenSection] = useState(null);
+  const [openSection, setOpenSection] = useState<number | null>(null);
   
-  const toggleSection = (index) => {
+  const toggleSection = (index: number) => {
     setOpenSection(openSection === index ? null : index);
   };
   const navigate = useNavigate();

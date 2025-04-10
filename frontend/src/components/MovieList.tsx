@@ -64,9 +64,9 @@ function MovieList({
 
   return (
     <main
-      style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#f0f0f0' }}
+      style={{ width: '100vw', minHeight: '100vh', backgroundColor: '#141414' }}
     >
-      <h1 style={{ textAlign: 'center', paddingTop: '1rem', fontSize: '24px' }}>
+      <h1 style={{ textAlign: 'center', paddingTop: '1rem', fontSize: '24px'}}>
         Movie List
       </h1>
 
@@ -136,6 +136,7 @@ function MovieList({
                   fontSize: '16px',
                   fontWeight: 'bold',
                   marginBottom: '5px',
+                  color: 'black'
                 }}
               >
                 {m.title}
