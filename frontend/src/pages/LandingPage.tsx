@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTopRatedMovies } from '../api/MoviesApi';
+import { fetchMoviesByIds } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -66,7 +66,23 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     const loadTopMovies = async () => {
-      const movies = await fetchTopRatedMovies(10);
+      const ids = [
+        "s6201",
+        "s1",
+        "s392",
+        "s821",
+        "s6617",
+        "s491",
+        "s334",
+        "s343",
+        "s5264",
+        "s76"
+      ]
+      ;
+      const movies = await fetchMoviesByIds(ids);
+
+console.log(movies); // You'll get full movie info for each ID
+
       if (movies) setTopMovies(movies);
     };
     loadTopMovies();
