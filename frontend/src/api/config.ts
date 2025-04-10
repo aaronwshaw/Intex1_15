@@ -2,7 +2,8 @@
 
 // src/api/config.ts
 const local = 'https://localhost:5000';
-const production = 'https://your-production-url.com';
+const production =
+  'https://intex1-15-backend-d9ehehbcgrajf7fk.eastus-01.azurewebsites.net';
 
-export const API_url =
+export const API_url = 
   import.meta.env.MODE === 'development' ? local : production;
