@@ -2,25 +2,28 @@
 /* Base styles for the privacy policy page and other similar components */
 
 /* Page background and layout */
+/* Ensure the parent is a flexbox container */
 .streamlite-page {
-    min-height: 80vh;
-    display: flex;
-    padding: 1rem;
-    text-align: center;
-    justify-content: center;
-    /* background-image: linear-gradient(to bottom, #3b82f6, #1d4ed8); */
+  position: relative !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 100vh !important;
+  padding: 2rem !important;
+  background-color: #0d0d0d !important;
+  z-index: 1;
   }
-  
-  /* Container styling */
+
   .streamlite-container {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    width: 100%;
-    max-width: 48rem;
-    text-align: left;
+  max-width: 700px !important;
+  width: 100% !important;
+  background-color: #f5f5f5 !important;
+  padding: 2rem !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
   }
+
+
   
   /* Typography */
   .streamlite-title {
