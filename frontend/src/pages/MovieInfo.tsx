@@ -183,7 +183,7 @@ function MovieInfo() {
               }}
             >
               Return
-            </button>
+            </p>
           </>
         ) : (
           <p style={{ textAlign: 'center' }}>Movie not found.</p>
