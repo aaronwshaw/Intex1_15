@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { fetchTopRatedMovies, fetchGenres } from '../api/MoviesApi';
+import {
+  fetchTopRatedMovies,
+  fetchGenres,
+  fetchMoviesByIds,
+} from '../api/MoviesApi';
 import {
   fetchPaginatedMovies,
   fetchPaginatedMoviesByGenre,
@@ -28,6 +32,9 @@ function HomePage() {
 
   useEffect(() => {
     const loadAll = async () => {
+      // Fetch reusable movie page first (used in genre and liked sections)
+      const recPage = await fetchPaginatedMovies(1, 200);
+
       const [top, recs, genreList, ratings] = await Promise.all([
         fetchTopRatedMovies(10),
         getUserRecs(mockUserId),
@@ -38,21 +45,9 @@ function HomePage() {
       if (top) setTopRated(top);
 
       if (recs) {
-        const recIds = recs.map((r: any) => r.recommendedShow);
-        const recPage = await fetchPaginatedMovies(1, 200); // Load enough to match recommended IDs
-        const movieById: Record<string, Movie> = {};
-        recPage.movies.forEach((m: Movie) => {
-          if (recIds.includes(m.show_id)) {
-            movieById[m.show_id] = m;
-          }
-        });
-
-        const sorted = recs
-          .map((r: any) => movieById[r.recommendedShow])
-          .filter(Boolean)
-          .slice(0, 10);
-
-        setRecommended(sorted);
+        const recIds = recs.map((r: any) => r.recommendedShow.trim());
+        const recommendedMovies = await fetchMoviesByIds(recIds);
+        setRecommended(recommendedMovies.slice(0, 10));
       }
 
       if (genreList) {
@@ -72,10 +67,8 @@ function HomePage() {
         const liked = ratings.filter((r) => r.rating >= 3);
         const likedCarousels: Record<string, Movie[]> = {};
 
-        const allMoviePages = await fetchPaginatedMovies(1, 300); // Pull more to cover recs
-
         for (const rating of liked) {
-          const likedMovie = allMoviePages.movies.find(
+          const likedMovie = recPage.movies.find(
             (m: Movie) => m.show_id === rating.show_id
           );
           if (!likedMovie) continue;
@@ -83,7 +76,7 @@ function HomePage() {
           const recs = await getCollabItemRecs(likedMovie.show_id);
           if (!recs) continue;
 
-          const fullRecs = allMoviePages.movies.filter((m: Movie) =>
+          const fullRecs = recPage.movies.filter((m: Movie) =>
             recs.includes(m.show_id)
           );
 
