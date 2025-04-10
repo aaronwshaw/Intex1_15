@@ -10,7 +10,7 @@ function SearchPage() {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [showGenreFilter, setShowGenreFilter] = useState(false);
+  // const [showGenreFilter, setShowGenreFilter] = useState(false);
 
 
   const handleSearch = async () => {
@@ -48,9 +48,9 @@ function SearchPage() {
   return (
     <AuthorizeView>
       <Navbar />
-      <div className="streamlite-page">
-        <div className="streamlite-container">
-          <h1 className="streamlite-title">Search Movies</h1>
+      <div className="">
+        <div className="">
+          <h1 className="">Search Movies</h1>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.5rem' }}>
             <input
@@ -69,7 +69,7 @@ function SearchPage() {
               type="submit"
               style={{
                 padding: '0.5rem 1rem',
-                backgroundColor: '#3b82f6',
+                backgroundColor: '#6b7280',
                 color: 'white',
                 borderRadius: '0.5rem',
                 fontWeight: 600,
@@ -79,7 +79,7 @@ function SearchPage() {
             </button>
           </form>
 
-          <button
+          {/* <button
             onClick={() => setShowGenreFilter(!showGenreFilter)}
             style={{
               marginTop: '1rem',
@@ -91,20 +91,42 @@ function SearchPage() {
             }}
           >
             {showGenreFilter ? 'Hide Genre Filter' : 'Filter by Genre'}
-          </button>
+          </button> */}
 
-          {showGenreFilter && (
-            <GenreFilter
+          {/* {showGenreFilter && ( */}
+
+            {/* <GenreFilter
               selectedGenres={selectedGenres}
               setSelectedGenres={setSelectedGenres}
-            />
-          )}
+            /> */}
+          {/* )} */}
 
-          {loading && <p>Loading...</p>}
+          {loading && <p >Loading...</p>}
         </div>
       </div>
 
-      <MovieList overrideMovies={results ?? undefined} />
+      <div className='row'>
+        
+
+        <div className='col-md-1  '>
+        <GenreFilter
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
+            />
+
+        </div>
+      
+        <div className='col-md-10'>
+         <MovieList overrideMovies={results ?? undefined} />
+        </div>
+
+      
+
+        
+      </div> 
+     
+      
+
     </AuthorizeView>
   );
 }
