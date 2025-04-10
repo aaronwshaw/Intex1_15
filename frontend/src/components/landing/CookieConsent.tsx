@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './CookieConsent.css';
 
 const CookieConsent = () => {
@@ -18,7 +18,7 @@ const CookieConsent = () => {
     setTimeout(() => setShow(false), 300); // Matches CSS transition time
   };
 
-  if (!show) return null;
+  //if (!show) return null;
 
   return (
     <div className={`cookie-banner ${animateHide ? 'hidden' : ''}`}>

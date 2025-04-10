@@ -4,12 +4,12 @@
   left: 0;
   right: 0;
   background-color: #1e1e1e;
-  color: white;
+  color: #fff;
   padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999; /* ← bump this up HIGH */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
 }
