@@ -1,23 +1,29 @@
-.cookie-popup {
+.cookie-banner {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
-  padding: 15px;
-  background-color: #333;
-  color: white;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 8px;
-  z-index: 1000;
+  z-index: 9999; /* ← bump this up HIGH */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
 }
-.cookie-popup button {
-  margin-left: 20px;
+
+.cookie-banner.hidden {
+  transform: translateY(-100%);
+}
+
+.cookie-banner button {
   background-color: #00aaff;
   border: none;
-  padding: 8px 12px;
   color: white;
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
-  border-radius: 4px;
 }

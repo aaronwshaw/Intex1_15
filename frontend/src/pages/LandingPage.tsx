@@ -97,6 +97,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className={styles.landingContainer}>
+      <CookieConsent />
       <Header />
       <TitleBanner />
       <MovieCarouselSection
@@ -115,7 +116,6 @@ const LandingPage: React.FC = () => {
         />
       </div>
       <FloatingTrialButton />
-      <CookieConsent />
       <Footer />
     </div>
   );

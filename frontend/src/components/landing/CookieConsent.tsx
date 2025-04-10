@@ -1,29 +1,32 @@
 import { useEffect, useState } from 'react';
+import './CookieConsent.css';
 
 const CookieConsent = () => {
-  const [showPopup, setShowPopup] = useState(false);
+  const [show, setShow] = useState(false);
+  const [animateHide, setAnimateHide] = useState(false);
 
   useEffect(() => {
-    const hasAccepted = localStorage.getItem('cookieAccepted');
-    if (!hasAccepted) {
-      setShowPopup(true);
+    const accepted = localStorage.getItem('cookieAccepted');
+    if (!accepted) {
+      setShow(true);
     }
   }, []);
 
-  const handleAccept = () => {
+  const acceptCookies = () => {
     localStorage.setItem('cookieAccepted', 'true');
-    setShowPopup(false);
+    setAnimateHide(true);
+    setTimeout(() => setShow(false), 300); // Matches CSS transition time
   };
 
-  if (!showPopup) return null;
+  //if (!show) return null;
 
   return (
-    <div className="cookie-popup">
+    <div className={`cookie-banner ${animateHide ? 'hidden' : ''}`}>
       <p>
-        This website uses cookies to improve your experience. By continuing, you
-        accept our use of cookies.
+        This website uses cookies to improve your experience. By using this
+        site, you agree to our cookie policy.
       </p>
-      <button onClick={handleAccept}>Accept</button>
+      <button onClick={acceptCookies}>Accept</button>
     </div>
   );
 };
