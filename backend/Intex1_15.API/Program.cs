@@ -20,12 +20,14 @@ builder.Services.AddDbContext<IntexDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("IntexConnection"),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
-    )
-);
+    ));
 
 //Login Identity String database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("IdentityConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()
+    ));
 
 builder.Services.AddAuthorization();
 
