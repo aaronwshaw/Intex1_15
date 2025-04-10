@@ -34,7 +34,7 @@ export default function PrivacyPolicy() {
     {
       title: "Your Rights Under GDPR",
       content:
-        "You have the right to access, correct, delete, or restrict the use of your personal data. You may also object to processing and request data portability. Contact us at privacy@streamlite.com to exercise these rights.",
+        "You have the right to access, correct, delete, or restrict the use of your personal data. You may also object to processing and request data portability. Contact us at privacy@cineniche.com to exercise these rights.",
     },
     {
       title: "Data Retention",
@@ -59,41 +59,41 @@ export default function PrivacyPolicy() {
   ];
 
   return (
-    <div className="streamlite-page">
-      <div className="streamlite-container">
-        <h1 className="streamlite-title">Privacy Policy</h1>
+      <div className="streamlite-page">
+        <div className="streamlite-container">
+          <h1 className="streamlite-title">Privacy Policy</h1>
 
-        <p className="streamlite-intro">
-          At StreamLite (our on-demand streaming service), we value your
-          privacy. This Privacy Policy outlines how we collect, use, and protect
-          your information.
-        </p>
+          <p className="streamlite-intro">
+            At CineNiche (our on-demand streaming service), we value your
+            privacy. This Privacy Policy outlines how we collect, use, and protect
+            your information.
+          </p>
 
-        <div className="streamlite-sections">
-          {sections.map((section, index) => (
-            <div key={index} className="streamlite-section">
-              <button
-                className={`streamlite-section-button ${openSection === index ? 'streamlite-section-button-active' : ''}`}
-                onClick={() => toggleSection(index)}
-              >
-                <span>{section.title}</span>
-                <span className="streamlite-indicator">
-                  {openSection === index ? '−' : '+'}
-                </span>
-              </button>
-              {openSection === index && (
-                <div className="streamlite-section-content">
-                  {section.content}
-                </div>
-              )}
-            </div>
-          ))}
+          <div className="streamlite-sections">
+            {sections.map((section, index) => (
+              <div key={index} className="streamlite-section">
+                <button
+                  className={`streamlite-section-button ${openSection === index ? 'streamlite-section-button-active' : ''}`}
+                  onClick={() => toggleSection(index)}
+                >
+                  <span>{section.title}</span>
+                  <span className="streamlite-indicator">
+                    {openSection === index ? '−' : '+'}
+                  </span>
+                </button>
+                {openSection === index && (
+                  <div className="streamlite-section-content">
+                    {section.content}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <p className="streamlite-footer">Last updated: April 7, 2025</p>
+          <p onClick={()=> navigate('/home')} style={{cursor: 'pointer',}} className="streamlite-footer streamlite-hover">Return</p>
         </div>
-
-        <p className="streamlite-footer">Last updated: April 7, 2025</p>
-        <p onClick={()=> navigate('/home')} style={{cursor: 'pointer',}} className="streamlite-footer streamlite-hover">Return</p>
       </div>
-    </div>
   );
 }
 

@@ -5,10 +5,10 @@
 .streamlite-page {
     min-height: 80vh;
     display: flex;
-    align-items: center;
+    padding: 1rem;
+    text-align: center;
     justify-content: center;
     /* background-image: linear-gradient(to bottom, #3b82f6, #1d4ed8); */
-    padding: 0rem;
   }
   
   /* Container styling */
@@ -68,7 +68,7 @@
     text-align: left;
     font-size: 1.125rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #999999;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -83,22 +83,22 @@
     text-align: left;
     font-size: 1.125rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #999999;
     background-color: transparent;
     border: none;
     cursor: pointer;
   }
 
   .streamlite-section-button:hover {
-    color: #3b82f6;
+    color: #1f2937;
   }
 
   .streamlite-hover:hover {
-    color: #3b82f6;
+    color: #1f2937;
   }
   
   .streamlite-section-button-active {
-    color: #3b82f6;
+    color: #1f2937;
   }
   
   .streamlite-section-content {
@@ -106,13 +106,13 @@
     padding-left: 1rem;
     padding-top: 0.25rem;
     padding-bottom: 0.75rem;
-    color: #4b5563;
+    color: #1f2937;
     text-align: left;
   }
   
   /* Button indicators */
   .streamlite-indicator {
-    color: #3b82f6;
+    color: #1f2937;
   }
   
   /* Utility classes */
