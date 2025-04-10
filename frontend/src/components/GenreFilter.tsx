@@ -44,7 +44,7 @@ function GenreFilter({
               onChange={handleCheckboxChange}
               checked={selectedGenres.includes(c)}
             />
-            <label htmlFor={c}>{c}</label>
+            <label htmlFor={c} title={c}>{c.split(' ').slice(0,2).join(' ')}</label>
           </div>
         ))}
       </div>
