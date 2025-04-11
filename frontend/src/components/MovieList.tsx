@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import { fetchPaginatedMovies } from '../api/IntexAPI';
+import { fetchMoviesByGenres } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
 import MoviePoster from '../components/MoviePoster';
-import GenreFilter from '../components/GenreFilter'; // make sure this exists
+import GenreFilter from '../components/GenreFilter';
 import { Link } from 'react-router-dom';
 
 const PAGE_SIZE = 14;
@@ -13,11 +14,12 @@ function MovieList({
   overrideMovies?: Movie[];
 }) {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [filteredMovies, setFilteredMovies] = useState<Movie[] | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // optional genre filtering
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
   const loadMore = useCallback(async () => {
     if (loading || (totalPages && page > totalPages)) return;
@@ -42,12 +44,37 @@ function MovieList({
     setLoading(false);
   }, [page, loading, totalPages]);
 
+  // 🔁 Initial load for infinite scroll
   useEffect(() => {
-    if (!overrideMovies) loadMore();
-  }, [overrideMovies]);
+    if (!overrideMovies && selectedGenres.length === 0) {
+      loadMore();
+    }
+  }, [overrideMovies, selectedGenres]);
 
+  // 🔁 Load genre-filtered movies when checkboxes change
   useEffect(() => {
-    if (overrideMovies) return;
+    const fetchFiltered = async () => {
+      if (selectedGenres.length === 0) {
+        setFilteredMovies(null);
+        return;
+      }
+
+      setLoading(true);
+      const result = await fetchMoviesByGenres(selectedGenres);
+      if (result) {
+        setFilteredMovies(result); // expects array of movies
+      } else {
+        setError('Failed to load filtered movies');
+      }
+      setLoading(false);
+    };
+
+    fetchFiltered();
+  }, [selectedGenres]);
+
+  // 🔁 Scroll listener for infinite scroll (only when no filter)
+  useEffect(() => {
+    if (overrideMovies || selectedGenres.length > 0) return;
 
     const handleScroll = () => {
       const nearBottom =
@@ -60,9 +87,10 @@ function MovieList({
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loadMore, loading, page, totalPages, overrideMovies]);
+  }, [loadMore, loading, page, totalPages, overrideMovies, selectedGenres]);
 
-  const moviesToRender = overrideMovies ?? movies;
+  // 🔁 Decide what to show
+  const moviesToRender = filteredMovies ?? overrideMovies ?? movies;
 
   return (
     <main
@@ -76,16 +104,16 @@ function MovieList({
         gap: '2rem',
       }}
     >
-      {/* Sidebar for Genre Filter */}
       <aside style={{ width: '200px', color: 'white' }}>
-        <h3 style={{ color: 'white', marginBottom: '1rem' , textDecoration: "underline"}}>Filter by Genre</h3>
+        <h3 style={{ color: 'white', marginBottom: '1rem', textDecoration: 'underline' }}>
+          Filter by Genre
+        </h3>
         <GenreFilter
           selectedGenres={selectedGenres}
           setSelectedGenres={setSelectedGenres}
         />
       </aside>
 
-      {/* Movie Grid */}
       <section style={{ flex: 1 }}>
         {error && (
           <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>
@@ -95,16 +123,15 @@ function MovieList({
           <p style={{ textAlign: 'center', color: 'white' }}>No movies found.</p>
         )}
 
-<div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(7, 1fr)', // now rows of 5
-    gap: '20px',
-    padding: '20px',
-    boxSizing: 'border-box',
-  }}
->
-
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            gap: '20px',
+            padding: '20px',
+            boxSizing: 'border-box',
+          }}
+        >
           {moviesToRender.map((m) => (
             <Link
               key={m.show_id}
@@ -169,7 +196,7 @@ function MovieList({
 
         {loading && !overrideMovies && (
           <p style={{ textAlign: 'center', paddingBottom: '1rem', color: 'white' }}>
-            Loading more...
+            Loading...
           </p>
         )}
       </section>
