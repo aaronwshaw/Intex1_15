@@ -27,7 +27,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #B22222;
+  background-color: #141414;
   color: white;
   padding: 1.2rem 2rem; /* increased top/bottom padding */
   height: 80px; /* optional: fixed height for more control */
@@ -83,7 +83,6 @@
 
 .navLink:hover {
   text-decoration: underline;
-  color: #141414;
 }
 
 /* === Logout button === */
@@ -99,6 +98,23 @@
 
 .logoutButton:hover {
   background-color: white;
+  color: #141414;
+}
+
+.navButton {
+  background-color: #FF2E2E; /* dark red */
+  border: none;
+  color: white;
+  padding: 0.3rem 0.75rem; /* thinner vertical padding */
+  font-weight: 500;         /* lighter font */
+  font-size: 0.9rem;
+  border-radius: 6px;       /* slightly smaller radius */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navButton:hover {
+  background-color: #D10026; /* darker red on hover */
   color: black;
 }
 

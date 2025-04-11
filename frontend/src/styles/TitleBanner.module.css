@@ -1,0 +1,35 @@
+.titleBanner {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .bannerWrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  
+  .loginButton {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background-color: var(--blue-main);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+  }
+  
+  .loginButton:hover {
+    background-color: var(--blue-hover);
+  }
+  
