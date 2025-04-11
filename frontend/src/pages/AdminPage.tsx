@@ -125,8 +125,10 @@
       <AuthorizeView>
         <RequireRole role="Admin">
           {/* ✅ Add horizontal padding wrapper */}
-          <div style={{ padding: '0 15rem' }}>
+          
             <Navbar />
+            <div style={{ padding: '0 15rem' }}>
+            <br /><br />
             <h1>Welcome, Admin!</h1>
 
             {/* 🔍 Search */}
