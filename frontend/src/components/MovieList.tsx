@@ -2,8 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { fetchPaginatedMovies } from '../api/IntexAPI';
 import { fetchMoviesByGenres } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
-import MoviePoster from '../components/MoviePoster';
 import GenreFilter from '../components/GenreFilter';
+import MoviePoster from '../components/MoviePoster';
 import { Link } from 'react-router-dom';
 
 const PAGE_SIZE = 12;
@@ -44,14 +44,12 @@ function MovieList({
     setLoading(false);
   }, [page, loading, totalPages]);
 
-  // 🔁 Initial load for infinite scroll
   useEffect(() => {
     if (!overrideMovies && selectedGenres.length === 0) {
       loadMore();
     }
   }, [overrideMovies, selectedGenres]);
 
-  // 🔁 Load genre-filtered movies when checkboxes change
   useEffect(() => {
     const fetchFiltered = async () => {
       if (selectedGenres.length === 0) {
@@ -62,7 +60,7 @@ function MovieList({
       setLoading(true);
       const result = await fetchMoviesByGenres(selectedGenres);
       if (result) {
-        setFilteredMovies(result); // expects array of movies
+        setFilteredMovies(result);
       } else {
         setError('Failed to load filtered movies');
       }
@@ -72,7 +70,6 @@ function MovieList({
     fetchFiltered();
   }, [selectedGenres]);
 
-  // 🔁 Scroll listener for infinite scroll (only when no filter)
   useEffect(() => {
     if (overrideMovies || selectedGenres.length > 0) return;
 
@@ -89,7 +86,6 @@ function MovieList({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [loadMore, loading, page, totalPages, overrideMovies, selectedGenres]);
 
-  // 🔁 Decide what to show
   const moviesToRender = filteredMovies ?? overrideMovies ?? movies;
 
   return (
@@ -105,18 +101,18 @@ function MovieList({
       }}
     >
       <aside style={{ width: '200px', color: 'white' }}>
-      <h3
-  style={{
-    color: '#f2f2f2',
-    marginBottom: '1rem',
-    fontSize: '1.5rem',
-    fontWeight: 600,
-    borderLeft: '4px solid #e92424',
-    paddingLeft: '0.75rem',
-  }}
->
-  Filter by Genre
-</h3>
+        <h3
+          style={{
+            color: '#f2f2f2',
+            marginBottom: '1rem',
+            fontSize: '1.5rem',
+            fontWeight: 600,
+            borderLeft: '4px solid #e92424',
+            paddingLeft: '0.75rem',
+          }}
+        >
+          Filter by Genre
+        </h3>
 
         <GenreFilter
           selectedGenres={selectedGenres}
@@ -151,54 +147,44 @@ function MovieList({
               <div
                 style={{
                   width: '200px',
-                  height: '330px',
+                  textAlign: 'center',
+                  backgroundColor: '#2a2a2a',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  padding: '10px',
-                  backgroundColor: 'white',
-                  borderRadius: '8px',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  justifyContent: 'space-between',
+                  paddingBottom: '0.75rem',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.4)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = '';
-                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
                 }}
               >
-                <div
-                  style={{
-                    width: '100%',
-                    height: '240px',
-                    marginBottom: '10px',
-                    overflow: 'hidden',
-                    borderRadius: '4px',
-                  }}
-                >
+                <div style={{ width: '100%' }}>
                   <MoviePoster title={m.title} />
                 </div>
-
-                <h3
+                <div
                   style={{
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    color: 'black',
-                    textAlign: 'center',
+                    marginTop: '0.5rem',
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: 'white',
+                    maxWidth: '100%',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    width: '100%',
+                    height: '24px',
                   }}
                 >
                   {m.title}
-                </h3>
-
-                <p style={{ fontSize: '14px', color: '#666' }}>{m.primaryGenre}</p>
+                </div>
               </div>
             </Link>
           ))}
