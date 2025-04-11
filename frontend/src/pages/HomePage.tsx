@@ -146,7 +146,9 @@ function HomePage() {
         combined.push(
           <div
             key={`genre-${genre}`}
-            ref={(el) => (genreRefs.current[genre] = el)}
+            ref={(el) => {
+              genreRefs.current[genre] = el;
+            }}
           >
             <MovieCarouselSection title={genre} movies={movies} />
           </div>
@@ -164,22 +166,21 @@ function HomePage() {
         <Navbar />
 
         {Object.keys(genreMovies).length > 0 && (
-  <section className={styles.genreSection}>
-    <h2 className={styles.genreHeader}>Choose a Genre</h2>
-    <div className={styles.genreNav}>
-      {Object.keys(genreMovies).map((genre) => (
-        <button
-          key={genre}
-          onClick={() => handleGenreClick(genre)}
-          className={styles.genreButton}
-        >
-          {genre}
-        </button>
-      ))}
-    </div>
-  </section>
-)}
-
+          <section className={styles.genreSection}>
+            <h2 className={styles.genreHeader}>Choose a Genre</h2>
+            <div className={styles.genreNav}>
+              {Object.keys(genreMovies).map((genre) => (
+                <button
+                  key={genre}
+                  onClick={() => handleGenreClick(genre)}
+                  className={styles.genreButton}
+                >
+                  {genre}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
 
         <main>
           <MovieCarouselSection title="Top Rated" movies={topRated} />
