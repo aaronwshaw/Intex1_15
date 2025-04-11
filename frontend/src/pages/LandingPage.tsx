@@ -11,7 +11,6 @@ import Header from '../components/landing/Header';
 import TitleBanner from '../components/landing/TitleBanner';
 import styles from '../styles/LandingPage.module.css';
 import CookieConsent from '../components/landing/CookieConsent';
-import AboutUs from "../components/landing/AboutUs";
 
 const LandingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -128,8 +127,8 @@ const LandingPage: React.FC = () => {
       </div>
       {/* <div style={{ marginTop: '2vh' }} /> */}
       <HeroCarousel movies={selectedMovies} />
-      <FloatingTrialButton />
       <Footer />
+      <FloatingTrialButton />
     </div>
   );
 };
