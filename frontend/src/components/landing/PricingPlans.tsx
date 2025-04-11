@@ -6,6 +6,7 @@ interface Plan {
   name: string;
   monthlyPrice: string;
   annualPrice: string;
+  summary: string;
   mostPopular?: boolean;
   features: {
     devices: string;
@@ -30,6 +31,7 @@ const PricingPlans: React.FC<PricingPlansProps> = ({
   return (
     <section id="plans" className={`reveal ${styles.subscriptionContainer}`}>
       <h2 className="section-title">Choose Your Plan</h2>
+
       <div className={styles.billingTabs}>
         <button
           className={`${styles.tabButton} ${!isAnnual ? styles.activeTab : ''}`}
