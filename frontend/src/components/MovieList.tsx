@@ -171,20 +171,23 @@ function MovieList({
                   <MoviePoster title={m.title} />
                 </div>
                 <div
-                  style={{
-                    marginTop: '0.5rem',
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    color: 'white',
-                    maxWidth: '100%',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    height: '24px',
-                  }}
-                >
-                  {m.title}
-                </div>
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  color: 'white',
+                  maxWidth: '100%',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  height: '24px',
+                  padding: '0 0.5rem', // <-- Add left & right padding
+                  boxSizing: 'border-box',
+                }}
+              >
+                {m.title}
+              </div>
+
               </div>
             </Link>
           ))}
