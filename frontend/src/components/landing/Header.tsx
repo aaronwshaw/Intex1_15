@@ -19,9 +19,12 @@ function Header() {
       <div className={styles.navRight}>
         {/* Page links shifted right */}
         <button className={styles.navButton}>
-          <Link to="/login" className={styles.navLink}>
-            Login
-          </Link>
+        <div className={styles.navRight}>
+  <Link to="/login" className={`${styles.navButton} ${styles.navLink}`}>
+    Login
+  </Link>
+</div>
+
         </button>
       </div>
     </nav>
