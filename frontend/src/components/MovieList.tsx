@@ -6,7 +6,7 @@ import MoviePoster from '../components/MoviePoster';
 import GenreFilter from '../components/GenreFilter';
 import { Link } from 'react-router-dom';
 
-const PAGE_SIZE = 14;
+const PAGE_SIZE = 12;
 
 function MovieList({
   overrideMovies,
@@ -105,9 +105,19 @@ function MovieList({
       }}
     >
       <aside style={{ width: '200px', color: 'white' }}>
-        <h3 style={{ color: 'white', marginBottom: '1rem', textDecoration: 'underline' }}>
-          Filter by Genre
-        </h3>
+      <h3
+  style={{
+    color: '#f2f2f2',
+    marginBottom: '1rem',
+    fontSize: '1.5rem',
+    fontWeight: 600,
+    borderLeft: '4px solid #e92424',
+    paddingLeft: '0.75rem',
+  }}
+>
+  Filter by Genre
+</h3>
+
         <GenreFilter
           selectedGenres={selectedGenres}
           setSelectedGenres={setSelectedGenres}
@@ -126,7 +136,7 @@ function MovieList({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(7, 1fr)',
+            gridTemplateColumns: 'repeat(6, 1fr)',
             gap: '20px',
             padding: '20px',
             boxSizing: 'border-box',
