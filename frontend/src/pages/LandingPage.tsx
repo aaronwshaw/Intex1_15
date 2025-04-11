@@ -96,6 +96,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className={styles.landingContainer}>
+      {/* <Header /> */}
       <CookieConsent />
       <Header />
       <TitleBanner />
@@ -105,7 +106,6 @@ const LandingPage: React.FC = () => {
       />{' '}
       {/* ✅ Render here */}
       <HeroCarousel movies={selectedMovies} />
-      <div style={{ marginTop: '2vh' }} />
       <div className={styles.scrollContent}>
         <PricingPlans
           isAnnual={isAnnual}
@@ -113,6 +113,9 @@ const LandingPage: React.FC = () => {
           plans={plans}
         />
       </div>
+      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
+      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
+      {/* <div style={{ marginTop: '2vh' }} /> */}
       <FloatingTrialButton />
       <Footer />
     </div>
