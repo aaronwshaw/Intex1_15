@@ -1,25 +1,30 @@
 import { useEffect, useState } from 'react';
 import './CookieConsent.css';
 
+// Helper to read a cookie by name
+const getCookie = (name: string) => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+};
+
 const CookieConsent = () => {
   const [show, setShow] = useState(false);
   const [animateHide, setAnimateHide] = useState(false);
 
   useEffect(() => {
-    const accepted = localStorage.getItem('cookieAccepted');
-    if (!accepted) {
+    const hasAccepted = getCookie('userSetting') === 'accepted';
+    if (!hasAccepted) {
       setShow(true);
     }
   }, []);
 
   const acceptCookies = () => {
-    localStorage.setItem('cookieAccepted', 'true');
-    document.cookie = 'userSetting=largerText; path=/'; // set browser-accessible cookie
+    document.cookie = 'userSetting=accepted; path=/; max-age=31536000'; // 1 year
     setAnimateHide(true);
     setTimeout(() => setShow(false), 300);
   };
 
-  //if (!show) return null;
+  if (!show) return null;
 
   return (
     <div className={`cookie-banner ${animateHide ? 'hidden' : ''}`}>
