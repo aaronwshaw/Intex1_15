@@ -353,15 +353,15 @@
                             </div>
                           )}
                         </td>
-                        <td>{m.title}</td>
-                        <td>{m.type}</td>
-                        <td>{m.director}</td>
-                        <td>{m.country}</td>
-                        <td>{m.release_year}</td>
-                        <td>{m.rating}</td>
-                        <td>{m.duration}</td>
-                        <td>{m.primaryGenre}</td>
-                        <td>
+                        <td className="align-middle">{m.title}</td>
+                        <td className="align-middle">{m.type}</td>
+                        <td className="align-middle">{m.director}</td>
+                        <td className="align-middle">{m.country}</td>
+                        <td className="align-middle">{m.release_year}</td>
+                        <td className="align-middle">{m.rating}</td>
+                        <td className="align-middle">{m.duration}</td>
+                        <td className="align-middle">{m.primaryGenre}</td>
+                        <td className="align-middle">
                           <button className="btn btn-primary btn-sm w-100 mb-1" onClick={() => handleEditClick(m)}>
                             Edit
                           </button>
@@ -369,6 +369,7 @@
                             Delete
                           </button>
                         </td>
+
                       </tr>
                     ))}
                   </tbody>
