@@ -11,6 +11,7 @@ import Header from '../components/landing/Header';
 import TitleBanner from '../components/landing/TitleBanner';
 import styles from '../styles/LandingPage.module.css';
 import CookieConsent from '../components/landing/CookieConsent';
+import AboutUs from "../components/landing/AboutUs";
 
 const LandingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -117,7 +118,7 @@ const LandingPage: React.FC = () => {
         title="Top Rated Movies"
         movies={topRatedMovies}
       />{' '}
-      {/* ✅ Render here */}
+      <div style={{ marginTop: '5vh' }} />
       <div className={styles.scrollContent}>
         <PricingPlans
           isAnnual={isAnnual}

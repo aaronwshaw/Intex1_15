@@ -1,8 +1,8 @@
-// Navbar.tsx
+// Header.tsx
 import { Link } from 'react-router-dom';
 import styles from '../../styles/Header.module.css';
 
-function Navbar() {
+function Header() {
 
   return (
     <nav className={styles.navbar}>
@@ -28,4 +28,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default Header;
