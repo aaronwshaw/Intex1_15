@@ -48,6 +48,7 @@ function SearchPage() {
   return (
     <AuthorizeView>
       <Navbar />
+      <br /><br />
       <div className="">
         <div className="">
           <h1 className="">Search Movie Catalog</h1>
