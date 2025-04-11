@@ -18,7 +18,7 @@ const TitleBanner: React.FC = () => {
         }}
       >
         <img
-          src="/background.png"
+          src="/background2.png"
           alt="Banner Background"
           style={{
             width: '100%',
