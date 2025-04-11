@@ -11,33 +11,44 @@ function Navbar() {
   const handleLogout = async () => {
     const result = await logoutUser();
     if (result.ok) {
-      navigate('/');
+      navigate('/'); // 👈 redirects to landing page
     } else {
       alert('Logout failed. Try again.');
     }
   };
 
-  // Check if user is an admin
   const isAdmin = user?.roles.includes('Admin');
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.navLeft}>CineNiche</div>
+      <div className={styles.navLeft}>
+        <Link to="/" className={styles.logoContainer}>
+          <img
+            src="/white-logo.png"
+            alt="CineNiche Logo"
+            className={styles.logoImage}
+          />
+        </Link>
+      </div>
 
       <div className={styles.navRight}>
         <div className={styles.navLinks}>
           <Link to="/home" className={styles.navLink}>
             Home
           </Link>
+          &emsp;
           <Link to="/search" className={styles.navLink}>
             Search
           </Link>
-
-          {/* ✅ Only show Admin if user has Admin role */}
+          &emsp;
+          {/* ✅ Only show if Admin */}
           {isAdmin && (
-            <Link to="/admin" className={styles.navLink}>
-              Admin
-            </Link>
+            <>
+              <Link to="/admin" className={styles.navLink}>
+                Admin
+              </Link>
+              &emsp;
+            </>
           )}
         </div>
 
