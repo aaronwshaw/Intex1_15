@@ -29,6 +29,7 @@ function HomePage() {
     Record<string, Movie[]>
   >({});
   const [visibleCarouselCount, setVisibleCarouselCount] = useState(4);
+  const [showGenres, setShowGenres] = useState(false);
   const genreRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
@@ -167,23 +168,36 @@ function HomePage() {
 
         {Object.keys(genreMovies).length > 0 && (
           <section className={styles.genreSection}>
-            <h2 className={styles.genreHeader}>Choose a Genre</h2>
-            <div className={styles.genreNav}>
-              {Object.keys(genreMovies).map((genre) => (
-                <button
-                  key={genre}
-                  onClick={() => handleGenreClick(genre)}
-                  className={styles.genreButton}
-                >
-                  {genre}
-                </button>
-              ))}
+            <div className={styles.genreToggleWrapper}>
+              <button
+                onClick={() => setShowGenres((prev) => !prev)}
+                className={styles.toggleGenresButton}
+              >
+                {showGenres ? 'Hide Genres' : 'Browse by Genre'}
+              </button>
             </div>
+
+            {showGenres && (
+              <>
+                <h2 className={styles.genreHeader}>Choose a Genre</h2>
+                <div className={styles.genreNav}>
+                  {Object.keys(genreMovies).map((genre) => (
+                    <button
+                      key={genre}
+                      onClick={() => handleGenreClick(genre)}
+                      className={styles.genreButton}
+                    >
+                      {genre}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </section>
         )}
 
         <main>
-          <MovieCarouselSection title="Top Rated" movies={topRated} />
+          <MovieCarouselSection title="Top Rated Movies" movies={topRated} />
           <MovieCarouselSection
             title="Recommended For You"
             movies={recommended}

@@ -1,4 +1,3 @@
-// MovieCarouselSection.tsx
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '../types/Movie';
@@ -69,4 +68,3 @@ function MovieCarouselSection({ title, movies }: Props) {
 }
 
 export default MovieCarouselSection;
-
