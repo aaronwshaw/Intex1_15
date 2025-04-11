@@ -212,7 +212,7 @@ import Footer from '../components/Footer';
 
             {!showForm && (
               <button className="btn btn-success mb-3" onClick={() => setShowForm(true)}>
-                Add Projects
+                Add Movies
               </button>
             )}
 
