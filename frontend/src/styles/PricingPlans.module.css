@@ -116,11 +116,15 @@ input:checked + .slider:before {
   font-weight: 600;
   color: #fff;
   border-bottom: 1px solid #333;
+  position: relative;
+  background-color: #1c1c1c;
 }
 
 .planTable td {
   padding: 1.2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
   text-align: center;
   font-size: 0.95rem;
 }
@@ -139,6 +143,12 @@ input:checked + .slider:before {
   font-weight: 500;
   text-align: left;
   padding-left: 2rem;
+  border-left: none;
+}
+
+.planTable th:last-child,
+.planTable td:last-child {
+  border-right: none;
 }
 
 .planTable tr.summary-row {
@@ -147,18 +157,18 @@ input:checked + .slider:before {
   color: #ddd;
 }
 
+/* Checkmarks and Crosses */
 .checkmark {
-  color: #4CAF50; /* Green */
+  color: #4CAF50 !important;
   font-weight: bold;
   font-size: 1.1rem;
 }
 
 .crossmark {
-  color: #FF5252; /* Red */
+  color: #FF5252 !important;
   font-weight: bold;
   font-size: 1.1rem;
 }
-
 
 /* Ribbon styling for Most Popular */
 .planHeader {
@@ -188,19 +198,33 @@ input:checked + .slider:before {
   letter-spacing: 0.5px;
 }
 
-/* Select button */
 .selectPlanButton {
   background-color: #e50914;
   color: white;
   padding: 0.6rem 1.5rem;
   font-size: 0.9rem;
-  border: none;
+  border: 2px solid #D10026; /* Dark red outline */
   border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
   margin: 1rem auto;
 }
 
 .selectPlanButton:hover {
   background-color: #d20812;
+  border-color: #b80021;
+}
+
+.selectPlanButton:focus,
+.selectPlanButton:active,
+.selectPlanButton:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.selectPlanButton:focus,
+.selectPlanButton:active,
+.selectPlanButton:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
