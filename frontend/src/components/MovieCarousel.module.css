@@ -6,11 +6,14 @@
 }
 
 .carouselTitle {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 1rem;
+  text-align: left;
+  margin-left: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 2rem; /* 🔥 increase this value to make it bigger */
+  font-weight: 700; /* optional: bolder text */    /* optional: darker text */
 }
+
+
 
 .scrollRow {
   display: flex;
