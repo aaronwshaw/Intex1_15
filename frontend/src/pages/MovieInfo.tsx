@@ -28,7 +28,7 @@ function MovieInfo() {
   const [loading, setLoading] = useState(true);
   const [recMovies, setRecMovies] = useState<Record<string, Movie>>({});
   const [userRating, setUserRating] = useState<number | null>(null);
-  const [userId] = useState<number>(4); // Replace 4 with actual logged-in user ID if dynamic
+  const [userId] = useState<number>(1); // Replace 4 with actual logged-in user ID if dynamic
 
   useEffect(() => {
     const fetchMovieAndRecs = async () => {
@@ -46,8 +46,8 @@ function MovieInfo() {
       await Promise.all(
         recs.map(async (rec: ContentItem) => {
           if (rec.recommendedShow) {
-        const movie: Movie | null = await getMovieById(rec.recommendedShow);
-        if (movie) resolvedMovies[rec.recommendedShow] = movie;
+            const movie: Movie | null = await getMovieById(rec.recommendedShow);
+            if (movie) resolvedMovies[rec.recommendedShow] = movie;
           }
         })
       );
@@ -71,95 +71,92 @@ function MovieInfo() {
   return (
     <AuthorizeView>
       <Navbar />
-      <main style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+      <main style={{ padding: '1rem', maxWidth: '1400px', margin: '0 auto' }}>
         {loading ? (
           <p style={{ textAlign: 'center' }}>Loading movie details...</p>
         ) : movie ? (
           <>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginBottom: '1.5rem',
-              }}
-            >
-              <MoviePoster title={movie.title} width={240} height={360} />
-            </div>
+            <div className="row">
+              {/* Poster on the left */}
+              <div className="col-md-4 d-flex justify-content-center mb-3">
+                <MoviePoster title={movie.title} width={240} height={360} />
+              </div>
 
-            <h1
-              style={{
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                marginBottom: '1rem',
-              }}
-            >
-              {movie.title} ({movie.release_year})
-            </h1>
-            <p style={{ marginBottom: '1rem' }}>
-              <strong>Description:</strong>{' '}
-              {movie.description || 'No description available.'}
-            </p>
-            <p>
-              <strong>Genre:</strong> {movie.primaryGenre || 'Unknown'}
-            </p>
-            <p>
-              <strong>Director:</strong> {movie.director || 'Unknown'}
-            </p>
-            <p>
-              <strong>Cast:</strong> {movie.cast || 'Unknown'}
-            </p>
-            <p style={{ marginBottom: '2rem' }}>
-              <strong>Duration:</strong> {movie.duration || 'Unknown'}
-            </p>
+              {/* Movie info on the right */}
+              <div className="col-md-8" style={{ textAlign: 'left' }}>
+                <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+                  {movie.title} ({movie.release_year})
+                </h1>
+                <p style={{ marginBottom: '1rem' }}>
+                  {movie.description || 'No description available.'}
+                </p>
+                <p>
+                  {movie.primaryGenre || 'Unknown'} – {movie.duration || 'Unknown'}
+                </p>
+                <p>
+                  <strong>Director:</strong> {movie.director || 'Unknown'}
+                </p>
+                <p>
+                  <strong>Cast:</strong> {movie.cast || 'Unknown'}
+                </p>
 
-            <div style={{ marginTop: '1.5rem' }}>
-              <span style={{ marginRight: '0.5rem', fontWeight: 'bold' }}>
-                Your Rating:
-              </span>
-              {[1, 2, 3, 4, 5].map((star) => {
-                const isFilled = userRating !== null && star <= userRating;
-
-                return (
-                  <span
-                    key={star}
-                    onClick={async () => {
-                      if (loading || !movie) return;
-
-                      if (userRating === star) {
-                        // Remove rating if clicked again
-                        const success = await unlikeMovie(
-                          userId,
-                          movie.show_id
-                        );
-                        if (success) setUserRating(null);
-                      } else {
-                        const success = await likeMovie(
-                          userId,
-                          movie.show_id,
-                          star
-                        );
-                        if (success) setUserRating(star);
-                      }
-                    }}
+                <div
                     style={{
-                      cursor: loading ? 'default' : 'pointer',
-                      fontSize: '1.75rem',
-                      color: isFilled ? '#facc15' : '#d1d5db', // filled = yellow-400, empty = gray-300
-                      transition: 'color 0.2s ease',
-                      marginRight: '0.25rem',
-                      opacity: loading ? 0.5 : 1,
+                      display:'inline-block',
+                      marginTop: '0rem',
+                      padding: '1rem',
+                      backgroundColor: '#141414', // Tailwind gray-100
+                      borderRadius: '0.5rem',
+                      border: '1px solid ',
                     }}
-                    title={
-                      loading
-                        ? 'Loading...'
-                        : `Rate ${star} star${star > 1 ? 's' : ''}`
-                    }
                   >
-                    ★
-                  </span>
-                );
-              })}
+                    <span style={{ marginRight: '0.5rem', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                      Rate This Movie:
+                    </span>
+                    {[1, 2, 3, 4, 5].map((star) => {
+                      const isFilled = userRating !== null && star <= userRating;
+
+                      return (
+                        <span
+                          key={star}
+                          onClick={async () => {
+                            if (loading || !movie) return;
+
+                            if (userRating === star) {
+                              const success = await unlikeMovie(userId, movie.show_id);
+                              if (success) setUserRating(null);
+                            } else {
+                              const success = await likeMovie(userId, movie.show_id, star);
+                              if (success) setUserRating(star);
+                            }
+                          }}
+                          style={{
+                            cursor: loading ? 'default' : 'pointer',
+                            fontSize: '1.75rem',
+                            color: isFilled ? '#facc15' : '#d1d5db',
+                            transition: 'color 0.2s ease',
+                            marginRight: '0.25rem',
+                            opacity: loading ? 0.5 : 1,
+                          }}
+                          title={
+                            loading ? 'Loading...' : `Rate ${star} star${star > 1 ? 's' : ''}`
+                          }
+                        >
+                          ★
+                        </span>
+                      );
+                    })}
+                  </div>
+
+              </div>
             </div>
+
+
+            {/* <p style={{ marginBottom: '2rem' }}>
+              <strong>Duration:</strong> {movie.duration || 'Unknown'}
+            </p> */}
+
+            
 
             {/* Recommended Movies Section */}
             {recommended && recommended.length > 0 && (
@@ -176,9 +173,10 @@ function MovieInfo() {
               style={{
                 marginTop: '2rem',
                 cursor: 'pointer',
-                color: '#3b82f6',
-                textDecoration: 'underline',
+                // color: '#ffffff',
+                // textDecoration: 'underline',
                 textAlign: 'center',
+                borderRadius: '8px'
               }}
             >
               Return

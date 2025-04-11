@@ -1,3 +1,4 @@
+// HomePage.tsx
 import { useEffect, useRef, useState } from 'react';
 import Navbar from '../components/Navbar';
 import {
@@ -19,27 +20,25 @@ import {
 import MovieCarouselSection from '../components/MovieCarouselSection';
 import AuthorizeView from '../components/AuthorizeView';
 
-const mockUserId = 104;
+const mockUserId = 1;
 
 function HomePage() {
   const [topRated, setTopRated] = useState<Movie[]>([]);
   const [recommended, setRecommended] = useState<Movie[]>([]);
   const [genreMovies, setGenreMovies] = useState<Record<string, Movie[]>>({});
-  const [userLikedCarousels, setUserLikedCarousels] = useState<
-    Record<string, Movie[]>
-  >({});
   const [visibleCarouselCount, setVisibleCarouselCount] = useState(4);
+  const [showGenres, setShowGenres] = useState(false);
   const genreRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [likedCarousels, setLikedCarousels] = useState<Record<string, Movie[]>>(
+    {}
+  );
 
   useEffect(() => {
     const loadAll = async () => {
-      const recPage = await fetchPaginatedMovies(1, 200);
-
-      const [top, recs, genreList, ratings] = await Promise.all([
+      const [top, recs, genreList] = await Promise.all([
         fetchTopRatedMovies(10),
         getUserRecs(mockUserId),
         fetchGenres(),
-        getUserRatings(mockUserId),
       ]);
 
       if (top) setTopRated(top);
@@ -62,34 +61,61 @@ function HomePage() {
 
         setGenreMovies(genreSections);
       }
-
-      if (ratings) {
-        const liked = ratings.filter((r) => r.rating >= 3);
-        const likedCarousels: Record<string, Movie[]> = {};
-
-        for (const rating of liked) {
-          const likedMovie = recPage.movies.find(
-            (m: Movie) => m.show_id === rating.show_id
-          );
-          if (!likedMovie) continue;
-
-          const recs = await getCollabItemRecs(likedMovie.show_id);
-          if (!recs) continue;
-
-          const fullRecs = recPage.movies.filter((m: Movie) =>
-            recs.includes(m.show_id)
-          );
-
-          if (fullRecs.length > 0) {
-            likedCarousels[likedMovie.title] = fullRecs.slice(0, 10);
-          }
-        }
-
-        setUserLikedCarousels(likedCarousels);
-      }
     };
 
     loadAll();
+  }, []);
+
+  useEffect(() => {
+    const loadLikedCarousels = async () => {
+      try {
+        const ratings = await getUserRatings(mockUserId);
+        console.log('📊 User ratings:', ratings);
+        if (!ratings) return;
+
+        const liked = ratings
+          .filter((r) => r.rating >= 3)
+          .sort((a, b) => b.rating - a.rating) // sort by highest rating
+          .slice(0, 3); // limit to top 3 liked movies
+
+        console.log('👍 Liked ratings (rating >= 3):', liked);
+
+        const likedCarouselsMap: Record<string, Movie[]> = {};
+
+        for (const r of liked) {
+          const showId = r.show_id;
+          console.log(`➡️ Processing liked showId: ${showId}`);
+
+          // Get recommendations specifically for this movie
+          const rawRecs = await getCollabItemRecs(showId);
+          const recIds = rawRecs
+            .map((rec: any) => rec.recommendedShowId?.trim())
+            .filter(Boolean);
+
+          console.log(`🎯 Recommendations for ${showId}:`, recIds);
+          if (!recIds || recIds.length === 0) continue;
+
+          // Get full movie data for those recommended IDs
+          const movieData = await fetchMoviesByIds(recIds);
+          console.log(`🎬 Movie data for showId ${showId}:`, movieData);
+          if (movieData.length === 0) continue;
+
+          // Get the liked movie title
+          const likedMovie = (await fetchMoviesByIds([showId]))[0];
+          if (!likedMovie) continue;
+
+          // Store it under the correct movie title
+          likedCarouselsMap[likedMovie.title] = movieData.slice(0, 10);
+        }
+
+        console.log('✅ Final likedCarouselsMap:', likedCarouselsMap);
+        setLikedCarousels(likedCarouselsMap);
+      } catch (err) {
+        console.error("❌ Failed to load 'Because you liked' carousels:", err);
+      }
+    };
+
+    loadLikedCarousels();
   }, []);
 
   useEffect(() => {
@@ -121,45 +147,6 @@ function HomePage() {
     }
   };
 
-  const combinedCarousels = () => {
-    const genreEntries = Object.entries(genreMovies);
-    const likedEntries = Object.entries(userLikedCarousels);
-    const maxLength = Math.max(genreEntries.length, likedEntries.length);
-    const combined = [];
-
-    let count = 0;
-
-    for (let i = 0; i < maxLength && count < visibleCarouselCount; i++) {
-      if (i < likedEntries.length && count < visibleCarouselCount) {
-        const [title, movies] = likedEntries[i];
-        combined.push(
-          <MovieCarouselSection
-            key={`liked-${title}`}
-            title={`Because you liked ${title}`}
-            movies={movies}
-          />
-        );
-        count++;
-      }
-      if (i < genreEntries.length && count < visibleCarouselCount) {
-        const [genre, movies] = genreEntries[i];
-        combined.push(
-          <div
-            key={`genre-${genre}`}
-            ref={(el) => {
-              genreRefs.current[genre] = el;
-            }}
-          >
-            <MovieCarouselSection title={genre} movies={movies} />
-          </div>
-        );
-        count++;
-      }
-    }
-
-    return combined;
-  };
-
   return (
     <AuthorizeView>
       <div className={styles.pageWrapper}>
@@ -167,28 +154,59 @@ function HomePage() {
 
         {Object.keys(genreMovies).length > 0 && (
           <section className={styles.genreSection}>
-            <h2 className={styles.genreHeader}>Choose a Genre</h2>
-            <div className={styles.genreNav}>
-              {Object.keys(genreMovies).map((genre) => (
-                <button
-                  key={genre}
-                  onClick={() => handleGenreClick(genre)}
-                  className={styles.genreButton}
-                >
-                  {genre}
-                </button>
-              ))}
+            <div className={styles.genreToggleWrapper}>
+              <button
+                onClick={() => setShowGenres((prev) => !prev)}
+                className={styles.toggleGenresButton}
+              >
+                {showGenres ? 'Hide Genres' : 'Browse by Genre'}
+              </button>
             </div>
+
+            {showGenres && (
+              <>
+                <h2 className={styles.genreHeader}>Choose a Genre</h2>
+                <div className={styles.genreNav}>
+                  {Object.keys(genreMovies).map((genre) => (
+                    <button
+                      key={genre}
+                      onClick={() => handleGenreClick(genre)}
+                      className={styles.genreButton}
+                    >
+                      {genre}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </section>
         )}
 
         <main>
-          <MovieCarouselSection title="Top Rated" movies={topRated} />
+          <MovieCarouselSection title="Top Rated Movies" movies={topRated} />
           <MovieCarouselSection
             title="Recommended For You"
             movies={recommended}
           />
-          {combinedCarousels()}
+          {Object.entries(likedCarousels).map(([title, movies]) => (
+            <MovieCarouselSection
+              key={`liked-${title}`}
+              title={`Because you liked ${title}`}
+              movies={movies}
+            />
+          ))}
+          {Object.entries(genreMovies)
+            .slice(0, visibleCarouselCount)
+            .map(([genre, movies]) => (
+              <div
+                key={`genre-${genre}`}
+                ref={(el) => {
+                  genreRefs.current[genre] = el;
+                }}
+              >
+                <MovieCarouselSection title={genre} movies={movies} />
+              </div>
+            ))}
         </main>
       </div>
     </AuthorizeView>

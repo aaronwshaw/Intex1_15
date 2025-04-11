@@ -1,11 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { fetchPaginatedMovies } from '../api/IntexAPI';
+import { fetchMoviesByGenres } from '../api/MoviesApi';
 import { Movie } from '../types/Movie';
+import GenreFilter from '../components/GenreFilter';
 import MoviePoster from '../components/MoviePoster';
-import GenreFilter from '../components/GenreFilter'; // make sure this exists
 import { Link } from 'react-router-dom';
 
-const PAGE_SIZE = 14;
+const PAGE_SIZE = 12;
 
 function MovieList({
   overrideMovies,
@@ -13,11 +14,12 @@ function MovieList({
   overrideMovies?: Movie[];
 }) {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [filteredMovies, setFilteredMovies] = useState<Movie[] | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // optional genre filtering
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
   const loadMore = useCallback(async () => {
     if (loading || (totalPages && page > totalPages)) return;
@@ -43,11 +45,33 @@ function MovieList({
   }, [page, loading, totalPages]);
 
   useEffect(() => {
-    if (!overrideMovies) loadMore();
-  }, [overrideMovies]);
+    if (!overrideMovies && selectedGenres.length === 0) {
+      loadMore();
+    }
+  }, [overrideMovies, selectedGenres]);
 
   useEffect(() => {
-    if (overrideMovies) return;
+    const fetchFiltered = async () => {
+      if (selectedGenres.length === 0) {
+        setFilteredMovies(null);
+        return;
+      }
+
+      setLoading(true);
+      const result = await fetchMoviesByGenres(selectedGenres);
+      if (result) {
+        setFilteredMovies(result);
+      } else {
+        setError('Failed to load filtered movies');
+      }
+      setLoading(false);
+    };
+
+    fetchFiltered();
+  }, [selectedGenres]);
+
+  useEffect(() => {
+    if (overrideMovies || selectedGenres.length > 0) return;
 
     const handleScroll = () => {
       const nearBottom =
@@ -60,9 +84,9 @@ function MovieList({
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loadMore, loading, page, totalPages, overrideMovies]);
+  }, [loadMore, loading, page, totalPages, overrideMovies, selectedGenres]);
 
-  const moviesToRender = overrideMovies ?? movies;
+  const moviesToRender = filteredMovies ?? overrideMovies ?? movies;
 
   return (
     <main
@@ -76,16 +100,26 @@ function MovieList({
         gap: '2rem',
       }}
     >
-      {/* Sidebar for Genre Filter */}
       <aside style={{ width: '200px', color: 'white' }}>
-        <h3 style={{ color: 'white', marginBottom: '1rem' , textDecoration: "underline"}}>Filter by Genre</h3>
+        <h3
+          style={{
+            color: '#f2f2f2',
+            marginBottom: '1rem',
+            fontSize: '1.5rem',
+            fontWeight: 600,
+            borderLeft: '4px solid #e92424',
+            paddingLeft: '0.75rem',
+          }}
+        >
+          Filter by Genre
+        </h3>
+
         <GenreFilter
           selectedGenres={selectedGenres}
           setSelectedGenres={setSelectedGenres}
         />
       </aside>
 
-      {/* Movie Grid */}
       <section style={{ flex: 1 }}>
         {error && (
           <p style={{ textAlign: 'center', color: 'red' }}>Error: {error}</p>
@@ -95,16 +129,15 @@ function MovieList({
           <p style={{ textAlign: 'center', color: 'white' }}>No movies found.</p>
         )}
 
-<div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(7, 1fr)', // now rows of 5
-    gap: '20px',
-    padding: '20px',
-    boxSizing: 'border-box',
-  }}
->
-
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, 1fr)',
+            gap: '20px',
+            padding: '20px',
+            boxSizing: 'border-box',
+          }}
+        >
           {moviesToRender.map((m) => (
             <Link
               key={m.show_id}
@@ -114,54 +147,44 @@ function MovieList({
               <div
                 style={{
                   width: '200px',
-                  height: '330px',
+                  textAlign: 'center',
+                  backgroundColor: '#2a2a2a',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  padding: '10px',
-                  backgroundColor: 'white',
-                  borderRadius: '8px',
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  justifyContent: 'space-between',
+                  paddingBottom: '0.75rem',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.4)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = '';
-                  e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
                 }}
               >
-                <div
-                  style={{
-                    width: '100%',
-                    height: '240px',
-                    marginBottom: '10px',
-                    overflow: 'hidden',
-                    borderRadius: '4px',
-                  }}
-                >
+                <div style={{ width: '100%' }}>
                   <MoviePoster title={m.title} />
                 </div>
-
-                <h3
+                <div
                   style={{
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    color: 'black',
-                    textAlign: 'center',
+                    marginTop: '0.5rem',
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: 'white',
+                    maxWidth: '100%',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    width: '100%',
+                    height: '24px',
                   }}
                 >
                   {m.title}
-                </h3>
-
-                <p style={{ fontSize: '14px', color: '#666' }}>{m.primaryGenre}</p>
+                </div>
               </div>
             </Link>
           ))}
@@ -169,7 +192,7 @@ function MovieList({
 
         {loading && !overrideMovies && (
           <p style={{ textAlign: 'center', paddingBottom: '1rem', color: 'white' }}>
-            Loading more...
+            Loading...
           </p>
         )}
       </section>
