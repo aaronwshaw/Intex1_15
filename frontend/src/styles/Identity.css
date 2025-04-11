@@ -1,3 +1,9 @@
+.login-page {
+  background-image: url('/movie.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 .btn-login {
   font-size: 0.9rem;
