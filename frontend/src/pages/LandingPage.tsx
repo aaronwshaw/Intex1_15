@@ -84,16 +84,16 @@ const LandingPage: React.FC = () => {
   useEffect(() => {
     const loadSelectedMovies = async () => {
       const ids = [
-        's6201',
-        's1',
-        's392',
-        's821',
-        's6617',
-        's491',
-        's334',
-        's343',
-        's5264',
-        's76',
+        's6201', //infinity war
+        's1', //dick johnson
+        's500', //resevoir dogs
+        's821', // platform
+        's6617', //dismissed
+        's491',//elize mats
+        's334',//ferris
+        's5571',//howards end
+        's5264',//dark matter
+        's637',//ice road
       ];
       const movies = await fetchMoviesByIds(ids);
       if (movies) setSelectedMovies(movies);
