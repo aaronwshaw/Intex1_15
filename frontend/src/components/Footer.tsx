@@ -3,7 +3,14 @@ import { Link } from 'react-router-dom';
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 import '../styles/Footer.css'; // Adjust the path as necessary
 
+const getCookie = (name: string) => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+};
+
 const Footer: React.FC = () => {
+  const hasCookie = getCookie('userSetting') === 'accepted';
+
   return (
     <footer className="custom-footer">
       <div className="footer-container">
@@ -26,6 +33,12 @@ const Footer: React.FC = () => {
         <a href="#" className="footer-icon" aria-label="Twitter">
           <FaTwitter size={20} />
         </a>
+        {hasCookie && (
+          <>
+            &emsp;
+            <span className="footer-cookie">🍪 You have a cookie</span>
+          </>
+        )}
       </div>
     </footer>
   );
