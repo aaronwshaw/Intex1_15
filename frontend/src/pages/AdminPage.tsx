@@ -8,6 +8,7 @@
   import NewMovieForm from '../components/NewMovieForm';
   import Navbar from '../components/Navbar';
   import RequireRole from '../components/RequireRole';
+import Footer from '../components/Footer';
 
   function AdminPage() {
     const [error, setError] = useState<string | null>(null);
@@ -412,6 +413,7 @@
               </>
             )}
           </div>
+        <Footer />  
         </RequireRole>
       </AuthorizeView>
     );

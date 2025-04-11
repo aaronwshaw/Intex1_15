@@ -82,25 +82,59 @@ const PricingPlans: React.FC<PricingPlansProps> = ({
           <tr>
             <td>Ad-Free Streaming</td>
             {plans.map((plan) => (
-              <td key={plan.name}>{plan.features.adFree ? 'Yes' : 'No'}</td>
+              <td key={plan.name}>
+                <span
+                  className={
+                    plan.features.adFree ? styles.checkmark : styles.crossmark
+                  }
+                >
+                  {plan.features.adFree ? '✔' : '✖'}
+                </span>
+              </td>
             ))}
           </tr>
           <tr>
             <td>Offline Downloads</td>
             {plans.map((plan) => (
-              <td key={plan.name}>{plan.features.downloads ? 'Yes' : 'No'}</td>
+              <td key={plan.name}>
+                <span
+                  className={
+                    plan.features.downloads
+                      ? styles.checkmark
+                      : styles.crossmark
+                  }
+                >
+                  {plan.features.downloads ? '✔' : '✖'}
+                </span>
+              </td>
             ))}
           </tr>
           <tr>
             <td>HD Available</td>
             {plans.map((plan) => (
-              <td key={plan.name}>{plan.features.hd ? 'Yes' : 'No'}</td>
+              <td key={plan.name}>
+                <span
+                  className={
+                    plan.features.hd ? styles.checkmark : styles.crossmark
+                  }
+                >
+                  {plan.features.hd ? '✔' : '✖'}
+                </span>
+              </td>
             ))}
           </tr>
           <tr>
             <td>4K + HDR</td>
             {plans.map((plan) => (
-              <td key={plan.name}>{plan.features.ultraHD ? 'Yes' : 'No'}</td>
+              <td key={plan.name}>
+                <span
+                  className={
+                    plan.features.ultraHD ? styles.checkmark : styles.crossmark
+                  }
+                >
+                  {plan.features.ultraHD ? '✔' : '✖'}
+                </span>
+              </td>
             ))}
           </tr>
           <tr>
