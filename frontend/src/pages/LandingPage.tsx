@@ -114,7 +114,6 @@ const LandingPage: React.FC = () => {
         />
       </div>
       <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
-      <LandingVideo />
       <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
       {/* <div style={{ marginTop: '2vh' }} /> */}
       <FloatingTrialButton />
