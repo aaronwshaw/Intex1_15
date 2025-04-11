@@ -83,6 +83,7 @@
 
 .navLink:hover {
   text-decoration: underline;
+  color: #141414;
 }
 
 /* === Logout button === */
@@ -98,6 +99,6 @@
 
 .logoutButton:hover {
   background-color: white;
-  color: #141414;
+  color: black;
 }
 

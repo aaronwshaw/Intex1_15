@@ -1,11 +1,12 @@
-// Navbar.tsx
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../api/IntexAPI';
-import { AuthorizedUser } from './AuthorizeView';
+import { useContext } from 'react';
+import { UserContext } from './AuthorizeView';
 import styles from './Navbar.module.css';
 
 function Navbar() {
   const navigate = useNavigate();
+  const user = useContext(UserContext);
 
   const handleLogout = async () => {
     const result = await logoutUser();
@@ -15,6 +16,8 @@ function Navbar() {
       alert('Logout failed. Try again.');
     }
   };
+
+  const isAdmin = user?.roles.includes('Admin');
 
   return (
     <nav className={styles.navbar}>
@@ -29,7 +32,6 @@ function Navbar() {
       </div>
 
       <div className={styles.navRight}>
-        {/* Page links shifted right */}
         <div className={styles.navLinks}>
           <Link to="/home" className={styles.navLink}>
             Home
@@ -39,16 +41,18 @@ function Navbar() {
             Search
           </Link>
           &emsp;
-          <Link to="/admin" className={styles.navLink}>
-            Admin
-          </Link>
-          &emsp;
+          {/* ✅ Only show if Admin */}
+          {isAdmin && (
+            <>
+              <Link to="/admin" className={styles.navLink}>
+                Admin
+              </Link>
+              &emsp;
+            </>
+          )}
         </div>
 
-        {/* Logged in user in its own box */}
-        <div className={styles.userInfo}>
-          Logged in as: <AuthorizedUser value="email" />
-        </div>
+        <div className={styles.userInfo}>Logged in as: {user?.email}</div>
 
         <button onClick={handleLogout} className={styles.logoutButton}>
           Logout
