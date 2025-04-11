@@ -86,12 +86,12 @@ const LandingPage: React.FC = () => {
       const ids = [
         's6201', //infinity war
         's1', //dick johnson
-        's8214', //the bleeder
+        's500', //resevoir dogs
         's821', // platform
         's6617', //dismissed
         's491',//elize mats
         's334',//ferris
-        's5573',//bon cop bad cop
+        's5571',//howards end
         's5264',//dark matter
         's637',//ice road
       ];
