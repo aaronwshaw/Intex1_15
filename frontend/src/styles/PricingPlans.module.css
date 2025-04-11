@@ -147,6 +147,18 @@ input:checked + .slider:before {
   color: #ddd;
 }
 
+.checkmark {
+  color: #4CAF50; /* Green */
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.crossmark {
+  color: #FF5252; /* Red */
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
 
 /* Ribbon styling for Most Popular */
 .planHeader {
