@@ -14,8 +14,9 @@ const CookieConsent = () => {
 
   const acceptCookies = () => {
     localStorage.setItem('cookieAccepted', 'true');
+    document.cookie = 'userSetting=largerText; path=/'; // set browser-accessible cookie
     setAnimateHide(true);
-    setTimeout(() => setShow(false), 300); // Matches CSS transition time
+    setTimeout(() => setShow(false), 300);
   };
 
   //if (!show) return null;

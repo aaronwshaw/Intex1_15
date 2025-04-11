@@ -28,7 +28,7 @@ function MovieInfo() {
   const [loading, setLoading] = useState(true);
   const [recMovies, setRecMovies] = useState<Record<string, Movie>>({});
   const [userRating, setUserRating] = useState<number | null>(null);
-  const [userId] = useState<number>(4); // Replace 4 with actual logged-in user ID if dynamic
+  const [userId] = useState<number>(1); // Replace 4 with actual logged-in user ID if dynamic
 
   useEffect(() => {
     const fetchMovieAndRecs = async () => {
@@ -46,8 +46,8 @@ function MovieInfo() {
       await Promise.all(
         recs.map(async (rec: ContentItem) => {
           if (rec.recommendedShow) {
-        const movie: Movie | null = await getMovieById(rec.recommendedShow);
-        if (movie) resolvedMovies[rec.recommendedShow] = movie;
+            const movie: Movie | null = await getMovieById(rec.recommendedShow);
+            if (movie) resolvedMovies[rec.recommendedShow] = movie;
           }
         })
       );
