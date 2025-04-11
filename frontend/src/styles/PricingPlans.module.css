@@ -1,141 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
 .subscriptionContainer {
-    text-align: center;
-    padding: 4rem 1.5rem;
-    background-color: #111;
-  }
-  
-  .billingTabs {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin: 2rem 0;
-  }
-  
-  button,
-  button:focus,
-  button:active,
-  button:focus-visible,
-  button::-moz-focus-inner {
-    outline: none !important;
-    box-shadow: none !important;
-    border: none;
-  }
-  
-  .tabButton {
-    background-color: transparent;
-    border: 2px solid red;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .tabButton:hover {
-    background-color: red;
-    color: white;
-  }
-  
-  .activeTab {
-    background-color: red;
-    color: white;
-  }
-  
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 44px;
-    height: 24px;
-  }
-  
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    background-color: #555;
-    transition: 0.4s;
-    border-radius: 24px;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-  
-  input:checked + .slider {
-    background-color: var(--blue-main);
-  }
-  
-  input:checked + .slider:before {
-    transform: translateX(20px);
-  }
-  
-  .planTable {
-    width: 100%;
-    max-width: 900px;
-    margin: 2rem auto;
-    border-collapse: collapse;
-    background: var(--accent-dark);
-    color: var(--text-light);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-  }
-  
-  .planTable thead {
-    background-color: #2a2a2a;
-  }
-  
-  .planTable th, .planTable td {
-    padding: 1.2rem;
-    border-bottom: 1px solid #333;
-    text-align: center;
-  }
-  
-  .planTable tr:last-child td {
-    border-bottom: none;
-  }
-  
-  .planHeader {
-    position: relative;
-    padding-top: 2rem;
-    background-color: #1c1c1c;
-  }
-  
-  .ribbon {
-    position: absolute;
-    top: 18px;
-    right: -50px;
-    width: 180px;
-    background: #e50914;
-    color: white;
-    text-align: center;
-    font-size: 0.75rem;
-    font-weight: bold;
-    transform: rotate(45deg);
-    z-index: 10;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  }
-  
-  .ribbon span {
-    display: block;
-    padding: 6px 0;
-    letter-spacing: 0.5px;
-  }
-  
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background-color: #111;
+}
+
+.billingTabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+button,
+button:focus,
+button:active,
+button:focus-visible,
+button::-moz-focus-inner {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none;
+}
+
+.tabButton {
+  background-color: transparent;
+  border: 2px solid red;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tabButton:hover {
+  background-color: red;
+  color: white;
+}
+
+.activeTab {
+  background-color: red;
+  color: white;
+}
+
+/* Toggle switch styles */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--blue-main);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Pricing Table */
+.planTable {
+  width: 100%;
+  max-width: 950px;
+  margin: 2rem auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #1c1c1c;
+  color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+}
+
+.planTable thead {
+  background-color: #2a2a2a;
+}
+
+.planTable th {
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  text-align: center;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 1px solid #333;
+}
+
+.planTable td {
+  padding: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.planTable tr:last-child td {
+  border-bottom: none;
+}
+
+.planTable tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.planTable th:first-child,
+.planTable td:first-child {
+  background-color: #191919;
+  font-weight: 500;
+  text-align: left;
+  padding-left: 2rem;
+}
+
+.planTable tr.summary-row {
+  background-color: #232323;
+  font-style: italic;
+  color: #ddd;
+}
+
+
+/* Ribbon styling for Most Popular */
+.planHeader {
+  position: relative;
+  padding-top: 2rem;
+  background-color: #1c1c1c;
+}
+
+.ribbon {
+  position: absolute;
+  top: 20px;
+  right: -45px;
+  width: 150px;
+  background: #e50914;
+  color: white;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  transform: rotate(45deg);
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.ribbon span {
+  display: block;
+  padding: 6px 0;
+  letter-spacing: 0.5px;
+}
+
+/* Select button */
+.selectPlanButton {
+  background-color: #e50914;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 1rem auto;
+}
+
+.selectPlanButton:hover {
+  background-color: #d20812;
+}

@@ -18,7 +18,15 @@ function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.navLeft}>CineNiche</div>
+      <div className={styles.navLeft}>
+        <Link to="/" className={styles.logoContainer}>
+          <img
+            src="/white-logo.png"
+            alt="CineNiche Logo"
+            className={styles.logoImage}
+          />
+        </Link>
+      </div>
 
       <div className={styles.navRight}>
         {/* Page links shifted right */}
@@ -26,12 +34,15 @@ function Navbar() {
           <Link to="/home" className={styles.navLink}>
             Home
           </Link>
+          &emsp;
           <Link to="/search" className={styles.navLink}>
             Search
           </Link>
+          &emsp;
           <Link to="/admin" className={styles.navLink}>
             Admin
           </Link>
+          &emsp;
         </div>
 
         {/* Logged in user in its own box */}

@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { fetchMoviesByIds } from '../api/MoviesApi';
 import { fetchTopRatedMovies } from '../api/MoviesApi'; // ✅ Import the function
 import { Movie } from '../types/Movie';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HeroCarousel from '../components/landing/HeroCarousel';
 import MovieCarouselSection from '../components/MovieCarouselSection';
 import PricingPlans from '../components/landing/PricingPlans';
 import FloatingTrialButton from '../components/landing/FloatingTrialButton';
+import Header from '../components/landing/Header';
 import TitleBanner from '../components/landing/TitleBanner';
-
 import styles from '../styles/LandingPage.module.css';
 import CookieConsent from '../components/landing/CookieConsent';
 
@@ -22,21 +21,36 @@ const LandingPage: React.FC = () => {
 
   const plans = [
     {
-      name: 'Essential',
-      monthlyPrice: '$7.99/month',
-      annualPrice: '$79.99/year',
+      name: 'Basic',
+      monthlyPrice: '$6.99/month',
+      annualPrice: '$69.99/year',
+      summary: 'Ads, 1 device, no downloads',
       features: {
         devices: '1',
         adFree: false,
         downloads: false,
+        hd: false,
+        ultraHD: false,
+      },
+    },
+    {
+      name: 'Standard',
+      monthlyPrice: '$12.99/month',
+      annualPrice: '$129.99/year',
+      summary: 'No ads, 2 devices, HD',
+      features: {
+        devices: '2',
+        adFree: true,
+        downloads: true,
         hd: true,
         ultraHD: false,
       },
     },
     {
       name: 'Premium',
-      monthlyPrice: '$12.99/month',
-      annualPrice: '$129.99/year',
+      monthlyPrice: '$17.99/month',
+      annualPrice: '$179.99/year',
+      summary: '4 devices, HD + 4K, downloads',
       mostPopular: true,
       features: {
         devices: '4',
@@ -96,16 +110,14 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className={styles.landingContainer}>
-      {/* <Header /> */}
-      <CookieConsent />
       <Header />
+      <CookieConsent />
       <TitleBanner />
       <MovieCarouselSection
         title="Top Rated Movies"
         movies={topRatedMovies}
       />{' '}
       {/* ✅ Render here */}
-      <HeroCarousel movies={selectedMovies} />
       <div className={styles.scrollContent}>
         <PricingPlans
           isAnnual={isAnnual}
@@ -113,9 +125,8 @@ const LandingPage: React.FC = () => {
           plans={plans}
         />
       </div>
-      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
-      <MovieCarouselSection title="Top Rated Movies" movies={topRatedMovies} /> {/* ✅ Render here */}
       {/* <div style={{ marginTop: '2vh' }} /> */}
+      <HeroCarousel movies={selectedMovies} />
       <FloatingTrialButton />
       <Footer />
     </div>
